@@ -29,28 +29,28 @@ const networkGraphController = (() => {
         { id: 'WEB', label: 'Web Dev', type: 'hub', color: '#13ec9c', radius: 30, visible: true },
 
         // Data Science Nodes
-        { id: 'py', label: 'Python', type: 'skill', parent: 'DS', exp: '4 Years', projects: 12, libs: ['Pandas', 'NumPy', 'SciPy'], topProject: 'AI Traffic Analyzer' },
-        { id: 'pd', label: 'Pandas', type: 'skill', parent: 'DS', exp: '3 Years', projects: 8, libs: ['CSV', 'Excel', 'ETL'], topProject: 'Market Data Dashboard' },
-        { id: 'np', label: 'NumPy', type: 'skill', parent: 'DS', exp: '3 Years', projects: 8, libs: ['Matrix', 'Linear Alg'], topProject: 'Image Processor' },
-        { id: 'sql', label: 'SQL', type: 'skill', parent: 'DS', exp: '4 Years', projects: 10, libs: ['Postgres', 'MySQL'], topProject: 'Inventory System' },
+        { id: 'py', label: 'Python', type: 'skill', parent: 'DS', exp: '2 Years', projects: 12, libs: ['Pandas', 'NumPy', 'SciPy'], topProject: 'AI Traffic Analyzer' },
+        { id: 'pd', label: 'Pandas', type: 'skill', parent: 'DS', exp: '2 Years', projects: 8, libs: ['CSV', 'Excel', 'ETL'], topProject: 'Market Data Dashboard' },
+        { id: 'np', label: 'NumPy', type: 'skill', parent: 'DS', exp: '2 Years', projects: 8, libs: ['Matrix', 'Linear Alg'], topProject: 'Image Processor' },
+        { id: 'sql', label: 'SQL', type: 'skill', parent: 'DS', exp: '2 Years', projects: 10, libs: ['Postgres', 'MySQL'], topProject: 'Inventory System' },
 
         // ML Nodes
         { id: 'torch', label: 'PyTorch', type: 'skill', parent: 'ML', exp: '2 Years', projects: 4, libs: ['TorchVision', 'NN'], topProject: 'Gesture Recog' },
-        { id: 'sk', label: 'Scikit-Learn', type: 'skill', parent: 'ML', exp: '3 Years', projects: 6, libs: ['SVM', 'RandomForest'], topProject: 'Predictive Model' },
+        { id: 'sk', label: 'Scikit-Learn', type: 'skill', parent: 'ML', exp: '2 Years', projects: 6, libs: ['SVM', 'RandomForest'], topProject: 'Predictive Model' },
         { id: 'tf', label: 'TensorFlow', type: 'skill', parent: 'ML', exp: '2 Years', projects: 3, libs: ['Keras', 'CNN'], topProject: 'Face ID' },
 
         // Web Nodes
-        { id: 'js', label: 'JavaScript', type: 'skill', parent: 'WEB', exp: '3 Years', projects: 9, libs: ['ES6+', 'DOM'], topProject: 'Portfolio Website' },
+        { id: 'js', label: 'JavaScript', type: 'skill', parent: 'WEB', exp: '2 Years', projects: 9, libs: ['ES6+', 'DOM'], topProject: 'Portfolio Website' },
         { id: 'react', label: 'React', type: 'skill', parent: 'WEB', exp: '2 Years', projects: 5, libs: ['Redux', 'Hooks'], topProject: 'Social Dashboard' },
-        { id: 'html', label: 'HTML/CSS', type: 'skill', parent: 'WEB', exp: '4 Years', projects: 15, libs: ['Tailwind', 'Flexbox'], topProject: 'Landing Pages' },
+        { id: 'html', label: 'HTML/CSS', type: 'skill', parent: 'WEB', exp: '2 Years', projects: 15, libs: ['Tailwind', 'Flexbox'], topProject: 'Landing Pages' },
         { id: 'node', label: 'Node.js', type: 'skill', parent: 'WEB', exp: '2 Years', projects: 4, libs: ['Express', 'API'], topProject: 'Chat App' },
 
         // Tools (connected to Web/DS)
-        { id: 'git', label: 'Git', type: 'skill', parent: 'WEB', exp: '4 Years', projects: 20, libs: ['GitHub', 'GitLab'], topProject: 'All Projects' },
-        { id: 'mysql', label: 'MySQL', type: 'skill', parent: 'DS', exp: '3 Years', projects: 7, libs: ['Joins', 'Stored Procs'], topProject: 'E-commerce DB' },
-        { id: 'tkinter', label: 'Tkinter', type: 'skill', parent: 'DS', exp: '2 Years', projects: 3, libs: ['GUI', 'Widgets'], topProject: 'Desktop Tool' },
-        { id: 'dbms', label: 'DBMS', type: 'skill', parent: 'DS', exp: '3 Years', projects: 5, libs: ['Normalization'], topProject: 'Library Mgmt' },
-        { id: 'os', label: 'OS', type: 'skill', parent: 'DS', exp: '2 Years', projects: 2, libs: ['Linux', 'Shell'], topProject: 'Server Config' },
+        { id: 'git', label: 'Git', type: 'skill', parent: 'WEB', exp: '2 Years', projects: 20, libs: ['GitHub', 'GitLab'], topProject: 'All Projects' },
+        { id: 'mysql', label: 'MySQL', type: 'skill', parent: 'DS', exp: '2 Years', projects: 7, libs: ['Joins', 'Stored Procs'], topProject: 'E-commerce DB' },
+        { id: 'tkinter', label: 'Tkinter', type: 'skill', parent: 'DS', exp: '1 Year', projects: 3, libs: ['GUI', 'Widgets'], topProject: 'Desktop Tool' },
+        { id: 'dbms', label: 'DBMS', type: 'skill', parent: 'DS', exp: '2 Years', projects: 5, libs: ['Normalization'], topProject: 'Library Mgmt' },
+        { id: 'os', label: 'OS', type: 'skill', parent: 'DS', exp: '1 Year', projects: 2, libs: ['Linux', 'Shell'], topProject: 'Server Config' },
     ];
 
     const connections = [

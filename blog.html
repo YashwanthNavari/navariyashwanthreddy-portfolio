@@ -14,6 +14,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="js/theme.js"></script>
         <script id="tailwind-config">
@@ -32,14 +35,16 @@
                         "card-light": "rgba(255, 255, 255, 0.7)" 
                     },
                     fontFamily: {
-                        "display": ["'Inter'", "sans-serif"],
-                        "body": ["'Inter'", "sans-serif"],
+                        "display": ["'Outfit'", "sans-serif"],
+                        "body": ["'Plus Jakarta Sans'", "sans-serif"],
+                        "sans": ["'Plus Jakarta Sans'", "sans-serif"]
                     },
                     borderRadius: { "DEFAULT": "0.5rem", "md": "0.75rem", "lg": "1rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px" },
                 },
             },
         }
     </script>
+    <script src="js/nav.js"></script>
 </head>
 
 <body
@@ -49,10 +54,10 @@
             <div
                 class="mx-auto flex max-w-7xl items-center justify-between border-b border-[#cbd5e1] dark:border-[#1e293b] pb-4">
                 <div class="flex items-center gap-3">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white">
-                        <span class="material-symbols-outlined font-bold">terminal</span>
+                    <div class="h-10 w-10 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <img src="https://github.com/YashwanthNavari.png" alt="Yashwanth Navari" class="w-full h-full object-cover">
                     </div>
-                    <h2 class="text-xl font-bold tracking-tight text-[#172554] dark:text-white">NYR</h2>
+                    <h2 class="text-xl font-bold tracking-tight text-[#172554] dark:text-white">Yashwanth Navari</h2>
                 </div>
                 <nav class="hidden md:flex items-center gap-6">
                     <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors"
@@ -120,98 +125,273 @@
             </div>
         </div>
 
-        <main class="flex-1 flex flex-col px-4 sm:px-10 py-10 lg:py-16">
-            <div class="mx-auto w-full max-w-7xl flex flex-col gap-12">
+        <main class="flex-1 flex flex-col px-4 sm:px-10 py-10 lg:py-20 relative overflow-hidden z-10">
+            <!-- Ambient Glowing Backgrounds -->
+            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+            <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+
+            <div class="mx-auto w-full max-w-7xl flex flex-col gap-16 lg:gap-24">
                 <!-- Header Section -->
-                <div class="flex flex-col gap-4 max-w-2xl">
-                    <h1 class="text-4xl md:text-5xl font-black text-[#172554] dark:text-white tracking-tight">
+                <div class="flex flex-col gap-6 max-w-3xl text-center mx-auto mt-6">
+                    <div class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-fit mx-auto shadow-sm">
+                        <span class="material-symbols-outlined text-primary text-sm">edit_document</span>
+                        <span class="text-xs font-black text-slate-800 dark:text-slate-200 tracking-widest uppercase">The Developer Log</span>
+                    </div>
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400 tracking-tighter pb-2">
                         Thoughts &amp; Insights
                     </h1>
-                    <p class="text-lg text-[#475569] dark:text-[#94a3b8] leading-relaxed">
-                        Exploring the intersection of data science, software engineering, and system architecture.
-                        Here I document my learning journey and technical discoveries.
+                    <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+                        A curated collection of my technical discoveries, architectural breakdowns, and real-world experiences across AI, IoT, and Full-Stack Engineering.
                     </p>
                 </div>
 
-                <!-- Blog Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Post 1 -->
-                    <article class="flex flex-col gap-4 group cursor-pointer">
-                        <div
-                            class="w-full aspect-video rounded-2xl bg-white dark:bg-[#1e293b] overflow-hidden border border-[#cbd5e1] dark:border-[#334155] shadow-sm hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
-                            <div
-                                class="w-full h-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-400">
-                                <span class="material-symbols-outlined text-6xl">code_blocks</span>
-                            </div>
+                <!-- Featured Article (Patent / Hardware) -->
+                <div class="w-full relative group cursor-pointer" onclick="window.location.href='#'">
+                    <div class="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-700 -z-10"></div>
+                    <div class="relative flex flex-col md:flex-row items-stretch bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl">
+                        <!-- Image side -->
+                        <div class="w-full md:w-5/12 bg-slate-950 relative overflow-hidden flex items-center justify-center min-h-[300px] border-b md:border-b-0 md:border-r border-amber-500/20">
+                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.2)_0%,transparent_100%)]"></div>
+                            <span class="material-symbols-outlined text-8xl text-amber-500 drop-shadow-[0_0_40px_rgba(245,158,11,0.6)] z-10 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-700">precision_manufacturing</span>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <div class="flex items-center gap-3 text-xs font-medium text-primary">
-                                <span>Software Engineering</span>
-                                <span class="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                <span>Dec 15, 2025</span>
+                        <!-- Content side -->
+                        <div class="w-full md:w-7/12 p-8 md:p-12 lg:p-16 flex flex-col justify-center relative">
+                            <div class="flex items-center gap-3 text-xs font-black text-amber-600 dark:text-amber-400 mb-6 tracking-widest uppercase">
+                                <span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+                                Hardware & IoT Innovation
                             </div>
-                            <h3
-                                class="text-xl font-bold text-[#172554] dark:text-white group-hover:text-primary transition-colors">
-                                Building Scalable ML Pipelines with Node.js
-                            </h3>
-                            <p class="text-sm text-[#64748b] dark:text-[#94a3b8] line-clamp-3">
-                                Learn how to integrate machine learning models into high-throughput Node.js applications
-                                using microservices architecture and message queues.
+                            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white leading-[1.1] mb-6 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                The Journey to a Design Patent: Building an IoT Connectivity Device
+                            </h2>
+                            <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg mb-10 leading-relaxed font-medium">
+                                Explaining the real-world problem I set out to solve, the rigorous design process, and what it felt like to have my machine-to-machine hardware architecture officially recognized by the Government of India.
                             </p>
+                            <div class="mt-auto flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 overflow-hidden shadow-inner">
+                                        <img src="https://github.com/YashwanthNavari.png" alt="Author" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm font-black text-slate-800 dark:text-slate-200 tracking-wide uppercase">Yashwanth Navari</span>
+                                </div>
+                                <span class="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors uppercase tracking-widest">
+                                    Read Story <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                </span>
+                            </div>
                         </div>
-                    </article>
+                    </div>
+                </div>
 
-                    <!-- Post 2 -->
-                    <article class="flex flex-col gap-4 group cursor-pointer">
-                        <div
-                            class="w-full aspect-video rounded-2xl bg-white dark:bg-[#1e293b] overflow-hidden border border-[#cbd5e1] dark:border-[#334155] shadow-sm hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
-                            <div
-                                class="w-full h-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-400">
-                                <span class="material-symbols-outlined text-6xl">neurology</span>
+                <!-- Categorized Blog Layout -->
+                <div class="flex flex-col gap-20">
+                    
+                    <!-- 1. AI & Machine Learning -->
+                    <div class="flex flex-col gap-8">
+                        <div class="flex items-center gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-sm">
+                                <span class="material-symbols-outlined">neurology</span>
                             </div>
+                            <h3 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">AI & Machine Learning Deep Dives</h3>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <div class="flex items-center gap-3 text-xs font-medium text-primary">
-                                <span>AI &amp; Research</span>
-                                <span class="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                <span>Nov 28, 2025</span>
-                            </div>
-                            <h3
-                                class="text-xl font-bold text-[#172554] dark:text-white group-hover:text-primary transition-colors">
-                                The Future of Ethical AI in Healthcare
-                            </h3>
-                            <p class="text-sm text-[#64748b] dark:text-[#94a3b8] line-clamp-3">
-                                Discussing the challenges and solutions for implementing unbiased, transparent AI
-                                systems in sensitive medical environments.
-                            </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 sm:p-10 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-400 text-xs font-black rounded-lg uppercase tracking-widest">Architecture</span>
+                                        <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">12 min read</span>
+                                    </div>
+                                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">Behind the Architecture of NeuroVision</h4>
+                                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-8 font-medium">A technical breakdown of how I built my ML platform. Discussing the models utilized, data pipeline strategies, and the engineering challenges overcome.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read Article</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-blue-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 sm:p-10 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-700 dark:text-indigo-400 text-xs font-black rounded-lg uppercase tracking-widest">Computer Vision</span>
+                                        <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">8 min read</span>
+                                    </div>
+                                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-snug">Real-Time CV: Optimizing Age & Gender Detection</h4>
+                                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-8 font-medium">A technical tutorial on achieving ultra-low latency in object detection and facial analysis using modern computer vision frameworks.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read Article</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-indigo-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 sm:p-10 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-400 text-xs font-black rounded-lg uppercase tracking-widest">Healthcare</span>
+                                        <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">10 min read</span>
+                                    </div>
+                                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors leading-snug">AI in Healthcare: Predicting Heart Disease Risk</h4>
+                                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-8 font-medium">Exploring the datasets used, data cleaning pipelines, and the algorithms that proved most accurate for critical medical predictions.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read Article</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-rose-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 sm:p-10 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 text-purple-700 dark:text-purple-400 text-xs font-black rounded-lg uppercase tracking-widest">Data Science</span>
+                                        <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">7 min read</span>
+                                    </div>
+                                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors leading-snug">Clustering the Netflix Catalog</h4>
+                                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-8 font-medium">A fun, data-driven look at how unsupervised learning techniques like K-Means can effectively group similar movies and TV shows.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read Article</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-purple-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
-                    </article>
+                    </div>
 
-                    <!-- Post 3 -->
-                    <article class="flex flex-col gap-4 group cursor-pointer">
-                        <div
-                            class="w-full aspect-video rounded-2xl bg-white dark:bg-[#1e293b] overflow-hidden border border-[#cbd5e1] dark:border-[#334155] shadow-sm hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
-                            <div
-                                class="w-full h-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-400">
-                                <span class="material-symbols-outlined text-6xl">database</span>
+                    <!-- 2. Hardware & IoT (Secondary posts) -->
+                    <div class="flex flex-col gap-8">
+                        <div class="flex items-center gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+                            <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-600 dark:text-orange-400 shadow-sm">
+                                <span class="material-symbols-outlined">memory</span>
                             </div>
+                            <h3 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Hardware & IoT</h3>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <div class="flex items-center gap-3 text-xs font-medium text-primary">
-                                <span>Data Engineering</span>
-                                <span class="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                <span>Oct 10, 2025</span>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 sm:p-10 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-green-500/10 border border-green-500/20 text-green-700 dark:text-green-400 text-xs font-black rounded-lg uppercase tracking-widest">Smart Tech</span>
+                                        <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">6 min read</span>
+                                    </div>
+                                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors leading-snug">AgriSathi: The Future of Smart Farming</h4>
+                                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-8 font-medium">Discussing how technology, IoT sensors, and AI can be seamlessly combined to create an intelligent assistant for modern farmers.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read Article</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-green-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 sm:p-10 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 text-orange-700 dark:text-orange-400 text-xs font-black rounded-lg uppercase tracking-widest">Networking</span>
+                                        <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">15 min read</span>
+                                    </div>
+                                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors leading-snug">Machine-to-Machine (M2M) Communication Explained</h4>
+                                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-8 font-medium">A highly technical deep-dive breaking down the protocols, hardware layers, and security required for reliable IoT communication.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read Article</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-orange-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <!-- 3. Full-Stack & System Architecture -->
+                    <div class="flex flex-col gap-8">
+                        <div class="flex items-center gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400 shadow-sm">
+                                <span class="material-symbols-outlined">dns</span>
                             </div>
-                            <h3
-                                class="text-xl font-bold text-[#172554] dark:text-white group-hover:text-primary transition-colors">
-                                Optimizing PostgreSQL for Big Data Analytics
-                            </h3>
-                            <p class="text-sm text-[#64748b] dark:text-[#94a3b8] line-clamp-3">
-                                A deep dive into indexing strategies, partitioning, and query optimization techniques
-                                for handling large-scale datasets.
-                            </p>
+                            <h3 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Full-Stack & System Architecture</h3>
                         </div>
-                    </article>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-700 dark:text-cyan-400 text-xs font-black rounded-lg uppercase tracking-widest">Desktop Dev</span>
+                                    </div>
+                                    <h4 class="text-xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors leading-snug">Architecting DeveloperZip: Intelligent Packaging</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6 font-medium">Explaining the logic behind the intelligent packaging system and how I built the native application.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-cyan-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-pink-500/10 border border-pink-500/20 text-pink-700 dark:text-pink-400 text-xs font-black rounded-lg uppercase tracking-widest">Backend Dev</span>
+                                    </div>
+                                    <h4 class="text-xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors leading-snug">Building for a Cause: The NayePankh System</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6 font-medium">Discussing the database architecture and user-flow required to manage a large-scale volunteer system.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-pink-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-teal-500/10 border border-teal-500/20 text-teal-700 dark:text-teal-400 text-xs font-black rounded-lg uppercase tracking-widest">Algorithms</span>
+                                    </div>
+                                    <h4 class="text-xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors leading-snug">SmartPark: Algorithms for Parking Management</h4>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6 font-medium">Writing about the logic and state management required to handle real-time parking spot allocations efficiently.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-teal-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <!-- 4. Career & Open Source -->
+                    <div class="flex flex-col gap-8">
+                        <div class="flex items-center gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+                            <div class="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-600 dark:text-violet-400 shadow-sm">
+                                <span class="material-symbols-outlined">school</span>
+                            </div>
+                            <h3 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Career, Student Life & Open Source</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 sm:p-10 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 text-violet-700 dark:text-violet-400 text-xs font-black rounded-lg uppercase tracking-widest">Career Log</span>
+                                    </div>
+                                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors leading-snug">Balancing B.Tech Data Science with Production-Ready Engineering</h4>
+                                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-8 font-medium">Sharing my personal advice on how I manage to architect and deploy complex applications while balancing rigorous university studies.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read Article</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-violet-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- Card -->
+                            <article class="flex flex-col group cursor-pointer bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg rounded-[2rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+                                <div class="p-8 sm:p-10 flex-1 flex flex-col">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-xs font-black rounded-lg uppercase tracking-widest">Open Source</span>
+                                    </div>
+                                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors leading-snug">The Value of Open Source Contributions in My Journey</h4>
+                                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-8 font-medium">Discussing my hands-on experiences in the open-source community and how contributing to global projects has made me a significantly better developer.</p>
+                                    <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Read Article</span>
+                                        <span class="material-symbols-outlined text-slate-400 group-hover:text-amber-500 transition-colors group-hover:translate-x-1">arrow_right_alt</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </main>

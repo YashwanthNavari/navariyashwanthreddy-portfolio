@@ -7,20 +7,13 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Experience - DS Portfolio</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
-        rel="stylesheet" />
+    <!-- Premium Fonts -->
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
     <!-- Material Symbols -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <!-- Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="css/premium-effects.css">
+    <link rel="stylesheet" href="css/animations.css">
     <script src="js/theme.js"></script>
         <script id="tailwind-config">
         tailwind.config = {
@@ -38,8 +31,9 @@
                         "card-light": "rgba(255, 255, 255, 0.7)" 
                     },
                     fontFamily: {
-                        "display": ["'Inter'", "sans-serif"],
-                        "body": ["'Inter'", "sans-serif"],
+                        "display": ["'Clash Display'", "sans-serif"],
+                        "body": ["'Satoshi'", "sans-serif"],
+                        "sans": ["'Satoshi'", "sans-serif"]
                     },
                     borderRadius: { "DEFAULT": "0.5rem", "md": "0.75rem", "lg": "1rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px" },
                 },
@@ -80,98 +74,14 @@
             animation-delay: 0.3s;
         }
     </style>
+    <script src="js/nav.js"></script>
 </head>
 
 <body
     class="bg-background-light dark:bg-background-dark font-display text-[#111318] dark:text-white antialiased overflow-x-hidden">
-    <div class="relative flex min-h-screen w-full flex-col group/design-root">
-        <!-- Top Navigation -->
-        <header
-            class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f2f4] dark:border-gray-800 bg-white/80 dark:bg-[#101622]/80 backdrop-blur-md px-4 sm:px-10 py-3">
-            <div class="flex items-center gap-4 text-[#111318] dark:text-white">
-                <div class="size-8 text-primary">
-                    <span class="material-symbols-outlined text-3xl">data_object</span>
-                </div>
-                <h2 class="text-[#111318] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">DS
-                    Portfolio</h2>
-            </div>
-            <div class="flex flex-1 justify-end gap-8 hidden md:flex">
-                <div class="flex items-center gap-6">
-                    <a class="text-[#111318] dark:text-gray-300 hover:text-primary text-sm font-medium leading-normal transition-colors"
-                        href="index.html">Home</a>
-                    <a class="text-[#111318] dark:text-gray-300 hover:text-primary text-sm font-medium leading-normal transition-colors"
-                        href="about.html">About</a>
-                    <a class="text-primary text-sm font-bold leading-normal"
-                        href="experience.html">Experience</a>
-                    <a class="text-[#111318] dark:text-gray-300 hover:text-primary text-sm font-medium leading-normal transition-colors"
-                        href="projects.html">Projects</a>
-                    <a class="text-[#111318] dark:text-gray-300 hover:text-primary text-sm font-medium leading-normal transition-colors"
-                        href="skills.html">Skills</a>
-                    <a class="text-[#111318] dark:text-gray-300 hover:text-primary text-sm font-medium leading-normal transition-colors"
-                        href="certifications.html">Certifications</a>
-                    <a class="text-[#111318] dark:text-gray-300 hover:text-primary text-sm font-medium leading-normal transition-colors"
-                        href="resume.html">Resume</a>
-                    <a class="text-[#111318] dark:text-gray-300 hover:text-primary text-sm font-medium leading-normal transition-colors"
-                        href="contact.html">Contact</a>
-                </div>
-                <button onclick="window.location.href='resume.html'"
-                    class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-blue-700 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
-                    <span class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px]">description</span>
-                        <span class="truncate">Resume</span>
-                    </span>
-                </button>
-            </div>
-    </div>
-    <div class="flex items-center gap-2">
-        <button onclick="window.toggleTheme()"
-            class="theme-toggle flex items-center justify-center p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-[#111318] dark:text-white"
-            aria-label="Toggle Dark Mode">
-            <span class="material-symbols-outlined">dark_mode</span>
-        </button>
-        <!-- Mobile Menu Icon -->
-        <div class="md:hidden">
-            <button id="mobile-menu-btn" class="p-2 text-[#111318] dark:text-white">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
-        </div>
-    </div>
-    </header>
-
-    <!-- Mobile Navigation Menu (Hidden by default) -->
-    <div id="mobile-menu"
-        class="fixed inset-0 z-50 transform translate-x-full transition-transform duration-300 md:hidden">
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleMobileMenu()"></div>
-        <div
-            class="absolute right-0 top-0 h-full w-[250px] bg-white dark:bg-[#101622] shadow-xl p-6 flex flex-col gap-6">
-            <div class="flex justify-end">
-                <button onclick="toggleMobileMenu()" class="p-2 text-[#111418] dark:text-white">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
-            <nav class="flex flex-col gap-4">
-                <a class="text-lg font-medium text-[#111418] dark:text-white hover:text-primary transition-colors"
-                    href="index.html">Home</a>
-                <a class="text-lg font-medium text-[#111418] dark:text-white hover:text-primary transition-colors"
-                    href="about.html">About</a>
-                <a class="text-lg font-medium text-[#111418] dark:text-white hover:text-primary transition-colors"
-                    href="experience.html">Experience</a>
-                <a class="text-lg font-medium text-[#111418] dark:text-white hover:text-primary transition-colors"
-                    href="projects.html">Projects</a>
-                <a class="text-lg font-medium text-[#111418] dark:text-white hover:text-primary transition-colors"
-                    href="skills.html">Skills</a>
-                <a class="text-lg font-medium text-[#111418] dark:text-white hover:text-primary transition-colors"
-                    href="certifications.html">Certifications</a>
-                <a class="text-lg font-medium text-[#111418] dark:text-white hover:text-primary transition-colors"
-                    href="resume.html">Resume</a>
-                <a class="text-lg font-medium text-[#111418] dark:text-white hover:text-primary transition-colors"
-                    href="contact.html">Contact</a>
-            </nav>
-        </div>
-    </div>
     <div class="layout-container flex h-full grow flex-col">
-        <div class="flex flex-1 justify-center pt-6 pb-12 px-4 md:px-10 lg:px-40">
-            <div class="layout-content-container flex flex-col max-w-[960px] flex-1 gap-6">
+        <div class="flex flex-1 justify-center pt-2 pb-12 px-4 md:px-10 lg:px-20">
+            <div class="layout-content-container flex flex-col max-w-[1040px] flex-1 gap-6">
                 <!-- Breadcrumb -->
                 <div class="flex items-center gap-2 text-sm text-[#616f89] dark:text-gray-400 animate-fade-in">
                     <a href="index.html" class="hover:text-primary transition-colors">Home</a>
@@ -179,100 +89,383 @@
                     <span class="text-[#111318] dark:text-white font-medium">Experience</span>
                 </div>
 
-                <!-- Page Heading -->
-                <div class="flex flex-col gap-6 pb-8 animate-fade-in delay-100">
-                    <div class="flex flex-wrap justify-between items-end gap-4">
-                        <div class="flex min-w-72 flex-col gap-3">
-                            <h1
-                                class="text-[#111318] dark:text-white text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]">
-                                Professional Experience</h1>
-                            <p class="text-[#616f89] dark:text-gray-400 text-lg font-normal leading-normal max-w-2xl">
-                                My journey in Data Science &amp; Engineering, delivering impact through code,
-                                analysis, and scalable solutions.
+                <!-- Page Heading & Subtitle -->
+                <div class="flex flex-col gap-4 pb-2 animate-fade-in delay-100">
+                    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+                        <div class="flex flex-col gap-2 max-w-2xl">
+                            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-extrabold uppercase tracking-widest w-fit">
+                                <span class="material-symbols-outlined text-sm">work_history</span> Verified Track Record
+                            </div>
+                            <h1 class="text-[#111318] dark:text-white text-4xl sm:text-5xl font-black leading-tight tracking-tight font-display">
+                                Professional <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 dark:from-blue-400 dark:via-indigo-400 dark:to-cyan-400">Experience</span>
+                            </h1>
+                            <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg font-normal leading-relaxed">
+                                Bridging real-world software engineering, patented IoT innovations, and production-grade AI web application development.
                             </p>
                         </div>
-                        <!-- Segmented Control for Filter -->
-                        <div class="flex h-12 bg-[#f0f2f4] dark:bg-gray-800 p-1.5 rounded-xl self-start sm:self-end">
-                            <label
-                                class="group flex cursor-pointer items-center justify-center rounded-lg px-4 py-1 transition-all has-[:checked]:bg-white dark:has-[:checked]:bg-[#1A202C] has-[:checked]:shadow-sm">
-                                <input checked="" class="invisible w-0 h-0" name="experience-type" type="radio"
-                                    value="industry" />
-                                <span
-                                    class="text-[#616f89] dark:text-gray-400 font-medium text-sm group-has-[:checked]:text-[#111318] dark:group-has-[:checked]:text-white group-has-[:checked]:font-bold">Industry</span>
-                            </label>
-                            <label
-                                class="group flex cursor-pointer items-center justify-center rounded-lg px-4 py-1 transition-all has-[:checked]:bg-white dark:has-[:checked]:bg-[#1A202C] has-[:checked]:shadow-sm">
-                                <input class="invisible w-0 h-0" name="experience-type" type="radio" value="academic" />
-                                <span
-                                    class="text-[#616f89] dark:text-gray-400 font-medium text-sm group-has-[:checked]:text-[#111318] dark:group-has-[:checked]:text-white group-has-[:checked]:font-bold">Academic
-                                    / Research</span>
-                            </label>
+
+                        <!-- Interactive Filter Tabs -->
+                        <div class="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-slate-200/60 dark:bg-slate-800/80 border border-slate-300/50 dark:border-slate-700/50 backdrop-blur-md self-start lg:self-end" id="exp-filter-bar">
+                            <button onclick="filterExperience('all', this)" class="exp-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-primary text-white shadow-md">
+                                All (4)
+                            </button>
+                            <button onclick="filterExperience('internship', this)" class="exp-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+                                Internships
+                            </button>
+                            <button onclick="filterExperience('patent', this)" class="exp-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+                                Patent &amp; IP
+                            </button>
+                            <button onclick="filterExperience('ai', this)" class="exp-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+                                AI &amp; Research
+                            </button>
                         </div>
                     </div>
                 </div>
-                <!-- Experience List -->
-                <div class="flex flex-col gap-6">
-                    <!-- Experience Timeline -->
-                    <div class="relative border-l-2 border-gray-200 dark:border-gray-800 ml-4 md:ml-6 space-y-12">
 
-                        <!-- Open to Work Placeholder -->
-                        <div class="relative pl-8 md:pl-12 group">
-                            <!-- Timeline Dot -->
-                            <div class="absolute -left-[9px] top-8 w-4 h-4 rounded-full bg-white dark:bg-[#101622] border-2 border-primary transition-transform duration-300 z-10"></div>
-                            <div class="flex flex-col bg-white dark:bg-[#1A202C] rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 sm:p-8">
-                                <h3 class="text-xl font-bold text-[#111318] dark:text-white leading-tight">Actively Seeking Opportunities</h3>
-                                <div class="text-primary font-semibold text-base mt-2">Open to Internships &amp; Roles</div>
-                                <p class="text-[#4a5568] dark:text-gray-300 mt-4 leading-relaxed">
-                                    I am currently a first-year CS student eager to apply my skills in Machine Learning, Data Science, and Web Development to real-world problems. 
-                                    I am actively seeking internships and collaborative projects. Please feel free to reach out via my contact page or LinkedIn.
+                <!-- Executive Stats Banner -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 my-2">
+                    <div class="p-5 rounded-2xl bg-white dark:bg-[#162032] border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-1 hover-lift">
+                        <div class="flex items-center justify-between text-blue-500">
+                            <span class="material-symbols-outlined text-2xl">badge</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Internship</span>
+                        </div>
+                        <p class="text-2xl font-black text-slate-900 dark:text-white">IAF Foundation</p>
+                        <p class="text-xs text-slate-500 font-medium">AI Web Dev Intern</p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-white dark:bg-[#162032] border border-amber-500/30 shadow-sm flex flex-col gap-1 hover-lift">
+                        <div class="flex items-center justify-between text-amber-500">
+                            <span class="material-symbols-outlined text-2xl">workspace_premium</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-amber-600">Patent</span>
+                        </div>
+                        <p class="text-2xl font-black text-amber-500">1 Granted</p>
+                        <p class="text-xs text-slate-500 font-medium">Govt. of India Issued</p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-white dark:bg-[#162032] border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-1 hover-lift">
+                        <div class="flex items-center justify-between text-emerald-500">
+                            <span class="material-symbols-outlined text-2xl">terminal</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Projects</span>
+                        </div>
+                        <p class="text-2xl font-black text-slate-900 dark:text-white">12+ Built</p>
+                        <p class="text-xs text-slate-500 font-medium">AI, Web &amp; IoT Systems</p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-white dark:bg-[#162032] border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-1 hover-lift">
+                        <div class="flex items-center justify-between text-purple-500">
+                            <span class="material-symbols-outlined text-2xl">schedule</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Timeline</span>
+                        </div>
+                        <p class="text-2xl font-black text-slate-900 dark:text-white">2 Years</p>
+                        <p class="text-xs text-slate-500 font-medium">Active Field Experience</p>
+                    </div>
+                </div>
+
+                <!-- Experience Cards Container -->
+                <div class="flex flex-col gap-8 mt-4">
+                    <div class="relative border-l-2 border-slate-300 dark:border-slate-700/60 ml-4 md:ml-8 space-y-12 before:absolute before:inset-0 before:-left-[1px] before:w-[2px] before:bg-gradient-to-b before:from-blue-500 before:via-amber-500 before:to-indigo-500">
+
+                        <!-- ══════════════════════════════════════════════════════ -->
+                        <!-- EXPERIENCE ITEM 1: InAmigos Foundation Internship     -->
+                        <!-- ══════════════════════════════════════════════════════ -->
+                        <div class="exp-card relative pl-6 md:pl-12 group transition-all duration-500" data-category="internship">
+                            <!-- Glowing Stepper Dot -->
+                            <div class="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-blue-600 ring-4 ring-blue-500/30 z-10 transition-transform group-hover:scale-125 animate-pulse"></div>
+
+                            <div class="glow-card shimmer-border flex flex-col bg-white dark:bg-[#111827] rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 relative overflow-hidden">
+                                <!-- Top Accent Badge -->
+                                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-blue-500/25 shrink-0">
+                                            IAF
+                                        </div>
+                                        <div>
+                                            <h3 class="text-2xl font-black text-slate-900 dark:text-white leading-tight">AI Web Development Intern</h3>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400">InAmigos Foundation (IAF)</span>
+                                                <span class="inline-block size-1.5 rounded-full bg-emerald-500"></span>
+                                                <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">Verified Internship</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-600 dark:text-blue-400 font-extrabold text-xs shrink-0">
+                                        📅 23/06/2026 – 06/07/2026
+                                    </div>
+                                </div>
+
+                                <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed mb-6 font-medium">
+                                    Completed an intensive production internship at <strong>InAmigos Foundation (IAF)</strong> focusing on building modern, intelligent web applications. Architected responsive frontend components, optimized API data flows, and seamlessly embedded artificial intelligence models into full-stack web platforms.
                                 </p>
+
+                                <!-- Core Deliverables Matrix -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+                                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 flex flex-col gap-1.5">
+                                        <div class="flex items-center gap-2 text-blue-500 font-bold text-xs uppercase tracking-wider">
+                                            <span class="material-symbols-outlined text-sm">smart_toy</span> AI Integration
+                                        </div>
+                                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-snug">Embedded predictive algorithms and prompt workflows into web interfaces.</p>
+                                    </div>
+
+                                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 flex flex-col gap-1.5">
+                                        <div class="flex items-center gap-2 text-emerald-500 font-bold text-xs uppercase tracking-wider">
+                                            <span class="material-symbols-outlined text-sm">code_blocks</span> Frontend Stack
+                                        </div>
+                                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-snug">Built reactive UI components with modern React, ES6+ JavaScript, and HTML5/CSS3.</p>
+                                    </div>
+
+                                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 flex flex-col gap-1.5 sm:col-span-2 lg:col-span-1">
+                                        <div class="flex items-center gap-2 text-indigo-500 font-bold text-xs uppercase tracking-wider">
+                                            <span class="material-symbols-outlined text-sm">api</span> Backend &amp; APIs
+                                        </div>
+                                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-snug">Designed clean REST API endpoints for seamless frontend-backend synchronization.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Tech Stack Tags -->
+                                <div class="flex flex-wrap gap-2 mb-6 pt-4 border-t border-slate-100 dark:border-slate-800/80">
+                                    <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold flex items-center gap-1.5"><span class="text-cyan-500">⚛️</span> React.js</span>
+                                    <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold flex items-center gap-1.5"><span class="text-yellow-500">⚡</span> JavaScript</span>
+                                    <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold flex items-center gap-1.5"><span class="text-blue-500">🐍</span> Python</span>
+                                    <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold flex items-center gap-1.5"><span class="text-emerald-500">🤖</span> AI Models</span>
+                                    <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold flex items-center gap-1.5"><span class="text-purple-500">🔌</span> REST APIs</span>
+                                    <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold flex items-center gap-1.5"><span class="text-sky-500">🎨</span> Tailwind CSS</span>
+                                </div>
+
+                                <!-- CERTIFICATE LIGHTBOX PREVIEW -->
+                                <div class="p-5 rounded-2xl border border-blue-500/30 bg-gradient-to-r from-blue-50/70 via-indigo-50/40 to-slate-50/70 dark:from-slate-900 dark:via-blue-950/40 dark:to-slate-900 shadow-lg">
+                                    <div class="flex flex-col md:flex-row items-center gap-6">
+                                        <div class="w-full md:w-5/12 aspect-[4/3] rounded-xl overflow-hidden border-2 border-white dark:border-slate-700 shadow-md relative group cursor-pointer" onclick="window.open('C:/Users/EikoMotsu/.gemini/antigravity-ide/brain/4416298a-20f0-42d9-bb16-51b10856861e/media__1785874158168.png', '_blank')">
+                                            <img src="images/certs/inamigos_internship.png" onerror="this.src='C:/Users/EikoMotsu/.gemini/antigravity-ide/brain/4416298a-20f0-42d9-bb16-51b10856861e/media__1785874158168.png'" alt="InAmigos Foundation Certificate of Internship" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white gap-2 text-xs font-bold backdrop-blur-[2px]">
+                                                <span class="material-symbols-outlined text-lg">zoom_in</span> Click to Enlarge
+                                            </div>
+                                        </div>
+                                        <div class="w-full md:w-7/12 flex flex-col justify-center">
+                                            <div class="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
+                                                <span class="material-symbols-outlined text-base">verified</span> Certificate of Internship
+                                            </div>
+                                            <h4 class="text-lg font-black text-slate-900 dark:text-white mb-2">InAmigos Foundation (IAF)</h4>
+                                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                                                Issued on <strong>18/07/2026</strong> by HR Head Shiwani.<br/>
+                                                <span class="font-mono text-[11px] text-slate-500">Regd No: U85300CT2020NPL010641 · CSR-1: CSR00083159</span>
+                                            </p>
+                                            <a href="C:/Users/EikoMotsu/.gemini/antigravity-ide/brain/4416298a-20f0-42d9-bb16-51b10856861e/media__1785874158168.png" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow-md transition-all w-fit">
+                                                <span class="material-symbols-outlined text-base">visibility</span> View Certificate Document
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
+
+                        <!-- ══════════════════════════════════════════════════════ -->
+                        <!-- EXPERIENCE ITEM 2: Govt of India IoT Design Patent    -->
+                        <!-- ══════════════════════════════════════════════════════ -->
+                        <div class="exp-card relative pl-6 md:pl-12 group transition-all duration-500" data-category="patent">
+                            <!-- Glowing Stepper Dot -->
+                            <div class="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-amber-500 ring-4 ring-amber-500/30 z-10 transition-transform group-hover:scale-125"></div>
+
+                            <div class="glow-card shimmer-border flex flex-col bg-white dark:bg-[#111827] rounded-3xl shadow-xl border border-amber-500/30 p-6 md:p-8 relative overflow-hidden">
+                                <!-- Top Accent Badge -->
+                                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-amber-500/25 shrink-0">
+                                            <span class="material-symbols-outlined text-3xl">workspace_premium</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-2xl font-black text-slate-900 dark:text-white leading-tight">IoT Hardware &amp; ML Developer</h3>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-sm font-bold text-amber-600 dark:text-amber-400">Independent Hardware Research</span>
+                                                <span class="inline-block size-1.5 rounded-full bg-amber-500"></span>
+                                                <span class="text-xs font-extrabold uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/30">Official Intellectual Property</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="px-4 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-600 dark:text-amber-400 font-extrabold text-xs shrink-0">
+                                        📜 Patent Issued: Aug 19, 2025
+                                    </div>
+                                </div>
+
+                                <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed mb-6 font-medium">
+                                    Researched, prototyped, and patented an <strong>IoT Connectivity Device Architecture</strong> officially granted by the <strong>Intellectual Property Office, Government of India</strong> (Design No. 470097-001). Engineered hardware communication protocols enabling low-latency machine-to-machine telemetry and edge data validation.
+                                </p>
+
+                                <!-- Key Highlights -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                                    <div class="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20 flex items-start gap-3">
+                                        <span class="material-symbols-outlined text-amber-500 text-xl shrink-0 mt-0.5">verified_user</span>
+                                        <div>
+                                            <h4 class="text-xs font-extrabold uppercase tracking-wider text-amber-700 dark:text-amber-400">Govt. of India Granted</h4>
+                                            <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Protected under the Designs Act, 2000 as an original technological design innovation.</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20 flex items-start gap-3">
+                                        <span class="material-symbols-outlined text-amber-500 text-xl shrink-0 mt-0.5">router</span>
+                                        <div>
+                                            <h4 class="text-xs font-extrabold uppercase tracking-wider text-amber-700 dark:text-amber-400">M2M Hardware Telemetry</h4>
+                                            <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Designed sensor array hardware for resilient edge computing and real-time connectivity.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PATENT DOCUMENT PREVIEW -->
+                                <div class="p-5 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-50/60 to-orange-50/40 dark:from-slate-900 dark:to-slate-900 shadow-lg">
+                                    <div class="flex flex-col md:flex-row items-center gap-6">
+                                        <div class="w-full md:w-5/12 aspect-[4/3] rounded-xl overflow-hidden border-2 border-white dark:border-slate-700 shadow-md relative group cursor-pointer" onclick="window.open('images/certs/patent.jpg', '_blank')">
+                                            <img src="images/certs/patent.jpg" onerror="this.src='https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=640&auto=format&fit=crop'" alt="Govt of India Patent Certificate" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
+                                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white gap-2 text-xs font-bold backdrop-blur-[2px]">
+                                                <span class="material-symbols-outlined text-lg">zoom_in</span> View Patent Certificate
+                                            </div>
+                                        </div>
+                                        <div class="w-full md:w-7/12 flex flex-col justify-center">
+                                            <div class="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1">
+                                                <span class="material-symbols-outlined text-base">military_tech</span> Official Patent No: 470097-001
+                                            </div>
+                                            <h4 class="text-lg font-black text-slate-900 dark:text-white mb-2">IoT Connectivity Device Design Patent</h4>
+                                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                                                Issued by Controller General of Patents, Designs &amp; Trade Marks, Govt. of India.
+                                            </p>
+                                            <a href="images/certs/patent.jpg" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold text-xs shadow-md transition-all w-fit">
+                                                <span class="material-symbols-outlined text-base">workspace_premium</span> Inspect Patent Documentation
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ══════════════════════════════════════════════════════ -->
+                        <!-- EXPERIENCE ITEM 3: Data Science & AI Systems Engineer -->
+                        <!-- ══════════════════════════════════════════════════════ -->
+                        <div class="exp-card relative pl-6 md:pl-12 group transition-all duration-500" data-category="ai">
+                            <!-- Glowing Stepper Dot -->
+                            <div class="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-indigo-600 ring-4 ring-indigo-500/30 z-10 transition-transform group-hover:scale-125"></div>
+
+                            <div class="glow-card shimmer-border flex flex-col bg-white dark:bg-[#111827] rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 relative overflow-hidden">
+                                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-indigo-500/25 shrink-0">
+                                            <span class="material-symbols-outlined text-3xl">psychology</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-2xl font-black text-slate-900 dark:text-white leading-tight">Data Science &amp; AI Systems Developer</h3>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-sm font-bold text-indigo-600 dark:text-indigo-400">Academic &amp; Applied AI Projects</span>
+                                                <span class="inline-block size-1.5 rounded-full bg-indigo-500"></span>
+                                                <span class="text-xs font-bold text-slate-500">Woxsen University</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="px-4 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-600 dark:text-indigo-400 font-extrabold text-xs shrink-0">
+                                        2023 – Present
+                                    </div>
+                                </div>
+
+                                <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed mb-6 font-medium">
+                                    Architected machine learning and predictive data pipelines. Developed <strong>StrokeGuard.ai</strong> (ML ensemble classification achieving 98% prediction accuracy), <strong>AgriSathi</strong> (AI intelligent crop &amp; fertilizer advisor), and Computer Vision anomaly detection systems.
+                                </p>
+
+                                <div class="flex flex-wrap gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                    <span class="px-3 py-1 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg text-xs font-bold">PyTorch</span>
+                                    <span class="px-3 py-1 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg text-xs font-bold">Scikit-Learn</span>
+                                    <span class="px-3 py-1 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg text-xs font-bold">Pandas &amp; NumPy</span>
+                                    <span class="px-3 py-1 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg text-xs font-bold">TensorFlow</span>
+                                    <span class="px-3 py-1 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-lg text-xs font-bold">Random Forest</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ══════════════════════════════════════════════════════ -->
+                        <!-- EXPERIENCE ITEM 4: Full-Stack & Open Source Developer -->
+                        <!-- ══════════════════════════════════════════════════════ -->
+                        <div class="exp-card relative pl-6 md:pl-12 group transition-all duration-500" data-category="all">
+                            <!-- Glowing Stepper Dot -->
+                            <div class="absolute -left-[9px] top-6 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-emerald-500/30 z-10 transition-transform group-hover:scale-125"></div>
+
+                            <div class="glow-card shimmer-border flex flex-col bg-white dark:bg-[#111827] rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 relative overflow-hidden">
+                                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-emerald-500/25 shrink-0">
+                                            <span class="material-symbols-outlined text-3xl">terminal</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-2xl font-black text-slate-900 dark:text-white leading-tight">Full-Stack Software Engineer</h3>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-sm font-bold text-emerald-600 dark:text-emerald-400">Open Source &amp; Freelance Applications</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-600 dark:text-emerald-400 font-extrabold text-xs shrink-0">
+                                        Continuous
+                                    </div>
+                                </div>
+
+                                <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed mb-6 font-medium">
+                                    Engineered scalable web systems including a comprehensive Hospital Management Platform (real-time bed availability, patient records, &amp; billing), interactive web portals, and custom UI design engines.
+                                </p>
+
+                                <div class="flex flex-wrap gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                    <span class="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold">Node.js</span>
+                                    <span class="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold">MySQL &amp; MongoDB</span>
+                                    <span class="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold">PHP &amp; JavaScript</span>
+                                    <span class="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold">Tailwind CSS</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <!-- Bottom CTA -->
-                    <div class="mt-8 flex justify-center pb-10">
-                        <p class="text-[#616f89] dark:text-gray-400 text-sm">
-                            Want to see more details? <a class="text-primary font-bold hover:underline"
-                                href="resume.pdf" target="_blank">Download my
-                                full Resume</a>
-                        </p>
+
+                    <!-- Bottom Call To Action -->
+                    <div class="mt-8 flex flex-col sm:flex-row items-center justify-between p-6 rounded-2xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-xl gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-3xl text-emerald-400">rocket_launch</span>
+                            <div>
+                                <h4 class="font-black text-lg">Interested in Collaboration or Hiring?</h4>
+                                <p class="text-xs text-slate-300 font-medium">Check out my complete project repositories or download my verified resume.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 shrink-0">
+                            <a href="projects.html" class="px-5 py-2.5 rounded-xl bg-white text-slate-900 font-bold text-xs shadow hover:bg-slate-100 transition-colors">
+                                Explore Projects
+                            </a>
+                            <a href="resume.html" class="px-5 py-2.5 rounded-xl bg-primary hover:bg-blue-600 text-white font-bold text-xs shadow transition-colors">
+                                View Resume
+                            </a>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-    </div>
+
+    <!-- Filter JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-slide-in');
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateX(0)';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            const timelineItems = document.querySelectorAll('.group > div.flex.flex-col');
-            timelineItems.forEach((item, index) => {
-                // Set initial state
-                item.style.opacity = '0';
-                item.style.transform = 'translateX(-20px)';
-                item.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-                // Stagger delay
-                item.style.transitionDelay = `${index * 100}ms`;
-
-                observer.observe(item);
+        function filterExperience(category, btnEl) {
+            // Highlight active button
+            const buttons = document.querySelectorAll('.exp-tab-btn');
+            buttons.forEach(btn => {
+                btn.className = 'exp-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white';
             });
-        });
+            btnEl.className = 'exp-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-primary text-white shadow-md';
+
+            // Filter experience cards
+            const cards = document.querySelectorAll('.exp-card');
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === 'all' || cardCategory === category) {
+                    card.style.display = 'block';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
     </script>
+
 
     <!-- Phase 5: Live Visitor Badge -->
     <div id="visitor-badge"
@@ -316,6 +509,7 @@
             }, 4000);
         });
     </script>
+    <script src="js/premium-animations.js"></script>
     <script src="js/interactions.js"></script>
     <script src="js/palette.js"></script>
 </body>

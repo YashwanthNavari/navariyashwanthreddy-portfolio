@@ -7,10 +7,12 @@
     <!-- Professional Typography -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <!-- Global Framework -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/premium-effects.css">
+    <link rel="stylesheet" href="css/animations.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -20,6 +22,11 @@
                         primary: '#2563eb',
                         gold: '#b45309',
                         navy: '#0f172a'
+                    },
+                    fontFamily: {
+                        "display": ["'Outfit'", "sans-serif"],
+                        "body": ["'Plus Jakarta Sans'", "sans-serif"],
+                        "sans": ["'Plus Jakarta Sans'", "sans-serif"]
                     }
                 }
             }
@@ -53,14 +60,17 @@
             .resume-sidebar { width: 100% !important; }
         }
     </style>
+    <script src="js/nav.js"></script>
 </head>
 <body class="text-slate-900 bg-[#f1f5f9] dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
 
     <!-- Navigation Bar -->
     <header class="page-header sticky top-0 z-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center no-print">
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary text-3xl">data_object</span>
-            <span class="font-black text-lg tracking-tight text-slate-900 dark:text-white">DS Portfolio</span>
+        <div class="flex items-center gap-3 text-slate-900 dark:text-white">
+            <div class="size-8 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm">
+                <img src="https://github.com/YashwanthNavari.png" alt="Yashwanth Navari" class="w-full h-full object-cover">
+            </div>
+            <span class="font-black text-lg tracking-tight">Yashwanth Navari</span>
         </div>
         <nav class="hidden md:flex gap-8 text-sm font-semibold text-slate-600 dark:text-slate-400">
             <a href="index.html" class="hover:text-primary transition-colors">Home</a>
@@ -329,6 +339,7 @@
         <span>© 2026 Navari Yashwanth Reddy · Precision Build v8.0-Pro</span>
     </footer>
 
+    <script src="js/premium-animations.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/palette.js"></script>
 </body>

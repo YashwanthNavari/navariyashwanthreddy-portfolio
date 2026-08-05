@@ -8,13 +8,13 @@
     <title>Navari Yashwanth Reddy - Portfolio</title>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="css/premium-effects.css">
+    <link rel="stylesheet" href="css/animations.css">
     <script src="js/theme.js"></script>
     <style>
         :root {
@@ -29,7 +29,7 @@
                 extend: {
                     colors: {
                         "primary": "#2563eb", // Professional Blue (Tailwind blue-600)
-                        "secondary": "#10b981", // Emerald-500
+                        "secondary": "#059669", // Emerald-600 for better contrast on light mode
                         "background-light": "#f8fafc", // slate-50
                         "background-dark": "#0f172a", // slate-900
                         "surface-light": "#ffffff",
@@ -38,8 +38,9 @@
                         "card-light": "rgba(255, 255, 255, 0.7)" 
                     },
                     fontFamily: {
-                        "display": ["'Inter'", "sans-serif"],
+                        "display": ["'Outfit'", "sans-serif"],
                         "body": ["'Inter'", "sans-serif"],
+                        "sans": ["'Inter'", "sans-serif"]
                     },
                     borderRadius: { "DEFAULT": "0.5rem", "md": "0.75rem", "lg": "1rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px" },
                 },
@@ -47,6 +48,7 @@
         }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/nav.js"></script>
 </head>
 <style>
     /* Preloader Styles */
@@ -56,23 +58,98 @@
         z-index: 9999;
         background-color: #0f172a;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+        transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), visibility 0.8s, transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     }
-    .loader-core {
-        width: 60px;
-        height: 60px;
-        border: 4px solid rgba(99, 102, 241, 0.2);
-        border-top-color: #6366f1;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
+    .preloader-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        z-index: 10;
+        animation: cinematicScale 3.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
     }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes cinematicScale {
+        0% { transform: scale(0.9); }
+        100% { transform: scale(1); }
+    }
+    .slide-up-anim {
+        transform: translateY(120%);
+        opacity: 0;
+        animation: revealText 1.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    .delay-100 { animation-delay: 150ms; }
+    .delay-300 { animation-delay: 500ms; }
+    .delay-500 { animation-delay: 1100ms; }
+    
+    @keyframes revealText {
+        0% { transform: translateY(100%); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .shimmer-text {
+        background-size: 200% auto;
+        animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+        0% { background-position: -200% center; }
+        100% { background-position: 200% center; }
+    }
+
+    .expand-line-wrapper {
+        width: 100%;
+        max-width: 300px;
+        height: 1px;
+        background: rgba(255,255,255,0.05);
+        margin-top: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .expand-line-anim {
+        position: absolute;
+        top: 0; left: 0;
+        height: 100%;
+        width: 100%;
+        transform: translateX(-100%);
+        background: linear-gradient(90deg, transparent, rgba(6,182,212,0.8), #10b981, rgba(16,185,129,0.8), transparent);
+        animation: sweepLine 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    }
+    @keyframes sweepLine {
+        0% { transform: translateX(-100%); opacity: 0; }
+        10% { opacity: 1; }
+        50% { transform: translateX(0%); box-shadow: 0 0 15px rgba(16,185,129,0.8); }
+        90% { opacity: 1; }
+        100% { transform: translateX(100%); opacity: 0; }
+    }
+
+    /* Ambient glow behind text */
+    .preloader-glow {
+        position: absolute;
+        width: 300px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(6,182,212,0.15) 0%, rgba(16,185,129,0) 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+        opacity: 0;
+        animation: fadeInGlow 2s ease-in-out forwards 600ms;
+    }
+    @keyframes fadeInGlow {
+        to { opacity: 1; }
+    }
+    
+    @keyframes shimmerSweep {
+        0% { transform: translateX(-150%) skewX(-30deg); }
+        100% { transform: translateX(200%) skewX(-30deg); }
+    }
     
     .preloader-hidden {
         opacity: 0;
         visibility: hidden;
+        transform: scale(1.05);
     }
 
     .reveal {
@@ -85,16 +162,39 @@
         opacity: 1;
         transform: translateY(0);
     }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-15px) scale(1.05); }
+    }
+
+    .animate-spin-slow {
+        animation: spin 12s linear infinite;
+    }
 </style>
 
 <body
     class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-body overflow-x-hidden transition-colors duration-300">
     
     <!-- Pro Preloader -->
-    <div id="preloader" class="flex-col">
-        <div class="loader-core mb-6"></div>
-        <div id="preloader-message" class="text-white font-mono text-xs sm:text-sm tracking-widest uppercase font-bold text-center h-6 overflow-hidden relative">
-            <div class="animate-[slideUp_2.5s_ease-in-out_infinite] block">Analyzing portfolio metrics...</div>
+    <div id="preloader">
+        <div class="preloader-glow"></div>
+        <div class="preloader-content">
+            <div class="overflow-hidden mb-1">
+                <div class="text-slate-400 font-mono tracking-widest text-[10px] sm:text-xs uppercase slide-up-anim delay-100">
+                    Welcome to the world of
+                </div>
+            </div>
+            <div class="overflow-hidden pb-4">
+                <div class="slide-up-anim delay-300 drop-shadow-[0_0_15px_rgba(6,182,212,0.6)]">
+                    <span class="text-4xl sm:text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-emerald-400 shimmer-text block">
+                        YASHWANTH
+                    </span>
+                </div>
+            </div>
+            <div class="expand-line-wrapper slide-up-anim delay-500">
+                <div class="expand-line-anim delay-500"></div>
+            </div>
         </div>
     </div>
 
@@ -115,25 +215,25 @@
             <div
                 class="mx-auto flex max-w-7xl items-center justify-between border-b border-slate-200/50 dark:border-slate-800/50 pb-4">
                 <div class="flex items-center gap-3 group px-4 py-2 rounded-2xl hover:bg-white/50 dark:hover:bg-slate-800/50 backdrop-blur-sm transition-all cursor-pointer">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-secondary text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
-                        <span class="material-symbols-outlined font-bold">terminal</span>
+                    <div class="h-10 w-10 rounded-full overflow-hidden border-2 border-white dark:border-slate-800 shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                        <img src="https://github.com/YashwanthNavari.png" alt="Yashwanth Navari" class="w-full h-full object-cover">
                     </div>
-                    <h2 class="text-xl font-bold tracking-tight text-[#172554] dark:text-white">NYR</h2>
+                    <h2 class="text-xl font-bold tracking-tight text-[#172554] dark:text-white">Yashwanth Navari</h2>
                 </div>
                 <nav class="hidden md:flex items-center gap-6">
-                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors"
+                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="about.html">About</a>
-                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors"
+                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="experience.html">Experience</a>
-                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors"
+                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="projects.html">Projects</a>
-                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors"
+                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="skills.html">Skills</a>
-                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors"
+                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="certifications.html">Certifications</a>
-                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors"
+                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="resume.html">Resume</a>
-                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors"
+                    <a class="text-sm font-medium hover:text-[#2563eb] dark:hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="contact.html">Contact</a>
                 </nav>
                 <div class="flex items-center gap-2">
@@ -157,12 +257,12 @@
                     </div>
 
                     <button onclick="window.toggleTheme()"
-                        class="theme-toggle flex items-center justify-center p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-[#172554] dark:text-white"
+                        class="theme-toggle flex items-center justify-center p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-[#172554] dark:text-white focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                         aria-label="Toggle Dark Mode">
                         <span class="material-symbols-outlined">dark_mode</span>
                     </button>
                     <div class="flex md:hidden">
-                        <button id="mobile-menu-btn" class="p-2 text-[#172554] dark:text-white">
+                        <button id="mobile-menu-btn" class="p-2 text-[#172554] dark:text-white focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded" aria-label="Open mobile menu" aria-expanded="false">
                             <span class="material-symbols-outlined">menu</span>
                         </button>
                     </div>
@@ -177,76 +277,84 @@
             <div
                 class="absolute right-0 top-0 h-full w-[250px] bg-white dark:bg-[#0f172a] shadow-xl p-6 flex flex-col gap-6">
                 <div class="flex justify-end">
-                    <button onclick="toggleMobileMenu()" class="p-2 text-[#172554] dark:text-white">
+                    <button onclick="toggleMobileMenu()" class="p-2 text-[#172554] dark:text-white focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded" aria-label="Close mobile menu">
                         <span class="material-symbols-outlined">close</span>
                     </button>
                 </div>
                 <nav class="flex flex-col gap-4">
-                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors"
+                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="about.html">About</a>
-                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors"
+                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="experience.html">Experience</a>
-                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors"
+                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="projects.html">Projects</a>
-                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors"
+                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="skills.html">Skills</a>
-                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors"
+                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="certifications.html">Certifications</a>
-                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors"
+                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="resume.html">Resume</a>
-                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors"
+                    <a class="text-lg font-medium text-[#172554] dark:text-white hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:rounded"
                         href="contact.html">Contact</a>
                 </nav>
             </div>
         </div>
         <main class="flex-1 flex flex-col justify-center px-4 sm:px-10 py-10 lg:py-20 relative overflow-hidden">
-            <!-- Animated Hero Background -->
-            <canvas id="bg-canvas" class="absolute inset-0 w-full h-full -z-10 opacity-50 mix-blend-multiply dark:mix-blend-screen"></canvas>
-            <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-                <div
-                    class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary/20 blur-[100px] animate-pulse dark:mix-blend-screen opacity-70">
-                </div>
-                <div
-                    class="absolute bottom-[-10%] left-[-10%] w-[700px] h-[700px] rounded-full bg-secondary/20 blur-[120px] dark:mix-blend-screen opacity-60">
-                </div>
+            <!-- Ambient Premium Background -->
+            <canvas id="bg-canvas" class="absolute inset-0 w-full h-full -z-20 opacity-20 dark:opacity-30 mix-blend-screen pointer-events-none"></canvas>
+            
+            <div class="absolute inset-0 overflow-hidden -z-10 pointer-events-none flex justify-center items-center">
+                <!-- Core Glows -->
+                <div class="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full bg-primary/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-60"></div>
+                <div class="absolute bottom-[-10%] left-[-5%] w-[800px] h-[800px] rounded-full bg-secondary/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-50"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-[radial-gradient(circle_at_center,rgba(14,165,233,0.05)_0%,transparent_70%)] rounded-full blur-[100px]"></div>
+                <!-- Grid Overlay -->
+                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0MCcgaGVpZ2h0PSc0MCc+CgkJPGNpcmNsZSBjeD0nMjAnIGN5PScyMCcgcj0nMScgZmlsbD0ncmdiYSg4MCwgOTAsIDEwMCwgMC4xKScgLz4KCTwvc3ZnPg==')] dark:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0MCcgaGVpZ2h0PSc0MCc+CgkJPGNpcmNsZSBjeD0nMjAnIGN5PScyMCcgcj0nMScgZmlsbD0ncmdiYSgyNTUsIDI1NSwgMjU1LCAwLjA1KScgLz4KCTwvc3ZnPg==')] opacity-50"></div>
             </div>
 
-            <div class="mx-auto w-full max-w-7xl">
+            <div class="mx-auto w-full max-w-[1200px] relative z-10">
                 <div class="@container">
-                    <div class="flex flex-col-reverse gap-12 lg:flex-row lg:items-center lg:gap-20">
-                        <div class="reveal flex flex-1 flex-col gap-6 text-left max-w-xl">
-                            <!-- Pill Badge -->
-                            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 w-fit mb-2 shadow-sm">
+                    <div class="flex flex-col-reverse gap-16 lg:flex-row lg:items-center lg:gap-10">
+                        <div class="reveal flex flex-col gap-6 text-left w-full lg:w-1/2">
+                            <!-- Premium Pill Badge -->
+                            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 w-fit mb-2 backdrop-blur-lg shadow-sm hover:shadow-md transition-shadow">
                                 <span class="relative flex h-2.5 w-2.5">
                                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                   <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                                 </span>
-                                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">Available for freelance</span>
+                                <span class="text-[11px] font-black text-slate-700 dark:text-slate-300 uppercase tracking-[0.2em]">Available for opportunities</span>
                             </div>
 
                             <!-- Typography -->
-                            <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black text-slate-800 dark:text-slate-100 leading-[1.1] mb-6 font-display tracking-tight">
-                                Greetings, I'm <br/>
-                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500 dark:from-emerald-400 dark:to-cyan-400">Navari</span> <br/>
-                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-600 dark:from-cyan-400 dark:to-blue-500">Yashwanth</span>
-                            </h1>
+                            <div class="flex flex-col gap-2 mb-2">
+                                <h2 class="text-xl sm:text-2xl font-medium text-slate-500 dark:text-slate-400 tracking-tight">
+                                    Hello, I'm
+                                </h2>
+                                <h1 class="text-6xl sm:text-7xl lg:text-[5.5rem] font-black text-slate-900 dark:text-white leading-[1.05] tracking-tighter">
+                                    Navari <br/>
+                                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-500 to-emerald-500 drop-shadow-sm pb-2">Yashwanth</span>
+                                </h1>
+                            </div>
 
-                            <p class="text-lg sm:text-xl text-slate-800 dark:text-slate-200 leading-relaxed font-bold mb-4 max-w-2xl">
-                                <span class="bg-gradient-to-r from-emerald-600 to-primary bg-clip-text text-transparent dark:from-emerald-400 dark:to-primary">👉 Design Patent Holder | IoT Innovator | B.Tech Data Science Student</span>
-                            </p>
-                            <div class="flex flex-col sm:flex-row gap-4 w-full mt-8">
-                                <button onclick="window.location.href='projects.html'" class="px-8 py-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-[16px] shadow-[0_0_30px_rgba(0,0,0,0.2)] hover:scale-105 transition-all flex items-center justify-center gap-3">
-                                    Explore Portfolio <span class="material-symbols-outlined">explore</span>
+                            <div class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 leading-relaxed font-semibold mb-2 max-w-xl flex items-center gap-3">
+                                <span class="w-10 h-[2px] bg-gradient-to-r from-primary to-transparent rounded-full shrink-0"></span>
+                                <span id="typed-subtitle" data-phrases="Design Patent Holder, AI &amp; ML Engineer, Full-Stack Developer, Innovator"></span>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-4 w-full mt-6">
+                                <button onclick="window.location.href='projects.html'" class="group relative px-8 py-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-[15px] shadow-[0_0_40px_rgba(37,99,235,0.2)] hover:shadow-[0_0_60px_rgba(37,99,235,0.4)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden">
+                                    <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 dark:via-black/10 to-transparent -translate-x-[150%] group-hover:animate-[shimmerSweep_1.5s_infinite]"></div>
+                                    Explore Portfolio <span class="material-symbols-outlined transition-transform group-hover:rotate-12">explore</span>
                                 </button>
-                                <button onclick="window.location.href='resume.html'" class="px-8 py-4 rounded-xl bg-transparent border-2 border-emerald-500 hover:bg-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold text-[16px] hover:text-white shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-3 group relative overflow-hidden">
-                                    Hire Me <span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform">rocket_launch</span>
+                                <button onclick="window.location.href='contact.html'" class="px-8 py-4 rounded-xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-2 border-slate-200 dark:border-slate-700 hover:border-primary dark:hover:border-primary text-slate-700 dark:text-white font-bold text-[15px] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 group">
+                                    Hire Me <span class="material-symbols-outlined group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform text-primary">rocket_launch</span>
                                 </button>
                             </div>
 
                             <!-- Social Links -->
-                            <div class="flex items-center gap-4 mt-6">
+                            <div class="flex items-center gap-4 mt-8">
                                 <a href="https://www.linkedin.com/in/navari-yashwanth-reddy-4a7065357/" target="_blank"
-                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-[#0077b5] text-white hover:scale-110 hover:-translate-y-1 transition-all shadow-md hover:shadow-lg hover:shadow-[#0077b5]/30"
+                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-[#0077b5] text-white hover:scale-110 hover:-translate-y-1 transition-all shadow-md hover:shadow-lg hover:shadow-[#0077b5]/30 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-2"
                                     aria-label="LinkedIn Profile">
                                     <span class="sr-only">LinkedIn</span>
                                     <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
@@ -254,104 +362,93 @@
                                     </svg>
                                 </a>
                                 <a href="https://github.com/eikomotsu" target="_blank"
-                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-white hover:scale-110 hover:-translate-y-1 transition-all shadow-md hover:shadow-lg hover:shadow-slate-800/30 dark:bg-slate-100 dark:text-slate-900 dark:hover:shadow-slate-200/30"
+                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-white hover:scale-110 hover:-translate-y-1 transition-all shadow-md hover:shadow-lg hover:shadow-slate-800/30 dark:bg-slate-100 dark:text-slate-900 dark:hover:shadow-slate-200/30 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none focus-visible:ring-offset-2"
                                     aria-label="GitHub Profile">
                                     <span class="sr-only">GitHub</span>
                                     <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
                                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                                     </svg>
                                 </a>
-                                <div class="hidden sm:block w-12 h-px bg-slate-300 dark:bg-slate-700 ml-2"></div>
-                                <span class="hidden sm:block text-sm font-medium text-slate-500 dark:text-slate-400 ml-2">Connect with me</span>
-                            </div>
-
-                            <!-- ELEVATED PATENT PREVIEW -->
-                            <div class="mt-8 p-6 rounded-2xl border border-amber-500/20 bg-amber-500/5 backdrop-blur-sm shadow-[0_0_20px_rgba(245,158,11,0.05)] relative group cursor-pointer transition-all hover:scale-[1.02]" onclick="window.location.href='resume.html'">
-                                <div class="absolute top-4 right-4 text-amber-500 animate-pulse">
-                                    <span class="material-symbols-outlined text-[18px]">verified</span>
-                                </div>
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-lg">
-                                        <span class="material-symbols-outlined text-2xl">workspace_premium</span>
-                                    </div>
-                                    <div class="flex-1">
-                                        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-amber-600 dark:text-amber-500 mb-1">Official Intellectual Property</h4>
-                                        <p class="text-sm font-bold text-slate-900 dark:text-white leading-tight">IoT Connectivity Device Design Patent</p>
-                                        <p class="text-[10px] text-slate-500 font-medium mt-1">Design No: 470097-001 · Issued by Government of India</p>
-                                    </div>
-                                </div>
+                                <div class="hidden sm:block w-12 h-px bg-slate-300 dark:bg-slate-700 mx-2"></div>
+                                <span class="hidden sm:block text-sm font-bold text-slate-500 dark:text-slate-400">Connect with me</span>
                             </div>
                         </div>
-                        <!-- Circular Orbiting Portrait -->
-                        <div class="reveal relative flex-1 w-full flex justify-center items-center p-4 sm:p-10 pointer-events-none mt-10 lg:mt-0">
-                            <!-- Orbiting Ring & Tech Stack Icons -->
-                            <div class="absolute w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[500px] lg:h-[500px] border border-slate-300 dark:border-slate-600 rounded-full animate-[spin_60s_linear_infinite] z-20 flex justify-center items-center pointer-events-auto">
-                                <!-- Python -->
-                                <div class="absolute top-[-5%] left-[50%] -translate-x-1/2 w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-slate-800 rounded-2xl shadow-xl flex items-center justify-center p-2.5 animate-[spin_60s_linear_reverse_infinite] border border-slate-100 dark:border-slate-700 hover:scale-110 transition-transform cursor-pointer">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" class="w-full h-full object-contain">
-                                </div>
+
+                        <!-- Right Side: Clean Premium Avatar -->
+                        <div class="reveal relative flex flex-1 w-full justify-center items-center p-4 mt-8 lg:mt-0">
+                            <div class="relative w-full max-w-[450px] aspect-square flex justify-center items-center group perspective-1000">
+                                
+                                <!-- Floating Tech Badges (Elegant & Controlled) -->
                                 <!-- TensorFlow -->
-                                <div class="absolute top-[15%] right-[-5%] w-10 h-10 sm:w-14 sm:h-14 bg-white dark:bg-slate-800 rounded-2xl shadow-xl flex items-center justify-center p-2.5 animate-[spin_60s_linear_reverse_infinite] border border-slate-100 dark:border-slate-700 hover:scale-110 transition-transform cursor-pointer">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg" alt="TensorFlow" class="w-full h-full object-contain">
+                                <div class="absolute top-[5%] left-[5%] animate-[float_6s_ease-in-out_infinite] z-30">
+                                    <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/40 dark:border-slate-700 group-hover:scale-110 transition-transform flex items-center justify-center">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Tensorflow_logo.svg" alt="TensorFlow" class="w-8 h-8 object-contain">
+                                    </div>
                                 </div>
                                 <!-- PyTorch -->
-                                <div class="absolute bottom-[0%] right-[10%] w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-slate-800 rounded-2xl shadow-xl flex items-center justify-center p-2.5 animate-[spin_60s_linear_reverse_infinite] border border-slate-100 dark:border-slate-700 hover:scale-110 transition-transform cursor-pointer">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="PyTorch" class="w-full h-full object-contain">
+                                <div class="absolute top-[15%] right-[-5%] animate-[float_5s_ease-in-out_infinite_1s] z-30">
+                                    <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/40 dark:border-slate-700 group-hover:scale-110 transition-transform flex items-center justify-center">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="PyTorch" class="w-8 h-8 object-contain">
+                                    </div>
+                                </div>
+                                <!-- Python -->
+                                <div class="absolute bottom-[20%] left-[-10%] animate-[float_7s_ease-in-out_infinite_2s] z-30">
+                                    <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/40 dark:border-slate-700 group-hover:scale-110 transition-transform flex items-center justify-center">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" class="w-9 h-9 object-contain">
+                                    </div>
                                 </div>
                                 <!-- Pandas -->
-                                <div class="absolute bottom-[5%] left-[5%] w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-slate-800 rounded-2xl shadow-xl flex items-center justify-center p-2.5 animate-[spin_60s_linear_reverse_infinite] border border-slate-100 dark:border-slate-700 hover:scale-110 transition-transform cursor-pointer">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pandas_logo.svg" alt="Pandas" class="w-full h-full object-contain">
-                                </div>
-                                <!-- Scikit-Learn -->
-                                <div class="absolute top-[25%] left-[-8%] w-10 h-10 sm:w-14 sm:h-14 bg-white dark:bg-slate-800 rounded-2xl shadow-xl flex items-center justify-center p-2 animate-[spin_60s_linear_reverse_infinite] border border-slate-100 dark:border-slate-700 hover:scale-110 transition-transform cursor-pointer">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg" alt="Scikit-Learn" class="w-full h-full object-contain rounded">
-                                </div>
-                            </div>
-                                                        <!-- The Headshot Circle -->
-                            <div class="relative w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] lg:w-[380px] lg:h-[380px] rounded-full bg-gradient-to-tr from-primary/20 to-secondary/20 shadow-[0_0_50px_rgba(37,99,235,0.2)] flex items-center justify-center border border-white/40 dark:border-slate-700/50 backdrop-blur-xl z-10 overflow-hidden hover:scale-[1.02] transition-transform duration-700 group">
-                                <div class="absolute inset-2 rounded-full overflow-hidden bg-slate-200 dark:bg-slate-800">
-                                    <!-- BADGE OF INNOVATION -->
-                                    <div class="absolute top-8 right-8 z-30 bg-amber-500 text-white p-2 rounded-xl shadow-2xl rotate-12 transform group-hover:rotate-0 transition-transform duration-500 hidden sm:block">
-                                        <div class="flex flex-col items-center gap-1">
-                                            <span class="material-symbols-outlined text-sm">workspace_premium</span>
-                                            <span class="text-[8px] font-black uppercase tracking-tighter leading-none">Patent Holder</span>
-                                        </div>
+                                <div class="absolute bottom-[5%] right-[10%] animate-[float_5s_ease-in-out_infinite_0.5s] z-30">
+                                    <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/40 dark:border-slate-700 group-hover:scale-110 transition-transform flex items-center justify-center">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pandas_logo.svg" alt="Pandas" class="w-8 h-8 object-contain">
                                     </div>
-                                    <div class="absolute inset-0 bg-primary/20 mix-blend-overlay z-10"></div>
-                                    <img alt="Professional headshot of Navari Yashwanth Reddy"
-                                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                        src="https://image2url.com/images/1765825518035-1dbec68f-23c2-4ad8-b356-fc06aeee01c2.jpeg" />
+                                </div>
+
+                                <!-- The Headshot Circle -->
+                                <div class="relative w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] rounded-full p-2 bg-gradient-to-tr from-primary via-cyan-400 to-emerald-400 shadow-[0_0_60px_rgba(37,99,235,0.3)] z-10 transition-transform duration-700 hover:rotate-3 group-hover:shadow-[0_0_80px_rgba(37,99,235,0.5)]">
+                                    <div class="absolute inset-0 bg-gradient-to-tr from-primary via-cyan-400 to-emerald-400 rounded-full animate-spin-slow opacity-50 blur-xl"></div>
+                                    <div class="relative w-full h-full rounded-full overflow-hidden bg-slate-200 dark:bg-slate-800 border-4 border-background-light dark:border-background-dark z-10">
+                                        
+                                        <!-- BADGE OF INNOVATION -->
+                                        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-amber-500/40 px-4 py-2 rounded-full shadow-[0_10px_30px_rgba(245,158,11,0.2)] transform group-hover:-translate-y-2 group-hover:scale-105 transition-all duration-500 flex items-center gap-2 w-max">
+                                            <span class="material-symbols-outlined text-amber-500 text-[18px]">verified</span>
+                                            <span class="text-xs font-black text-slate-900 dark:text-white tracking-wide uppercase">Certified Patent Holder</span>
+                                        </div>
+                                        
+                                        <img alt="Professional headshot of Navari Yashwanth Reddy"
+                                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 origin-top"
+                                            src="https://image2url.com/images/1765825518035-1dbec68f-23c2-4ad8-b356-fc06aeee01c2.jpeg" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
->
-
-
                     </div>
-                    </div>                    <!-- PORTFOLIO STATS BAR -->
-                    <div class="reveal w-full max-w-5xl mx-auto mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
-                        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-center">
-                            <p class="text-3xl font-black text-primary mb-1">12+</p>
+                    </div>
+                    
+                    <!-- PORTFOLIO STATS BAR -->>
+                    <section class="reveal w-full max-w-5xl mx-auto mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 px-4" aria-label="Portfolio Statistics">
+                        <div class="glow-card hover-lift shimmer-border p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-center cursor-default">
+                            <p class="text-3xl font-black text-primary mb-1" data-counter="12" data-suffix="+">12+</p>
                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Projects Built</p>
                         </div>
-                        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-amber-500/30 shadow-lg shadow-amber-500/5 text-center">
-                            <p class="text-3xl font-black text-amber-500 mb-1">1</p>
+                        <div class="glow-card hover-lift shimmer-border p-6 rounded-2xl bg-white dark:bg-slate-900 border border-amber-500/30 shadow-lg shadow-amber-500/5 text-center cursor-default">
+                            <p class="text-3xl font-black text-amber-500 mb-1" data-counter="1">1</p>
                             <p class="text-[10px] font-black uppercase tracking-widest text-amber-600">Design Patent</p>
                         </div>
-                        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-center">
-                            <p class="text-3xl font-black text-secondary mb-1">11+</p>
+                        <div class="glow-card hover-lift shimmer-border p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-center cursor-default">
+                            <p class="text-3xl font-black text-secondary mb-1" data-counter="11" data-suffix="+">11+</p>
                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Certifications</p>
                         </div>
-                         <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-center">
-                            <p class="text-3xl font-black text-slate-900 dark:text-white mb-1">98%</p>
+                        <div class="glow-card hover-lift shimmer-border p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-center cursor-default">
+                            <p class="text-3xl font-black text-slate-900 dark:text-white mb-1" data-counter="98" data-suffix="%">98%</p>
                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Model Accuracy</p>
                         </div>
-                    </div>
+                    </section>
 
                     <!-- INNOVATION JOURNEY TIMELINE -->
-                    <div class="reveal w-full max-w-4xl mx-auto mt-24 px-4 overflow-hidden">
+                    <section class="reveal w-full max-w-4xl mx-auto mt-24 px-4 overflow-hidden" aria-labelledby="timeline-heading">
                         <div class="text-center mb-12">
-                            <h3 class="text-3xl font-black text-slate-900 dark:text-white tracking-tighter">The Journey of Innovation</h3>
+                            <h3 id="timeline-heading" class="text-3xl font-black text-slate-900 dark:text-white tracking-tighter">The Journey of Innovation</h3>
                             <div class="h-1.5 w-16 bg-primary mx-auto mt-3 rounded-full"></div>
                         </div>
                         <div class="relative">
@@ -392,79 +489,112 @@
                             </div>
                         </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- DETAILED PATENT HIGHLIGHT (ELEVATED) -->
-                    <div class="reveal w-full max-w-5xl mx-auto mt-20 relative z-20 overflow-hidden rounded-3xl border border-amber-500/30 bg-gradient-to-br from-white to-orange-50 dark:from-slate-900 dark:to-slate-800/80 shadow-[0_0_40px_rgba(245,158,11,0.15)] group transition-all duration-500 hover:shadow-[0_0_60px_rgba(245,158,11,0.25)]">
-                        <div class="absolute -top-24 -right-24 w-64 h-64 bg-yellow-500/20 blur-[60px] rounded-full pointer-events-none group-hover:bg-yellow-500/30 transition-colors duration-700"></div>
-                        <div class="flex flex-col md:flex-row items-stretch">
-                            <div class="w-full md:w-5/12 bg-gray-100 dark:bg-slate-950/50 relative overflow-hidden flex items-center justify-center p-6 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-700/50">
-                                <div class="relative z-10 w-full max-w-xs transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-1 shadow-2xl rounded-xl overflow-hidden border-2 border-white/50 dark:border-white/10">
+                    <!-- PATENT HIGHLIGHT (PREMIUM EDITION) -->
+                    <article class="reveal w-full max-w-5xl mx-auto mt-24 relative z-20 group rounded-[2rem] p-[2px] bg-gradient-to-br from-yellow-400 via-amber-200 to-orange-500 shadow-[0_0_50px_rgba(245,158,11,0.3)] hover:shadow-[0_0_80px_rgba(245,158,11,0.5)] transition-all duration-700 hover:-translate-y-2">
+                        <!-- The Inner Card -->
+                        <div class="relative w-full h-full bg-slate-50 dark:bg-slate-900 overflow-hidden rounded-[calc(2rem-2px)] flex flex-col md:flex-row items-stretch">
+                            
+                            <!-- Animated Light Sweep -->
+                            <div class="absolute inset-0 translate-x-[-150%] skew-x-[-30deg] bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent group-hover:animate-[shimmerSweep_2s_infinite] z-20 pointer-events-none"></div>
+
+                            <div class="absolute -top-32 -right-32 w-96 h-96 bg-amber-500/20 blur-[80px] rounded-full pointer-events-none group-hover:bg-amber-500/40 transition-colors duration-700"></div>
+                            <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-orange-500/10 blur-[80px] rounded-full pointer-events-none"></div>
+                            
+                            <!-- Left Side: Image -->
+                            <div class="w-full md:w-5/12 bg-slate-200/50 dark:bg-slate-950/40 relative overflow-hidden flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-amber-500/20">
+                                <div class="relative z-10 w-full max-w-xs transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-2 shadow-2xl rounded-xl overflow-hidden border-2 border-white dark:border-amber-300/50">
+                                    <div class="absolute inset-0 bg-gradient-to-tr from-amber-500/20 to-transparent pointer-events-none z-20 mix-blend-overlay"></div>
                                     <img src="images/certs/patent.jpg" onerror="this.src='https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=640&auto=format&fit=crop'" alt="Patent" class="w-full h-auto object-cover object-top aspect-[3/4]" />
-                                    <a href="images/certs/patent.jpg" target="_blank" class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                                        <div class="w-14 h-14 rounded-full bg-yellow-500 text-white flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform duration-500 delay-100">
-                                            <span class="material-symbols-outlined text-3xl">zoom_in</span>
+                                    <a href="images/certs/patent.jpg" target="_blank" class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm z-30">
+                                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-600 text-white flex items-center justify-center shadow-[0_0_30px_rgba(245,158,11,0.6)] transform scale-75 group-hover:scale-100 transition-transform duration-500 delay-100">
+                                            <span class="material-symbols-outlined text-4xl">zoom_in</span>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-                            <div class="w-full md:w-7/12 p-8 md:p-10 flex flex-col justify-center relative z-10">
-                                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/30 w-fit mb-4">
-                                    <span class="material-symbols-outlined text-yellow-600 dark:text-yellow-500 text-sm">workspace_premium</span>
-                                    <span class="text-xs font-bold text-yellow-700 dark:text-yellow-400 uppercase tracking-widest">Global Intellectual Property</span>
+
+                            <!-- Right Side: Content -->
+                            <div class="w-full md:w-7/12 p-8 md:p-12 flex flex-col justify-center relative z-10">
+                                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/10 border border-amber-500/40 w-fit mb-6 shadow-[0_0_20px_rgba(245,158,11,0.1)]">
+                                    <span class="material-symbols-outlined text-amber-600 dark:text-amber-400 text-base animate-pulse">workspace_premium</span>
+                                    <span class="text-[11px] font-black text-amber-700 dark:text-amber-400 uppercase tracking-widest drop-shadow-sm">Global Intellectual Property</span>
                                 </div>
-                                <h3 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-2 leading-tight">IoT Connectivity Device Design Patent</h3>
-                                <p class="text-slate-700 dark:text-slate-300 mb-6 leading-relaxed">
-                                    Recognized by the **Intellectual Property Office, Govt. of India**. This Design Patent validates the architectural originality of my machine-to-machine communication hardware, proving my capability to deliver industry-grade technical innovation.
+                                <h3 class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-yellow-600 to-orange-600 dark:from-amber-200 dark:via-yellow-400 dark:to-orange-500 mb-4 leading-tight drop-shadow-sm dark:drop-shadow-lg">
+                                    IoT Connectivity Device Design Patent
+                                </h3>
+                                <p class="text-slate-700 dark:text-slate-300 text-sm sm:text-base mb-8 leading-relaxed font-medium">
+                                    Recognized by the <strong class="text-slate-900 dark:text-white">Intellectual Property Office, Govt. of India</strong>. This Design Patent validates the architectural originality of my machine-to-machine communication hardware, proving my capability to deliver industry-grade technical innovation at scale.
                                 </p>
-                                <a href="resume.html" class="shrink-0 w-fit px-8 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2">
-                                    View Full Documentation <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                                <a href="resume.html" class="shrink-0 w-fit px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-black text-sm shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:shadow-[0_0_40px_rgba(245,158,11,0.6)] hover:-translate-y-1 transition-all duration-300 flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none">
+                                    View Official Documentation <span class="material-symbols-outlined text-xl">arrow_forward</span>
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
-                    <div class="reveal w-full max-w-2xl mx-auto mt-24 relative z-20">
-                        <div class="relative w-full aspect-[1.6/1] group cursor-pointer transition-transform duration-500 hover:scale-110" style="perspective: 1500px;">
-                            <!-- Base of laptop -->
-                            <div class="absolute bottom-0 w-full h-[18px] bg-slate-300 dark:bg-slate-700 rounded-b-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform translate-y-[2px] z-0 border-b-[6px] border-slate-400 dark:border-slate-800 flex justify-center transition-all duration-700">
-                                <div class="w-32 h-2 bg-slate-400 dark:bg-slate-600 rounded-b-md mt-[1px]"></div>
+                    <!-- About Me Section (Premium Engineering Vision) -->
+                    <div class="mt-16 reveal w-full bg-white/60 dark:bg-[#0f172a]/70 backdrop-blur-3xl rounded-[2rem] border border-slate-200/60 dark:border-slate-700/50 shadow-xl dark:shadow-[0_10px_40px_rgba(0,0,0,0.4)] hover:shadow-2xl transition-all duration-700 relative overflow-hidden group">
+                        
+                        <!-- Premium Ambient Glows -->
+                        <div class="absolute -top-32 -left-32 w-80 h-80 bg-primary/10 dark:bg-primary/20 blur-[100px] rounded-full pointer-events-none group-hover:bg-primary/20 transition-colors duration-1000"></div>
+                        <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-cyan-500/10 dark:bg-cyan-500/20 blur-[120px] rounded-full pointer-events-none group-hover:bg-cyan-500/20 transition-colors duration-1000"></div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_100%)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_100%)] pointer-events-none"></div>
+
+                        <div class="relative z-10 p-8 sm:p-12 lg:p-16 flex flex-col lg:flex-row gap-12 lg:gap-16">
+                            
+                            <!-- Left: Statement -->
+                            <div class="w-full lg:w-5/12 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-200/50 dark:border-slate-700/50 pb-10 lg:pb-0 lg:pr-12 relative">
+                                <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-slate-900/5 dark:bg-white/5 border border-slate-900/10 dark:border-white/10 w-fit mb-8 shadow-sm">
+                                    <span class="material-symbols-outlined text-primary text-[18px]">terminal</span>
+                                    <span class="text-[11px] font-black text-slate-700 dark:text-slate-300 uppercase tracking-[0.2em]">Engineering Vision</span>
+                                </div>
+                                <h3 class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tight font-display mb-6">
+                                    Building <br/>
+                                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-500">intelligent</span> systems at scale.
+                                </h3>
+                                <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-body">
+                                    I bridge the gap between deep machine learning research and robust software architecture, delivering production-ready technical innovation.
+                                </p>
                             </div>
-                            <!-- Lid of laptop -->
-                            <div class="absolute inset-x-3 top-0 bottom-[16px] bg-slate-800 dark:bg-black rounded-t-3xl border-[8px] border-slate-200 dark:border-slate-600 shadow-xl overflow-hidden origin-bottom transition-all duration-[1500ms] group-hover:rotate-x-[0deg] rotate-x-[25deg] ring-1 ring-slate-900/5" style="transform-style: preserve-3d;">
-                                <!-- Screen Content -->
-                                <div class="w-full h-full bg-[#0d1117] p-6 text-[12px] sm:text-[14px] font-mono text-emerald-400 overflow-hidden relative border border-slate-800">
-                                    <div class="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-[size:15px_15px] pointer-events-none"></div>
-                                    <div class="animate-pulse mb-4 text-slate-400 font-bold">root@navari-os:~# ./run_portfolio_simulation.sh</div>
-                                    <div class="animate-[slideUp_6s_linear_infinite] opacity-90 leading-[1.8] font-bold tracking-widest text-[#10b981] drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]">
-                                        > System Core Boot Sequence Initiated...<br/>
-                                        > Allocating Thread Resources [================] 100%<br/>
-                                        > Loading Neural Networks & Algorithms... OK<br/>
-                                        > Fetching ML Models into memory... OK<br/>
-                                        > Establishing Secure SSL Connection... DONE<br/>
-                                        ><br/>
-                                        > <span class="text-white bg-emerald-600 px-2 py-0.5 rounded">PERFECT HIRING MATCH FOUND</span><br/>
-                                        > Welcome to the Future, Verified Recruiter.<br/>
-                                        > Ready for input _
+
+                            <!-- Right: Core Pillars -->
+                            <div class="w-full lg:w-7/12 flex flex-col gap-6 justify-center">
+                                <!-- Pillar 1 -->
+                                <div class="group/pillar relative p-6 rounded-2xl bg-white/50 dark:bg-slate-800/40 border border-slate-200/50 dark:border-slate-700/50 hover:bg-white dark:hover:bg-slate-800 transition-all duration-300 shadow-sm hover:shadow-md">
+                                    <div class="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-primary to-cyan-500 rounded-l-2xl opacity-0 group-hover/pillar:opacity-100 transition-opacity"></div>
+                                    <div class="flex items-start gap-5">
+                                        <div class="w-12 h-12 shrink-0 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary group-hover/pillar:scale-110 transition-transform">
+                                            <span class="material-symbols-outlined text-[24px]">architecture</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2 font-display">Architectural Precision</h4>
+                                            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-body">
+                                                I don't just write code; I design scalable infrastructures. From microservices to distributed databases, I focus on system resilience and high-performance engineering.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Webcam dot -->
-                                <div class="absolute top-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_8px_#22c55e]"></div>
+
+                                <!-- Pillar 2 -->
+                                <div class="group/pillar relative p-6 rounded-2xl bg-white/50 dark:bg-slate-800/40 border border-slate-200/50 dark:border-slate-700/50 hover:bg-white dark:hover:bg-slate-800 transition-all duration-300 shadow-sm hover:shadow-md">
+                                    <div class="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-emerald-500 to-teal-500 rounded-l-2xl opacity-0 group-hover/pillar:opacity-100 transition-opacity"></div>
+                                    <div class="flex items-start gap-5">
+                                        <div class="w-12 h-12 shrink-0 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover/pillar:scale-110 transition-transform">
+                                            <span class="material-symbols-outlined text-[24px]">model_training</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2 font-display">Applied AI & Machine Learning</h4>
+                                            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-body">
+                                                Transforming theoretical models into tangible solutions. I specialize in deploying neural networks, optimizing computer vision pipelines, and building intelligent APIs.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Compare Yourself Widget -->
-                    <div class="mt-8 p-6 bg-white dark:bg-[#1e293b]/80 rounded-2xl border border-slate-200 dark:border-white/10 shadow-xl relative overflow-hidden group/compare">
-                        <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
-                        <h4 class="font-black text-slate-800 dark:text-white mb-2 flex items-center gap-2 text-sm uppercase tracking-widest relative z-10"><span class="material-symbols-outlined text-primary text-[20px]">join_inner</span> Are We a Match?</h4>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 font-medium relative z-10">Enter your primary skillset industry (e.g. "Data", "React", "Backend") to run a compatibility analysis.</p>
-                        <div class="flex gap-2 relative z-10">
-                            <input type="text" id="compare-skill" class="flex-1 bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary outline-none transition-shadow text-slate-800 dark:text-white" placeholder="E.g. Machine Learning">
-                            <button onclick="compareMatch()" class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-primary dark:hover:bg-primary hover:text-white font-bold py-2 px-5 rounded-xl text-xs transition-all shadow-md active:scale-95 whitespace-nowrap">ANALYZE</button>
-                        </div>
-                        <div id="compare-result" class="mt-4 text-sm font-bold text-center hidden py-3 px-4 rounded-xl border relative z-10 transition-all"></div>
                     </div>
                     
                 </div>
@@ -472,694 +602,322 @@
         </main>
 
 
-        <!-- ═══════════════════════════════════════════════════════ -->
-        <!-- SECTION: 3D FLOATING NEURAL NETWORK BRAIN              -->
-        <!-- ═══════════════════════════════════════════════════════ -->
-        <section id="neural-net-section" class="w-full relative overflow-hidden border-t border-slate-800" style="background:#050912;min-height:620px;">
-            <!-- Top/bottom edge fades -->
-            <div class="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#050912] to-transparent z-10 pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#050912] to-transparent z-10 pointer-events-none"></div>
-
-            <!-- Canvas fills the section -->
-            <canvas id="neural-canvas" class="absolute inset-0 w-full h-full" style="display:block;"></canvas>
-
-            <!-- Centered overlay text -->
-            <div class="relative z-20 flex flex-col items-center justify-center min-h-[620px] px-4 pointer-events-none">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 mb-4">
-                    <span class="material-symbols-outlined text-violet-400 text-[14px]">hub</span>
-                    <span class="text-xs font-bold text-violet-400 uppercase tracking-widest">Neural Network</span>
+        <!-- What I Do Section (Interactive Glass Cards) -->
+        <section id="what-i-do" class="w-full relative py-20 px-6 sm:px-10 bg-slate-50 dark:bg-[#0a0f1c] border-t border-slate-200 dark:border-slate-800 overflow-hidden">
+            <!-- Decorative blur orb -->
+            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+            
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-4 uppercase font-display">What I <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Do</span></h2>
+                    <p class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg font-medium">Bridging the gap between intelligent systems and robust software architecture.</p>
                 </div>
-                <h2 class="text-4xl md:text-6xl font-black text-white text-center mb-4 leading-tight drop-shadow-[0_0_40px_rgba(139,92,246,0.4)]">
-                    Thinking in<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400">Neural Networks</span>
-                </h2>
-                <p class="text-slate-400 text-lg text-center max-w-lg leading-relaxed">
-                    Every node is a concept. Every edge is a connection. This is how I see machine learning — a living, breathing web of relationships.
-                </p>
-                <div class="mt-6 flex gap-4 items-center pointer-events-auto">
-                    <span class="px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300 text-sm font-medium flex items-center gap-2 backdrop-blur-sm">
-                        <span class="w-2 h-2 rounded-full bg-violet-400 animate-pulse"></span> Live simulation
-                    </span>
-                    <span class="px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300 text-sm font-medium flex items-center gap-2 backdrop-blur-sm">
-                        <span class="material-symbols-outlined text-[14px] text-cyan-400">mouse</span> Move mouse to interact
-                    </span>
-                </div>
-            </div>
-        </section>
-
-        <script>
-        // ═══════════════════════════════════════
-        // THREE.JS NEURAL NETWORK BRAIN  (fixed)
-        // ═══════════════════════════════════════
-        window.addEventListener('load', function() {
-            const canvas = document.getElementById('neural-canvas');
-            if (!canvas || typeof THREE === 'undefined') return;
-
-            const section = document.getElementById('neural-net-section');
-            // Force explicit size — read AFTER layout
-            const W = section.offsetWidth || window.innerWidth;
-            const H = section.offsetHeight || 620;
-            canvas.width  = W;
-            canvas.height = H;
-
-            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-            renderer.setSize(W, H, false);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 200);
-            camera.position.set(0, 0, 24);
-
-            // ── Lighting ──
-            scene.add(new THREE.AmbientLight(0x1a1040, 2));
-            const purpleLight = new THREE.PointLight(0x8b5cf6, 3, 50);
-            purpleLight.position.set(0, 8, 8);
-            scene.add(purpleLight);
-            const cyanLight = new THREE.PointLight(0x06b6d4, 2.5, 50);
-            cyanLight.position.set(-10, -5, 8);
-            scene.add(cyanLight);
-            const pinkLight = new THREE.PointLight(0xec4899, 1.5, 40);
-            pinkLight.position.set(10, -8, 8);
-            scene.add(pinkLight);
-
-            // ── Node Colors ──
-            const COLORS = [0x06b6d4, 0x8b5cf6, 0xa855f7, 0xec4899, 0x10b981];
-
-            // ── Brain group (everything rotates together) ──
-            const brainGroup = new THREE.Group();
-            scene.add(brainGroup);
-
-            // ── 90 nodes in ellipsoid ──
-            const NODE_COUNT = 90;
-            const nodes = [];
-
-            for (let i = 0; i < NODE_COUNT; i++) {
-                const theta = Math.random() * Math.PI * 2;
-                const phi   = Math.acos(2 * Math.random() - 1);
-                const r     = 5.0 + Math.random() * 3.5;
-                const x = r * Math.sin(phi) * Math.cos(theta) * 1.5;
-                const y = r * Math.sin(phi) * Math.sin(theta) * 0.85;
-                const z = r * Math.cos(phi) * 0.8;
-
-                const color = COLORS[i % COLORS.length];
-                const size  = 0.13 + Math.random() * 0.2;
-                const mat   = new THREE.MeshPhongMaterial({
-                    color, emissive: color, emissiveIntensity: 0.5,
-                    shininess: 100, transparent: true, opacity: 0.9
-                });
-                const mesh = new THREE.Mesh(new THREE.SphereGeometry(size, 8, 8), mat);
-                mesh.position.set(x, y, z);
-                brainGroup.add(mesh);
-                nodes.push({ mesh, mat, x, y, z, color, offset: Math.random() * Math.PI * 2 });
-            }
-
-            // ── Edges ──
-            const MAX_DIST = 5.8;
-            const edgePositions = [];
-            const edgePairs = [];
-
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const a = nodes[i], b = nodes[j];
-                    const dx = a.x-b.x, dy = a.y-b.y, dz = a.z-b.z;
-                    const d  = Math.sqrt(dx*dx+dy*dy+dz*dz);
-                    if (d < MAX_DIST) {
-                        edgePositions.push(a.x,a.y,a.z, b.x,b.y,b.z);
-                        edgePairs.push({ a, b });
-                    }
-                }
-            }
-
-            const edgeGeo = new THREE.BufferGeometry();
-            edgeGeo.setAttribute('position', new THREE.Float32BufferAttribute(edgePositions, 3));
-            const edgeMat = new THREE.LineBasicMaterial({ color: 0x6d28d9, transparent: true, opacity: 0.25 });
-            brainGroup.add(new THREE.LineSegments(edgeGeo, edgeMat));
-
-            // ── Signal Pulses (INSIDE brainGroup so they rotate with the brain) ──
-            const PULSE_COUNT = 55;
-            const pulses = [];
-
-            for (let i = 0; i < PULSE_COUNT; i++) {
-                const pMat  = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.95, color: 0xffffff });
-                const pMesh = new THREE.Mesh(new THREE.SphereGeometry(0.1, 6, 6), pMat);
-                pMesh.visible = false;
-                brainGroup.add(pMesh);   // ← inside brainGroup!
-                pulses.push({ mesh: pMesh, mat: pMat, pair: null, t: 0, speed: 0 });
-            }
-
-            const PULSE_COLORS = [0xa78bfa, 0x67e8f9, 0xf0abfc, 0x6ee7b7, 0xfca5a5, 0xfcd34d];
-
-            function resetPulse(p) {
-                if (edgePairs.length === 0) return;
-                p.pair  = edgePairs[Math.floor(Math.random() * edgePairs.length)];
-                p.t     = 0;
-                p.speed = 0.007 + Math.random() * 0.02;
-                p.mat.color.setHex(PULSE_COLORS[Math.floor(Math.random() * PULSE_COLORS.length)]);
-                p.mat.opacity = 0.95;
-                p.mesh.visible = true;
-            }
-            pulses.forEach(p => resetPulse(p));
-
-            // ── Mouse parallax ──
-            let mx = 0, my = 0;
-            document.addEventListener('mousemove', e => {
-                mx = (e.clientX / window.innerWidth  - 0.5) * 2;
-                my = (e.clientY / window.innerHeight - 0.5) * 2;
-            });
-
-            // ── Animate ──
-            let clock = 0;
-            (function tick() {
-                requestAnimationFrame(tick);
-                clock += 0.009;
-
-                brainGroup.rotation.y = clock * 0.10 + mx * 0.22;
-                brainGroup.rotation.x = Math.sin(clock * 0.06) * 0.14 + my * 0.10;
-
-                purpleLight.intensity = 2.8 + Math.sin(clock * 0.9)  * 0.9;
-                cyanLight.intensity   = 2.0 + Math.cos(clock * 1.1)  * 0.7;
-                pinkLight.intensity   = 1.4 + Math.sin(clock * 0.7)  * 0.6;
-
-                nodes.forEach(n => {
-                    n.mat.emissiveIntensity = 0.3 + 0.4 * Math.sin(clock * 2.5 + n.offset);
-                });
-
-                pulses.forEach(p => {
-                    if (!p.pair) { resetPulse(p); return; }
-                    p.t += p.speed;
-                    if (p.t >= 1) {
-                        p.pair.b.mat.emissiveIntensity = 1.0;
-                        p.mesh.visible = false;
-                        resetPulse(p);
-                        return;
-                    }
-                    const { a, b } = p.pair;
-                    p.mesh.position.set(
-                        a.x + (b.x - a.x) * p.t,
-                        a.y + (b.y - a.y) * p.t,
-                        a.z + (b.z - a.z) * p.t
-                    );
-                    p.mat.opacity = p.t > 0.82 ? (1 - p.t) / 0.18 : 0.95;
-                });
-
-                renderer.render(scene, camera);
-            })();
-
-            // ── Resize ──
-            window.addEventListener('resize', () => {
-                const nw = section.offsetWidth;
-                const nh = section.offsetHeight || 620;
-                renderer.setSize(nw, nh, false);
-                camera.aspect = nw / nh;
-                camera.updateProjectionMatrix();
-            });
-        });
-        </script>
-
-        <!-- ═══════════════════════════════════════════════════════ -->
-        <!-- SECTION: 3D PROJECT CAROUSEL                           -->
-        <!-- ═══════════════════════════════════════════════════════ -->
-        <section id="projects-carousel-section" class="w-full px-4 sm:px-10 py-20 bg-gradient-to-b from-[#030609] to-[#0f172a] border-t border-slate-900 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.05)_0%,transparent_60%)] pointer-events-none"></div>
-
-            <div class="mx-auto max-w-7xl flex flex-col items-center reveal">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
-                    <span class="material-symbols-outlined text-primary text-[16px]">view_carousel</span>
-                    <span class="text-xs font-bold text-primary uppercase tracking-widest">Interactive Gallery</span>
-                </div>
-                <h2 class="text-4xl md:text-5xl font-black text-white mb-4 leading-tight text-center">
-                    Spatial <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Project Showcase</span>
-                </h2>
-                <p class="text-slate-400 text-lg max-w-xl text-center mb-10 leading-relaxed">
-                    Drag to rotate the 3D gallery. Click any glass card to instantly pull up the repository documentation directly from GitHub.
-                </p>
-
-                <!-- 3D Canvas Container -->
-                <div id="project-carousel-container" class="w-full h-[500px] relative cursor-grab active:cursor-grabbing rounded-3xl border border-white/5 bg-black/20 shadow-2xl overflow-hidden">
-                    <!-- ThreeJS injected here -->
-                </div>
-            </div>
-        </section>
-                <!-- Academic Honesty: Failures & Growth -->
-
-
-        <section class="w-full px-4 sm:px-10 py-16 bg-slate-50 dark:bg-[#0f172a] border-t border-slate-200 dark:border-slate-800">
-            <div class="mx-auto max-w-7xl reveal">
-                <div class="mb-12 flex flex-col items-center justify-center text-center">
-                    <span class="mb-2 text-sm font-black uppercase tracking-widest text-red-500 flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">psychology_alt</span> Transparency</span>
-                    <h2 class="text-3xl font-black text-slate-800 dark:text-white sm:text-4xl font-display">Project <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Failures & Growth</span></h2>
-                    <p class="mt-4 max-w-2xl text-slate-500 dark:text-slate-400">Engineering isn't always perfect. Here is a look at times things went wrong, and exactly how I fixed them.</p>
-                </div>
-                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
-                    <div class="p-6 bg-white dark:bg-[#1e293b] rounded-2xl border border-red-100 dark:border-red-900/30 shadow-lg relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
-                        <h4 class="font-black text-slate-800 dark:text-white text-lg mb-2">The Overtraining Disaster</h4>
-                        <p class="text-xs font-bold text-red-500 mb-2 uppercase tracking-wide">What Went Wrong</p>
-                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">During the Heart Disease project, my first ML model achieved 99% accuracy on training data but failed miserably in real-world testing due to severe over-fitting.</p>
-                        <p class="text-xs font-bold text-emerald-500 mb-2 uppercase tracking-wide">How I Fixed It</p>
-                        <p class="text-sm text-slate-600 dark:text-slate-400">I threw out the model. Implemented K-Fold cross-validation, pruned the neural network layers, and applied L2 Regularization. The final model stabilized at a highly reliable 92% real-world accuracy.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Live Code IDE Sandbox -->
-        <section class="w-full px-4 sm:px-10 py-16 bg-[#1a1b26] dark:bg-[#0f111a] border-t border-slate-800 relative z-10 font-mono text-slate-300">
-            <div class="mx-auto max-w-5xl reveal group">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2 font-display tracking-wide">
-                        <span class="material-symbols-outlined text-primary text-2xl">terminal</span>
-                        Developer Playground
-                    </h2>
-                    <div class="flex gap-2 bg-black/40 px-3 py-1.5 rounded-full border border-white/5 opacity-50 group-hover:opacity-100 transition-opacity">
-                        <div class="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15]"></div>
-                        <div class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
-                    </div>
-                </div>
-                <div class="flex flex-col md:flex-row gap-0 h-[320px] rounded-xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-slate-700/50">
-                    <!-- Editor Panes -->
-                    <div class="flex-1 bg-[#1f2335] relative flex flex-col border-b md:border-b-0 md:border-r border-slate-800">
-                        <div class="w-full bg-[#16161e] py-2 px-4 text-xs font-semibold text-slate-400 flex items-center gap-2">
-                            <span class="text-yellow-400 material-symbols-outlined text-[14px]">javascript</span>
-                            algorithm.js
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 card-stagger-group">
+                    <!-- AI/ML -->
+                    <div class="stagger-card shimmer-border group relative h-80 rounded-3xl overflow-hidden bg-white dark:bg-[#162032] border border-slate-200 dark:border-slate-700/50 shadow-lg cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(16,185,129,0.15)]">
+                        <div class="absolute inset-0 p-8 flex flex-col items-center justify-center text-center transition-opacity duration-500 group-hover:opacity-0">
+                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 flex items-center justify-center mb-6 shadow-inner ring-1 ring-emerald-500/30">
+                                <span class="material-symbols-outlined text-emerald-500 text-[40px]">psychology</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white">AI & ML</h3>
                         </div>
-                        <textarea id="live-code-editor" class="flex-1 w-full bg-transparent p-5 text-[13px] text-[#9ece6a] placeholder:text-slate-600 focus:outline-none resize-none leading-relaxed" spellcheck="false" placeholder="Write some JS to run..."></textarea>
-                        <button onclick="runCodeSimulator()" class="absolute bottom-4 right-4 bg-primary hover:bg-sky-400 text-slate-900 font-black tracking-widest uppercase py-2 px-5 rounded-lg shadow-[0_0_15px_#0ea5e9] transition-all z-20 flex items-center gap-1.5 text-xs hover:scale-105 active:scale-95">
-                            <span class="material-symbols-outlined text-[16px]">play_arrow</span> EXECUTE
-                        </button>
-                    </div>
-                    <!-- Output Pane -->
-                    <div class="flex-1 bg-[#1a1b26] flex flex-col relative">
-                        <div class="w-full bg-[#16161e] py-2 px-4 text-xs font-bold text-slate-500 flex justify-between items-center tracking-wider uppercase">
-                            <span>Terminal Output</span>
-                            <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-white transition-colors" onclick="document.getElementById('live-code-output').innerHTML=''" title="Clear Console">delete</span>
-                        </div>
-                        <div id="live-code-output" class="flex-1 w-full p-5 text-[13px] text-slate-300 overflow-y-auto leading-relaxed"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════════ -->
-        <!-- SECTION: 3D ROTATING WORKSTATION                    -->
-        <!-- ═══════════════════════════════════════════════════ -->
-        <section class="w-full px-4 sm:px-10 py-20 bg-[#080c14] border-t border-slate-800 relative overflow-hidden" id="workstation-section">
-            <!-- Glow blobs -->
-            <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
-            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-
-            <div class="mx-auto max-w-7xl flex flex-col lg:flex-row items-center gap-12 reveal">
-                <!-- Left: text -->
-                <div class="flex-1 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4">
-                        <span class="material-symbols-outlined text-emerald-400 text-[16px]">monitor</span>
-                        <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">My Workspace</span>
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
-                        A Peek Inside<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">My Workstation</span>
-                    </h2>
-                    <p class="text-slate-400 text-lg max-w-md mx-auto lg:mx-0 mb-8 leading-relaxed">
-                        A low-poly 3D render of my development setup. Drag to rotate. The terminal screen is live — just like the real thing.
-                    </p>
-                    <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 text-sm font-medium flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[14px] text-emerald-400">mouse</span> Drag to rotate
-                        </span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 text-sm font-medium flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[14px] text-cyan-400">scroll</span> Scroll to zoom
-                        </span>
-                    </div>
-                </div>
-                <!-- Right: Three.js Canvas -->
-                <div class="flex-1 flex justify-center items-center relative">
-                    <canvas id="laptop-three-canvas" class="rounded-2xl shadow-[0_0_80px_rgba(16,185,129,0.15)] ring-1 ring-emerald-500/20 cursor-grab active:cursor-grabbing" style="width:100%;max-width:520px;height:380px;display:block;"></canvas>
-                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-slate-600 font-mono">three.js · WebGL</div>
-                </div>
-            </div>
-        </section>
-
-        <script>
-        // ── Three.js Rotating Workstation ──
-        (function() {
-            const canvas = document.getElementById('laptop-three-canvas');
-            if (!canvas || typeof THREE === 'undefined') return;
-
-            const W = canvas.clientWidth || 520, H = canvas.clientHeight || 380;
-            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-            renderer.setSize(W, H);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
-
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 100);
-            camera.position.set(0, 2.5, 7);
-            camera.lookAt(0, 0.3, 0);
-
-            // Lights
-            scene.add(new THREE.AmbientLight(0x334155, 1.5));
-            const keyLight = new THREE.DirectionalLight(0x93c5fd, 2);
-            keyLight.position.set(5, 8, 5);
-            scene.add(keyLight);
-            const rimLight = new THREE.DirectionalLight(0x6ee7b7, 1);
-            rimLight.position.set(-5, 3, -3);
-            scene.add(rimLight);
-
-            // Materials
-            const bodyMat = new THREE.MeshPhongMaterial({ color: 0x1e293b, shininess: 60, specular: 0x93c5fd });
-            const screenMat = new THREE.MeshPhongMaterial({ color: 0x0a0e1a, emissive: 0x0d2a1a, shininess: 120 });
-            const keyboardMat = new THREE.MeshPhongMaterial({ color: 0x0f172a, shininess: 40 });
-            const accentMat = new THREE.MeshPhongMaterial({ color: 0x10b981, emissive: 0x064e3b, shininess: 100 });
-
-            // ── Screen canvas texture ──
-            const texCanvas = document.createElement('canvas');
-            texCanvas.width = 512; texCanvas.height = 300;
-            const ctx = texCanvas.getContext('2d');
-            const screenTex = new THREE.CanvasTexture(texCanvas);
-
-            const codeLines = [
-                '> root@navari-os:~/portfolio$ python train.py',
-                '  Loading dataset... [████████████] 100%',
-                '  Model: RandomForest(n_estimators=200)',
-                '  Training accuracy: 97.4%',
-                '  Val accuracy:      94.1%  ✓',
-                '',
-                '> git commit -m "feat: StrokeGuard.ai v1.0"',
-                '  ✔ 1 file changed, 148 insertions',
-                '',
-                '> python -c "import this"',
-                '  Beautiful is better than ugly.',
-                '  Simple is better than complex.',
-                '',
-                '> Status: OPEN TO OPPORTUNITIES 🚀',
-            ];
-            let lineIdx = 0, charIdx = 0, screenText = '';
-            function tickTerminal() {
-                if (lineIdx >= codeLines.length) { lineIdx = 0; charIdx = 0; screenText = ''; }
-                const line = codeLines[lineIdx];
-                if (charIdx < line.length) { screenText += line[charIdx]; charIdx++; }
-                else { screenText += '\n'; lineIdx++; charIdx = 0; }
-
-                ctx.fillStyle = '#0d1117';
-                ctx.fillRect(0, 0, 512, 300);
-                // Grid lines
-                ctx.strokeStyle = 'rgba(16,185,129,0.04)';
-                ctx.lineWidth = 1;
-                for (let y = 0; y < 300; y += 15) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(512,y); ctx.stroke(); }
-
-                // Scanline effect
-                for (let y = 0; y < 300; y += 4) {
-                    ctx.fillStyle = 'rgba(0,0,0,0.08)';
-                    ctx.fillRect(0, y, 512, 2);
-                }
-
-                ctx.font = '13px "Courier New", monospace';
-                const rows = screenText.split('\n').slice(-17);
-                rows.forEach((row, i) => {
-                    const y = 22 + i * 17;
-                    if (row.startsWith('>')) {
-                        ctx.fillStyle = '#34d399';
-                    } else if (row.includes('✓') || row.includes('✔')) {
-                        ctx.fillStyle = '#6ee7b7';
-                    } else if (row.startsWith('  Loading') || row.startsWith('  Model')) {
-                        ctx.fillStyle = '#7dd3fc';
-                    } else {
-                        ctx.fillStyle = '#94a3b8';
-                    }
-                    ctx.fillText(row, 14, y);
-                });
-                // Cursor blink
-                if (Math.floor(Date.now() / 500) % 2 === 0) {
-                    const lastRow = rows[rows.length - 1] || '';
-                    const cw = ctx.measureText(lastRow).width;
-                    ctx.fillStyle = '#34d399';
-                    ctx.fillRect(14 + cw, 22 + (rows.length - 1) * 17 - 12, 7, 14);
-                }
-                screenTex.needsUpdate = true;
-            }
-
-            const screenTexMat = new THREE.MeshPhongMaterial({ map: screenTex, emissive: 0x022c22, emissiveMap: screenTex, emissiveIntensity: 0.5 });
-
-            // ── Build Laptop ──
-            const laptop = new THREE.Group();
-
-            // Base
-            const base = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.12, 2.2), bodyMat);
-            base.position.y = 0.06;
-            laptop.add(base);
-
-            // Keyboard panel (slightly indented)
-            const kbMesh = new THREE.Mesh(new THREE.BoxGeometry(3.0, 0.01, 1.75), keyboardMat);
-            kbMesh.position.set(0, 0.13, 0.1);
-            laptop.add(kbMesh);
-
-            // Trackpad
-            const trackpad = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.01, 0.55), new THREE.MeshPhongMaterial({ color: 0x334155, shininess: 120 }));
-            trackpad.position.set(0, 0.13, 0.75);
-            laptop.add(trackpad);
-
-            // Screen lid group - hinge at back base
-            const lid = new THREE.Group();
-            lid.position.set(0, 0.12, -1.1);
-
-            const lidBody = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.08, 2.2), bodyMat);
-            lidBody.position.set(0, 1.1, 1.1);
-            lid.add(lidBody);
-
-            // Screen bezel
-            const bezel = new THREE.Mesh(new THREE.BoxGeometry(3.15, 1.95, 0.04), screenMat);
-            bezel.position.set(0, 1.1, 2.1);
-            lid.add(bezel);
-
-            // Actual screen
-            const screenMesh = new THREE.Mesh(new THREE.PlaneGeometry(2.9, 1.75), screenTexMat);
-            screenMesh.position.set(0, 1.1, 2.14);
-            lid.add(screenMesh);
-
-            // Screen glow (point light on the screen)
-            const screenGlow = new THREE.PointLight(0x10b981, 0.5, 3);
-            screenGlow.position.set(0, 1.1, 2.5);
-            lid.add(screenGlow);
-
-            // Camera dot
-            const camDot = new THREE.Mesh(new THREE.CircleGeometry(0.04, 12), accentMat);
-            camDot.position.set(0, 2.1, 2.13);
-            lid.add(camDot);
-
-            // Hinge accent strips
-            [-1.5, 1.5].forEach(x => {
-                const hinge = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.07, 0.12), accentMat);
-                hinge.position.set(x, 0.12, -1.1);
-                laptop.add(hinge);
-            });
-
-            lid.rotation.x = -Math.PI * 0.08; // lid slightly open angle
-            laptop.add(lid);
-            laptop.rotation.x = 0.15; // slight downward tilt toward viewer
-            laptop.rotation.y = Math.PI * 0.08;
-            scene.add(laptop);
-
-            // Desk surface
-            const deskGeo = new THREE.PlaneGeometry(14, 10);
-            const deskMat = new THREE.MeshPhongMaterial({ color: 0x0f172a, shininess: 10 });
-            const desk = new THREE.Mesh(deskGeo, deskMat);
-            desk.rotation.x = -Math.PI / 2;
-            desk.position.y = -0.01;
-            scene.add(desk);
-
-            // Floating coffee mug beside laptop
-            const mugGroup = new THREE.Group();
-            const mugBody = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.18, 0.45, 12), new THREE.MeshPhongMaterial({ color: 0x334155, shininess: 60 }));
-            mugGroup.add(mugBody);
-            const mugHandle = new THREE.Mesh(new THREE.TorusGeometry(0.14, 0.04, 8, 12, Math.PI), new THREE.MeshPhongMaterial({ color: 0x334155 }));
-            mugHandle.rotation.y = Math.PI / 2;
-            mugHandle.position.set(0.3, 0, 0);
-            mugGroup.add(mugHandle);
-            mugGroup.position.set(2.2, 0.22, 0.3);
-            scene.add(mugGroup);
-
-            // A small desk plant
-            const plantPot = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.12, 0.2, 8), new THREE.MeshPhongMaterial({ color: 0x92400e }));
-            const plantLeaf = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 6), new THREE.MeshPhongMaterial({ color: 0x166534, shininess: 20 }));
-            plantLeaf.position.y = 0.28;
-            const plantGroup = new THREE.Group();
-            plantGroup.add(plantPot);
-            plantGroup.add(plantLeaf);
-            plantGroup.position.set(-2.2, 0.1, 0.5);
-            scene.add(plantGroup);
-
-            // ── Orbit Controls (manual drag) ──
-            let isDragging = false, prevMouse = { x: 0, y: 0 };
-            let rotY = 0, rotX = 0;
-            canvas.addEventListener('mousedown', e => { isDragging = true; prevMouse = { x: e.clientX, y: e.clientY }; });
-            window.addEventListener('mouseup', () => { isDragging = false; });
-            window.addEventListener('mousemove', e => {
-                if (!isDragging) return;
-                const dx = e.clientX - prevMouse.x, dy = e.clientY - prevMouse.y;
-                rotY += dx * 0.008; rotX += dy * 0.005;
-                rotX = Math.max(-0.4, Math.min(0.4, rotX));
-                prevMouse = { x: e.clientX, y: e.clientY };
-            });
-            // Scroll to zoom
-            canvas.addEventListener('wheel', e => {
-                camera.position.z = Math.max(4, Math.min(10, camera.position.z + e.deltaY * 0.008));
-                e.preventDefault();
-            }, { passive: false });
-
-            // Touch support
-            let lastTouch = null;
-            canvas.addEventListener('touchstart', e => { lastTouch = e.touches[0]; });
-            canvas.addEventListener('touchmove', e => {
-                if (!lastTouch) return;
-                const dx = e.touches[0].clientX - lastTouch.clientX;
-                const dy = e.touches[0].clientY - lastTouch.clientY;
-                rotY += dx * 0.008; rotX += dy * 0.005;
-                rotX = Math.max(-0.4, Math.min(0.4, rotX));
-                lastTouch = e.touches[0];
-                e.preventDefault();
-            }, { passive: false });
-
-            let termTimer = 0;
-            function animate(t) {
-                requestAnimationFrame(animate);
-                // Auto-rotate when not dragging
-                if (!isDragging) rotY += 0.003;
-                laptop.rotation.y = rotY + 0.08;
-                mugGroup.rotation.y = rotY * 0.3;
-                plantGroup.rotation.y = -rotY * 0.2;
-
-                // Terminal update every ~50ms
-                if (t - termTimer > 50) { tickTerminal(); termTimer = t; }
-                renderer.render(scene, camera);
-            }
-            animate(0);
-
-            // Responsive resize
-            window.addEventListener('resize', () => {
-                const w = canvas.clientWidth, h = canvas.clientHeight;
-                renderer.setSize(w, h);
-                camera.aspect = w / h;
-                camera.updateProjectionMatrix();
-            });
-        })();
-        </script>
-
-
-        <section
-            class="w-full px-4 sm:px-10 py-12 border-y border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-[#111318]/50 backdrop-blur-sm">
-            <div class="mx-auto max-w-7xl">
-                <div class="grid gap-12 sm:grid-cols-2 md:grid-cols-4">
-                    <div class="flex flex-col gap-1 items-center reveal relative group" style="transition-delay: 0ms;">
-                        <span class="absolute top-0 right-1/4 translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-emerald-500 rounded-full shadow-[0_0_10px_#10b981] animate-ping duration-1000 hidden group-hover:block"></span>
-                        <span class="text-4xl sm:text-5xl font-black text-primary counter" data-target="15">0</span>
-                        <span class="text-xl sm:text-2xl font-black text-primary">+</span>
-                        <span
-                            class="text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Projects
-                            Completed</span>
-                    </div>
-                    <div class="flex flex-col gap-1 items-center reveal" style="transition-delay: 100ms;">
-                        <span class="text-4xl sm:text-5xl font-black text-primary counter" data-target="5">0</span>
-                        <span
-                            class="text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Certifications</span>
-                    </div>
-                    <!-- System Score Upgrade -->
-                    <div class="flex flex-col gap-1 items-center reveal group hover:scale-105 transition-transform cursor-crosshair relative" style="transition-delay: 200ms;" title="Automated System Evaluation">
-                        <div class="absolute inset-0 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition-colors"></div>
-                        <div class="flex items-baseline relative z-10">
-                            <span class="text-4xl sm:text-5xl font-black text-emerald-500 drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]">98</span>
-                            <span class="text-4xl sm:text-5xl font-black text-emerald-500">%</span>
-                        </div>
-                        <span class="text-sm font-bold uppercase tracking-widest text-[#10b981] flex items-center gap-1 mt-1">
-                            <span class="material-symbols-outlined text-[16px]">verified</span>
-                            System Score
-                        </span>
-                    </div>
-                    <div class="flex flex-col gap-1 items-center reveal" style="transition-delay: 300ms;">
-                        <span class="text-4xl sm:text-5xl font-black text-primary counter" data-target="1">0</span>
-                        <span class="text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Year
-                            Experience</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Unique Feature: Activity Heatmap inside Stats Section -->
-                <div class="reveal w-full max-w-5xl mx-auto mt-12 p-6 rounded-2xl bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-white/5 shadow-xl flex flex-col items-center hover:shadow-sky-500/10 transition-shadow">
-                    <div class="w-full flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">commit</span>
-                            Engineering Lifecycle
-                        </h3>
-                        <span class="text-sm font-medium text-slate-500 dark:text-slate-400">1,245 contributions in the last year</span>
-                    </div>
-                    <!-- The Grid container -->
-                    <div class="w-full overflow-x-auto pb-2 scrollbar-hide">
-                        <div id="activity-heatmap" class="flex flex-col flex-wrap h-[100px] gap-1 content-start min-w-[750px]">
-                            <!-- JS will inject 365 squares here -->
+                        <div class="absolute inset-0 p-8 flex flex-col justify-center bg-gradient-to-br from-emerald-600 to-teal-800 text-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                            <h3 class="text-xl font-black mb-3 text-emerald-100">AI & Machine Learning</h3>
+                            <p class="text-sm text-emerald-50 leading-relaxed font-medium">Developing predictive models, deep learning architectures, and integrating LLMs into intelligent applications using PyTorch & TensorFlow.</p>
+                            <span class="mt-auto inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-emerald-200 group-hover:animate-pulse">View Projects <span class="material-symbols-outlined text-[14px]">arrow_forward</span></span>
                         </div>
                     </div>
-                    <div class="w-full flex justify-end items-center gap-2 mt-4 text-xs text-slate-500 font-medium">
-                        <span>Less</span>
-                        <div class="w-3 h-3 rounded-[2px] bg-slate-200 dark:bg-slate-800"></div>
-                        <div class="w-3 h-3 rounded-[2px] bg-emerald-200 dark:bg-emerald-900/40"></div>
-                        <div class="w-3 h-3 rounded-[2px] bg-emerald-300 dark:bg-emerald-700/60"></div>
-                        <div class="w-3 h-3 rounded-[2px] bg-emerald-400 dark:bg-emerald-500/80"></div>
-                        <div class="w-3 h-3 rounded-[2px] bg-emerald-500"></div>
-                        <span>More</span>
-                    </div>
-                </div>
-
-                <!-- Professor Checklist Section: Core Skills & Currently Learning -->
-                <div class="reveal w-full max-w-5xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
                     
-                    <!-- Core Skills with Bars -->
-                    <div class="p-8 rounded-2xl bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-white/5 shadow-xl hover:shadow-sky-500/10 transition-shadow">
-                        <h3 class="text-xl font-bold mb-6 text-slate-800 dark:text-white flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">bar_chart</span>
-                            Core Proficiency
-                        </h3>
-                        <div class="space-y-6">
-                            <div class="skill group">
-                                <div class="flex justify-between mb-2"><span class="font-medium text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">Python &amp; ML</span><span class="text-sm font-bold text-primary">90%</span></div>
-                                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
-                                    <div class="bg-gradient-to-r from-primary to-emerald-400 h-3 rounded-full transition-all duration-[2000ms] ease-out w-0 group-hover:w-[90%]" style="width: 90%;"></div>
-                                </div>
+                    <!-- Full-Stack -->
+                    <div class="stagger-card shimmer-border group relative h-80 rounded-3xl overflow-hidden bg-white dark:bg-[#162032] border border-slate-200 dark:border-slate-700/50 shadow-lg cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(6,182,212,0.15)]">
+                        <div class="absolute inset-0 p-8 flex flex-col items-center justify-center text-center transition-opacity duration-500 group-hover:opacity-0">
+                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 flex items-center justify-center mb-6 shadow-inner ring-1 ring-cyan-500/30">
+                                <span class="material-symbols-outlined text-cyan-500 text-[40px]">code_blocks</span>
                             </div>
-                            <div class="skill group">
-                                <div class="flex justify-between mb-2"><span class="font-medium text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">Data Analysis &amp; SQL</span><span class="text-sm font-bold text-primary">85%</span></div>
-                                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
-                                    <div class="bg-gradient-to-r from-primary to-emerald-400 h-3 rounded-full transition-all duration-[2000ms] ease-out w-0 group-hover:w-[85%]" style="width: 85%;"></div>
-                                </div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white">Full-Stack</h3>
+                        </div>
+                        <div class="absolute inset-0 p-8 flex flex-col justify-center bg-gradient-to-br from-cyan-600 to-blue-800 text-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                            <h3 class="text-xl font-black mb-3 text-cyan-100">Full-Stack Development</h3>
+                            <p class="text-sm text-cyan-50 leading-relaxed font-medium">Architecting scalable web applications from responsive modern frontends (React/Tailwind) to robust, high-performance Node backends.</p>
+                            <span class="mt-auto inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-cyan-200 group-hover:animate-pulse">View Stack <span class="material-symbols-outlined text-[14px]">arrow_forward</span></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Science -->
+                    <div class="stagger-card shimmer-border group relative h-80 rounded-3xl overflow-hidden bg-white dark:bg-[#162032] border border-slate-200 dark:border-slate-700/50 shadow-lg cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(99,102,241,0.15)]">
+                        <div class="absolute inset-0 p-8 flex flex-col items-center justify-center text-center transition-opacity duration-500 group-hover:opacity-0">
+                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-indigo-500/5 flex items-center justify-center mb-6 shadow-inner ring-1 ring-indigo-500/30">
+                                <span class="material-symbols-outlined text-indigo-500 text-[40px]">insights</span>
                             </div>
-                            <div class="skill group">
-                                <div class="flex justify-between mb-2"><span class="font-medium text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">Web Development</span><span class="text-sm font-bold text-primary">75%</span></div>
-                                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
-                                    <div class="bg-gradient-to-r from-primary to-emerald-400 h-3 rounded-full transition-all duration-[2000ms] ease-out w-0 group-hover:w-[75%]" style="width: 75%;"></div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white">Data Science</h3>
+                        </div>
+                        <div class="absolute inset-0 p-8 flex flex-col justify-center bg-gradient-to-br from-indigo-600 to-violet-800 text-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                            <h3 class="text-xl font-black mb-3 text-indigo-100">Data Science & Analytics</h3>
+                            <p class="text-sm text-indigo-50 leading-relaxed font-medium">Extracting actionable insights from complex datasets using advanced statistical analysis, Pandas, and dynamic data visualization.</p>
+                            <span class="mt-auto inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-indigo-200 group-hover:animate-pulse">View Insights <span class="material-symbols-outlined text-[14px]">arrow_forward</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Computer Vision -->
+                    <div class="stagger-card shimmer-border group relative h-80 rounded-3xl overflow-hidden bg-white dark:bg-[#162032] border border-slate-200 dark:border-slate-700/50 shadow-lg cursor-pointer transform transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(245,158,11,0.15)]">
+                        <div class="absolute inset-0 p-8 flex flex-col items-center justify-center text-center transition-opacity duration-500 group-hover:opacity-0">
+                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-500/5 flex items-center justify-center mb-6 shadow-inner ring-1 ring-amber-500/30">
+                                <span class="material-symbols-outlined text-amber-500 text-[40px]">visibility</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white">Vision Systems</h3>
+                        </div>
+                        <div class="absolute inset-0 p-8 flex flex-col justify-center bg-gradient-to-br from-amber-500 to-orange-700 text-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                            <h3 class="text-xl font-black mb-3 text-amber-100">Computer Vision</h3>
+                            <p class="text-sm text-amber-50 leading-relaxed font-medium">Building systems that extract high-level understanding from digital images or videos for medical and surveillance applications.</p>
+                            <span class="mt-auto inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-amber-200 group-hover:animate-pulse">View Vision <span class="material-symbols-outlined text-[14px]">arrow_forward</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live GitHub Activity & Tech Stack Breakdown Widget -->
+        <section id="github-analytics" class="w-full relative py-16 px-6 sm:px-10 bg-slate-50/50 dark:bg-[#0b0f19] border-t border-slate-200 dark:border-slate-800">
+            <div class="max-w-6xl mx-auto relative z-10 reveal">
+                <div class="mb-10 flex flex-col items-center justify-center text-center">
+                    <span class="mb-2 text-sm font-black uppercase tracking-widest text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">equalizer</span> Real-Time Analytics
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-800 dark:text-white font-display">
+                        GitHub <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-500">Activity & Stack</span> Breakdown
+                    </h2>
+                    <p class="mt-3 max-w-xl text-slate-500 dark:text-slate-400 text-sm">
+                        Live metrics synced directly from Yashwanth's GitHub repositories.
+                    </p>
+                </div>
+                
+                <div id="github-activity-widget" class="w-full">
+                    <div class="flex flex-col items-center justify-center py-12 text-slate-400">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-3"></div>
+                        <p class="font-mono text-xs tracking-widest uppercase font-bold animate-pulse">Syncing GitHub Repositories...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Philosophy Bento Grid -->
+        <section id="engineering-philosophy" class="w-full relative py-20 px-6 sm:px-10 bg-white dark:bg-[#080c14] border-t border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="max-w-6xl mx-auto relative z-10 reveal">
+                <div class="mb-12 flex flex-col items-center justify-center text-center">
+                    <span class="mb-2 text-sm font-black uppercase tracking-widest text-emerald-500 flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">psychology_alt</span> The Mindset</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-800 dark:text-white font-display">Core <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500">Philosophy</span></h2>
+                    <p class="mt-4 max-w-2xl text-slate-500 dark:text-slate-400">How I approach software engineering to build reliable, impactful, and scalable products.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+                    <!-- Large Feature Tile -->
+                    <div class="md:col-span-2 md:row-span-2 relative group rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 to-[#0a1128] border border-slate-800 shadow-xl p-10 flex flex-col justify-end">
+                        <div class="absolute -top-32 -right-32 w-96 h-96 bg-emerald-500/10 blur-[100px] rounded-full group-hover:bg-emerald-500/20 transition-colors duration-1000"></div>
+                        <div class="relative z-10 w-full h-full flex flex-col justify-between">
+                            <span class="material-symbols-outlined text-emerald-400 text-5xl mb-6">architecture</span>
+                            <div>
+                                <h3 class="text-3xl font-black text-white mb-4">Production-Ready Architecture</h3>
+                                <p class="text-slate-300 text-lg leading-relaxed max-w-lg">I don't just build prototypes. I design robust architectures that scale securely and maintain high performance under load. Code is read far more often than it is written, so I prioritize self-documenting logic and comprehensive testing.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Small Tile 1 -->
+                    <div class="relative group rounded-3xl overflow-hidden bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all p-8 flex flex-col items-start justify-center">
+                        <span class="material-symbols-outlined text-blue-500 text-4xl mb-4">speed</span>
+                        <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Performance Focus</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Optimization isn't an afterthought. It's a core feature treated with priority from day one.</p>
+                    </div>
+
+                    <!-- Small Tile 2 -->
+                    <div class="relative group rounded-3xl overflow-hidden bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all p-8 flex flex-col items-start justify-center">
+                        <span class="material-symbols-outlined text-violet-500 text-4xl mb-4">science</span>
+                        <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Research Mindset</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">I dive deep into how tools work conceptually, allowing me to innovate rather than just implement.</p>
+                    </div>
+                    
+                    <!-- Medium Wide Tile -->
+                    <div class="md:col-span-2 relative group rounded-3xl overflow-hidden bg-gradient-to-r from-cyan-900 to-blue-900 border border-slate-800 shadow-lg p-8 flex items-center gap-8">
+                        <div class="w-20 h-20 shrink-0 rounded-2xl bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-white text-4xl">group</span>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-2">User-Centered Design</h4>
+                            <p class="text-cyan-100/80 leading-relaxed">The best technology is invisible. I focus on creating intuitive, accessible, and seamless experiences that solve real problems elegantly.</p>
+                        </div>
+                    </div>
+
+                    <!-- Small Tile 3 -->
+                    <div class="relative group rounded-3xl overflow-hidden bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all p-8 flex flex-col items-start justify-center">
+                        <span class="material-symbols-outlined text-rose-500 text-4xl mb-4">security</span>
+                        <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Security First</h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Protecting user data and preventing vulnerabilities from the very start of a project.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Experience Section (Neon Stepper) -->
+        <section id="experience" class="w-full relative py-20 px-6 sm:px-10 bg-[#020617] border-t border-slate-800">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-16 flex flex-col items-center text-center reveal">
+                    <span class="mb-2 text-sm font-black uppercase tracking-widest text-blue-500 flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">work</span> Career Path
+                    </span>
+                    <h2 class="text-4xl sm:text-5xl font-black text-white font-display">Professional <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Experience</span></h2>
+                </div>
+                
+                <div class="relative ml-4 md:ml-0 pl-8 md:pl-12 space-y-16 before:content-[''] before:absolute before:left-0 before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-blue-500 before:via-indigo-500 before:to-transparent before:shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                    
+                    <!-- Experience 1: InAmigos Foundation -->
+                    <div class="relative reveal group">
+                        <!-- Neon Timeline Dot -->
+                        <div class="absolute -left-[41px] md:-left-[57px] top-1 w-5 h-5 bg-[#020617] rounded-full border-[3px] border-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.8)] group-hover:bg-blue-400 group-hover:scale-125 transition-all duration-300 z-10"></div>
+                        
+                        <div class="bg-[#0f172a]/80 backdrop-blur-md rounded-2xl border border-slate-800 p-8 shadow-xl transform transition-transform duration-300 group-hover:-translate-y-1 group-hover:border-blue-500/50">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white mb-1">AI Web Development Intern</h3>
+                                    <h4 class="text-lg font-medium text-blue-400">InAmigos Foundation (IAF)</h4>
+                                </div>
+                                <span class="text-sm font-bold text-blue-300 bg-blue-900/30 px-4 py-1.5 rounded-full ring-1 ring-blue-500/30 w-max">23/06/2026 – 06/07/2026</span>
+                            </div>
+                            
+                            <p class="text-slate-400 leading-relaxed mb-6">Engineered AI-powered web applications utilizing React, JavaScript, HTML/CSS, REST APIs, and integrated artificial intelligence features into production software solutions.</p>
+                            
+                            <div class="flex flex-wrap gap-4 pt-6 border-t border-slate-800">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-emerald-400">smart_toy</span>
+                                    <span class="text-white font-medium"><span class="text-emerald-400 font-bold">AI Web</span> Integration</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-indigo-400">code_blocks</span>
+                                    <span class="text-white font-medium"><span class="text-indigo-400 font-bold">React &amp; API</span> Dev</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-cyan-400">verified</span>
+                                    <span class="text-white font-medium"><span class="text-cyan-400 font-bold">Verified</span> Certificate</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- What I'm Learning -->
-                    <div class="p-8 rounded-2xl bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-white/5 shadow-xl hover:shadow-sky-500/10 transition-shadow">
-                        <h3 class="text-xl font-bold mb-6 text-slate-800 dark:text-white flex items-center gap-2">
-                            <span class="material-symbols-outlined text-emerald-400">school</span>
-                            What I'm Currently Learning
-                        </h3>
-                        <ul class="space-y-4">
-                            <li class="flex items-center gap-3 p-3.5 rounded-xl bg-slate-100/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-primary/50 transition-colors">
-                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px]">psychology</span></div>
-                                <span class="font-medium text-slate-700 dark:text-slate-300">Deep Learning &amp; AI</span>
-                            </li>
-                            <li class="flex items-center gap-3 p-3.5 rounded-xl bg-slate-100/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-primary/50 transition-colors">
-                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px]">cloud</span></div>
-                                <span class="font-medium text-slate-700 dark:text-slate-300">Cloud Deployment (AWS)</span>
-                            </li>
-                            <li class="flex items-center gap-3 p-3.5 rounded-xl bg-slate-100/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:border-primary/50 transition-colors">
-                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px]">data_object</span></div>
-                                <span class="font-medium text-slate-700 dark:text-slate-300">Advanced Algorithms</span>
-                            </li>
-                        </ul>
+                    <!-- Experience 2 -->
+                    <div class="relative reveal group">
+                        <!-- Neon Timeline Dot -->
+                        <div class="absolute -left-[41px] md:-left-[57px] top-1 w-5 h-5 bg-[#020617] rounded-full border-[3px] border-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.8)] group-hover:bg-indigo-500 group-hover:scale-125 transition-all duration-300 z-10"></div>
+                        
+                        <div class="bg-[#0f172a]/80 backdrop-blur-md rounded-2xl border border-slate-800 p-8 shadow-xl transform transition-transform duration-300 group-hover:-translate-y-1 group-hover:border-indigo-500/50">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white mb-1">ML Research Assistant</h3>
+                                    <h4 class="text-lg font-medium text-indigo-400">University AI Lab</h4>
+                                </div>
+                                <span class="text-sm font-bold text-indigo-300 bg-indigo-900/30 px-4 py-1.5 rounded-full ring-1 ring-indigo-500/30 w-max">Jan 2022 – Dec 2022</span>
+                            </div>
+                            
+                            <p class="text-slate-400 leading-relaxed mb-6">Conducted deep learning research utilizing PyTorch to build advanced computer vision models for anomaly detection in medical imaging.</p>
+                            
+                            <div class="flex flex-wrap gap-4 pt-6 border-t border-slate-800">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-rose-400">biotech</span>
+                                    <span class="text-white font-medium"><span class="text-rose-400 font-bold">PyTorch</span> Vision</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-emerald-400">bolt</span>
+                                    <span class="text-white font-medium"><span class="text-emerald-400 font-bold">-40%</span> Load Times</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-amber-400">menu_book</span>
+                                    <span class="text-white font-medium"><span class="text-amber-400 font-bold">Co-Authored</span> Paper</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Technology Ecosystem (Infinite Marquee) -->
+        <section id="tech-ecosystem" class="w-full py-20 bg-slate-50 dark:bg-[#020617] border-y border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="mb-12 text-center reveal">
+                <span class="mb-2 text-sm font-black uppercase tracking-widest text-cyan-500 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">terminal</span> Toolkit
+                </span>
+                <h2 class="text-3xl font-black text-slate-800 dark:text-white sm:text-4xl">Technology <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Ecosystem</span></h2>
+            </div>
+            
+            <style>
+                @keyframes marquee {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                @keyframes marquee-reverse {
+                    0% { transform: translateX(-50%); }
+                    100% { transform: translateX(0); }
+                }
+                .animate-marquee {
+                    animation: marquee 35s linear infinite;
+                    width: max-content;
+                }
+                .animate-marquee-reverse {
+                    animation: marquee-reverse 40s linear infinite;
+                    width: max-content;
+                }
+            </style>
+            
+            <div class="relative w-full flex flex-col gap-6 group">
+                <!-- Fade Gradients -->
+                <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-slate-50 to-transparent dark:from-[#020617] z-10 pointer-events-none"></div>
+                <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-slate-50 to-transparent dark:from-[#020617] z-10 pointer-events-none"></div>
+                
+                <!-- Marquee Row 1 (Right to Left) -->
+                <div class="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
+                    <div class="flex gap-4 px-4 items-center">
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-cyan-500 hover:text-cyan-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" class="w-5 h-5" alt="Python"/> Python</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-yellow-500 hover:text-yellow-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="w-5 h-5" alt="JS"/> JavaScript</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-blue-500 hover:text-blue-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" class="w-5 h-5" alt="TS"/> TypeScript</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-sky-500 hover:text-sky-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" class="w-5 h-5" alt="React"/> React.js</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-emerald-500 hover:text-emerald-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" class="w-5 h-5" alt="Node"/> Node.js</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-green-600 hover:text-green-600 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" class="w-5 h-5" alt="Mongo"/> MongoDB</span>
+                    </div>
+                    <!-- Duplicate for infinite effect -->
+                    <div class="flex gap-4 px-4 items-center">
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-cyan-500 hover:text-cyan-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" class="w-5 h-5" alt="Python"/> Python</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-yellow-500 hover:text-yellow-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="w-5 h-5" alt="JS"/> JavaScript</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-blue-500 hover:text-blue-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" class="w-5 h-5" alt="TS"/> TypeScript</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-sky-500 hover:text-sky-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" class="w-5 h-5" alt="React"/> React.js</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-emerald-500 hover:text-emerald-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" class="w-5 h-5" alt="Node"/> Node.js</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-green-600 hover:text-green-600 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" class="w-5 h-5" alt="Mongo"/> MongoDB</span>
                     </div>
                 </div>
+
+                <!-- Marquee Row 2 (Left to Right) -->
+                <div class="flex whitespace-nowrap animate-marquee-reverse group-hover:[animation-play-state:paused]">
+                    <div class="flex gap-4 px-4 items-center">
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-orange-500 hover:text-orange-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" class="w-5 h-5" alt="PyTorch"/> PyTorch</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-orange-400 hover:text-orange-400 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" class="w-5 h-5" alt="TF"/> TensorFlow</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-sky-400 hover:text-sky-400 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" class="w-5 h-5" alt="Tailwind"/> Tailwind CSS</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-blue-500 hover:text-blue-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" class="w-5 h-5" alt="Postgres"/> PostgreSQL</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-blue-600 hover:text-blue-600 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" class="w-5 h-5" alt="Docker"/> Docker</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="w-5 h-5" alt="Git"/> Git</span>
+                    </div>
+                    <!-- Duplicate for infinite effect -->
+                    <div class="flex gap-4 px-4 items-center">
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-orange-500 hover:text-orange-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" class="w-5 h-5" alt="PyTorch"/> PyTorch</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-orange-400 hover:text-orange-400 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" class="w-5 h-5" alt="TF"/> TensorFlow</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-sky-400 hover:text-sky-400 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" class="w-5 h-5" alt="Tailwind"/> Tailwind CSS</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-blue-500 hover:text-blue-500 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" class="w-5 h-5" alt="Postgres"/> PostgreSQL</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-blue-600 hover:text-blue-600 transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" class="w-5 h-5" alt="Docker"/> Docker</span>
+                        <span class="px-6 py-3 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-full font-bold text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-2 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white transition-colors"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="w-5 h-5" alt="Git"/> Git</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
 
             </div>
         <!-- Featured Projects Section -->
@@ -1180,7 +938,7 @@
 
                     <!-- Project 1: StrokeGuard.ai -->
                     <a href="projects.html"
-                        class="reveal group relative flex flex-col bg-white dark:bg-[#1c2333] rounded-xl border border-gray-200 dark:border-[#283045] overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 h-full">
+                        class="reveal shimmer-border zoom-container group relative flex flex-col bg-white dark:bg-[#1c2333] rounded-xl border border-gray-200 dark:border-[#283045] overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 h-full">
                         <div class="w-full h-48 bg-gradient-to-br from-red-900 to-red-700 relative overflow-hidden shrink-0 flex items-center justify-center">
                             <span class="material-symbols-outlined text-white/20 text-[120px]">monitor_heart</span>
                             <div class="absolute bottom-4 left-4">
@@ -1200,7 +958,7 @@
 
                     <!-- Project 2: AgriSathi -->
                     <a href="projects.html"
-                        class="reveal group relative flex flex-col bg-white dark:bg-[#1c2333] rounded-xl border border-gray-200 dark:border-[#283045] overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 h-full"
+                        class="reveal shimmer-border zoom-container group relative flex flex-col bg-white dark:bg-[#1c2333] rounded-xl border border-gray-200 dark:border-[#283045] overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 h-full"
                         style="transition-delay: 100ms;">
                         <div class="w-full h-48 bg-gradient-to-br from-green-900 to-emerald-700 relative overflow-hidden shrink-0 flex items-center justify-center">
                             <span class="material-symbols-outlined text-white/20 text-[120px]">eco</span>
@@ -1221,7 +979,7 @@
 
                     <!-- Project 3: Hospital Management -->
                     <a href="projects.html"
-                        class="reveal group relative flex flex-col bg-white dark:bg-[#1c2333] rounded-xl border border-gray-200 dark:border-[#283045] overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 h-full"
+                        class="reveal shimmer-border zoom-container group relative flex flex-col bg-white dark:bg-[#1c2333] rounded-xl border border-gray-200 dark:border-[#283045] overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-2 h-full"
                         style="transition-delay: 200ms;">
                         <div class="w-full h-48 bg-gradient-to-br from-fuchsia-900 to-purple-700 relative overflow-hidden shrink-0 flex items-center justify-center">
                             <span class="material-symbols-outlined text-white/20 text-[120px]">local_hospital</span>
@@ -1251,91 +1009,23 @@
             </div>
         </section>
 
-        <!-- Try My Project Interactive ML Demo Sandbox -->
-        <section class="w-full px-4 sm:px-10 py-16 bg-slate-50 dark:bg-[#0b1120] border-t border-slate-200 dark:border-slate-800">
-            <div class="mx-auto max-w-7xl reveal">
-                <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-8 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">biotech</span>
-                    Try My ML Project
-                </h2>
-                <!-- Interactive Form -->
-                <div class="p-8 rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col md:flex-row gap-8">
-                    <div class="flex-1 space-y-6">
-                        <div>
-                            <h3 class="font-bold text-xl text-slate-800 dark:text-slate-100">Heart Disease Predictor (Live Simulation)</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Enter sample metrics to test the simulated Logistic Regression classification model running completely in your browser.</p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <input type="number" id="demo-age" placeholder="Age (e.g., 45)" class="w-full rounded-xl border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0f172a] px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary shadow-sm outline-none transition-shadow text-slate-800 dark:text-slate-200">
-                            <input type="number" id="demo-bp" placeholder="Resting BP (e.g., 120)" class="w-full rounded-xl border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0f172a] px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary shadow-sm outline-none transition-shadow text-slate-800 dark:text-slate-200">
-                        </div>
-                        <button onclick="runMLDemo()" class="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-xl py-3 hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/30 transition-all font-display text-lg tracking-wide">Execute Prediction</button>
-                    </div>
-                    <div class="flex-1 rounded-xl bg-slate-900 shadow-inner p-8 flex flex-col justify-center items-center text-center relative overflow-hidden group border border-slate-800">
-                        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent mix-blend-overlay"></div>
-                        <span class="material-symbols-outlined text-5xl text-slate-600 mb-4 transition-colors" id="demo-icon">monitor_heart</span>
-                        <p class="text-slate-400 font-mono text-sm uppercase tracking-widest" id="demo-output">Awaiting telemetry data...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Professional Journey Timeline -->
-        <section id="journey" class="w-full px-4 sm:px-10 py-16 bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800">
-            <div class="mx-auto max-w-4xl reveal">
-                <h2 class="text-3xl font-bold mb-12 text-center text-slate-800 dark:text-white flex items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-primary">route</span>
-                    My Professional Journey
-                </h2>
-                <div class="relative border-l-2 border-primary/30 pl-8 ml-4 md:ml-0 space-y-12">
-                    <div class="relative group cursor-default">
-                        <span class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-primary ring-4 ring-white dark:ring-[#0f172a] group-hover:scale-125 transition-transform shadow-[0_0_10px_#0ea5e9]"></span>
-                        <span class="text-sm font-bold text-primary tracking-widest font-mono">2023</span>
-                        <h3 class="font-bold text-xl mt-1 text-slate-800 dark:text-slate-100 group-hover:text-primary transition-colors">Discovered Programming</h3>
-                        <p class="text-slate-600 dark:text-slate-400 text-base mt-2 leading-relaxed">Wrote my first line of code and discovered a profound passion for computational problem solving and algorithmic thinking.</p>
-                    </div>
-                    <div class="relative group cursor-default">
-                        <span class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-primary ring-4 ring-white dark:ring-[#0f172a] group-hover:scale-125 transition-transform shadow-[0_0_10px_#0ea5e9]"></span>
-                        <span class="text-sm font-bold text-primary tracking-widest font-mono">2024</span>
-                        <h3 class="font-bold text-xl mt-1 text-slate-800 dark:text-slate-100 group-hover:text-primary transition-colors">Mastered Python &amp; ML Foundations</h3>
-                        <p class="text-slate-600 dark:text-slate-400 text-base mt-2 leading-relaxed">Deep-dived into data structures, Numpy, and Pandas. Trained my first Scikit-Learn models and solidified my mathematical foundation.</p>
-                    </div>
-                    <div class="relative group cursor-default">
-                        <span class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-primary ring-4 ring-white dark:ring-[#0f172a] group-hover:scale-125 transition-transform shadow-[0_0_10px_#0ea5e9]"></span>
-                        <span class="text-sm font-bold text-primary tracking-widest font-mono">2025</span>
-                        <h3 class="font-bold text-xl mt-1 text-slate-800 dark:text-slate-100 group-hover:text-primary transition-colors">Built Enterprise-Grade Architectures</h3>
-                        <p class="text-slate-600 dark:text-slate-400 text-base mt-2 leading-relaxed">Developed complex systems like the Heart Disease Predictor and Smart Parking IoT modules, focusing on robust full-stack deployments.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Certificate Generator -->
-        <section class="w-full px-4 sm:px-10 py-24 bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#1e293b] border-t border-slate-800 text-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent pointer-events-none"></div>
+        <!-- Open to Opportunities CTA -->
+        <section id="contact" class="w-full px-4 sm:px-10 py-24 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 border-t border-slate-800 text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none"></div>
             <div class="mx-auto max-w-2xl reveal relative z-10 flex flex-col items-center">
-                <div class="w-24 h-24 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(234,179,8,0.3)] border border-yellow-500/20">
-                    <span class="material-symbols-outlined text-yellow-400 text-5xl">military_tech</span>
+                <div class="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(59,130,246,0.3)] border border-blue-500/30 text-blue-400">
+                    <span class="material-symbols-outlined text-4xl">handshake</span>
                 </div>
-                <h2 class="text-3xl md:text-5xl font-black text-white mb-6 font-display tracking-tight">System Explored. <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500">Journey Complete.</span></h2>
-                <p class="text-slate-400 mb-10 text-lg max-w-lg text-center mx-auto leading-relaxed">You have successfully navigated the core modules of this portfolio operating system. Establish proof of your visit.</p>
-                <div id="cert-container" class="hidden w-full max-w-lg aspect-[1.414/1] bg-white rounded-lg shadow-2xl p-8 flex flex-col items-center justify-center text-slate-900 mb-10 transform scale-0 transition-transform origin-center border-8 border-slate-100 relative">
-                    <div class="absolute inset-0 border-2 border-slate-300 m-2 pointer-events-none"></div>
-                    <span class="material-symbols-outlined text-5xl text-yellow-500 mb-4">gpp_good</span>
-                    <h1 class="text-2xl font-black font-serif uppercase tracking-widest text-[#1e293b] border-b-2 border-slate-200 pb-2 mb-4 w-full text-center">Certificate of Completion</h1>
-                    <p class="text-sm text-slate-500 italic mb-2">This certifies that</p>
-                    <h2 class="text-xl font-bold text-primary mb-2 border-b border-primary/30 px-8">Honorable Guest</h2>
-                    <p class="text-xs text-slate-600 text-center max-w-[80%] leading-relaxed mb-6">Has successfully explored all technical modules, algorithms, and interactive interfaces within the Navari Yashwanth Reddy Portfolio System.</p>
-                    <div class="w-full flex justify-between px-8 text-[10px] uppercase font-bold text-slate-400">
-                        <div class="text-center"><div class="border-b border-slate-300 w-24 mb-1 h-4"></div>Date: <span id="cert-date"></span></div>
-                        <div class="text-center"><div class="font-[signature] text-lg text-slate-800 border-b border-slate-300 w-24 leading-none h-4">NYR</div>Signature</div>
-                    </div>
+                <h2 class="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">Open to <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Opportunities</span></h2>
+                <p class="text-slate-300 mb-10 text-lg max-w-lg mx-auto leading-relaxed">Currently looking for new roles where I can contribute to impactful projects, solve challenging problems, and grow alongside a talented team.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="mailto:yashwanthnavari@example.com" class="px-8 py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-100 transition-colors shadow-lg flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-xl">mail</span> Get In Touch
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="px-8 py-4 bg-transparent border-2 border-white/20 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-xl">link</span> Connect on LinkedIn
+                    </a>
                 </div>
-                <button onclick="generateCertificate()" id="cert-btn" class="group relative px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black rounded-2xl transition-all hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,179,8,0.4)] flex items-center gap-3 overflow-hidden">
-                    <div class="absolute inset-0 w-full h-[200%] bg-white/30 -translate-x-[150%] skew-x-12 group-hover:animate-[shimmer_2s_infinite]"></div>
-                    <span class="relative z-10 uppercase tracking-widest text-sm">Claim Official Certificate</span>
-                </button>
             </div>
         </section>
 
@@ -1436,6 +1126,156 @@
         </div>
     </dialog>
 
+        <!-- Featured Insights (Blog Teaser) -->
+        <section id="featured-insights" class="w-full relative py-24 px-6 sm:px-10 bg-slate-50 dark:bg-[#020617] overflow-hidden">
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="flex justify-between items-end mb-12 reveal">
+                    <div>
+                        <span class="mb-2 text-sm font-black uppercase tracking-widest text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">article</span> Intellectual Property
+                        </span>
+                        <h2 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white font-display">
+                            Featured <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">Insights</span>
+                        </h2>
+                    </div>
+                    <a href="blog.html" class="hidden sm:flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-bold group">
+                        Read All Articles <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 card-stagger-group">
+                    <!-- Article 1 -->
+                    <a href="blog.html" class="group stagger-card relative rounded-3xl overflow-hidden bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+                        <div class="h-60 w-full overflow-hidden relative">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a]/90 to-transparent z-10"></div>
+                            <img src="images/certs/patent.jpg" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop'" alt="IoT Patent" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute bottom-4 left-6 z-20">
+                                <span class="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-amber-500 text-white rounded-full shadow-lg">Hardware & IoT</span>
+                            </div>
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary transition-colors font-display leading-snug">The Journey to a Design Patent: Building an IoT Connectivity Device</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">An inside look at the problem-solving, architectural design, and ultimate recognition by the Government of India for hardware innovation.</p>
+                            <div class="flex items-center text-sm font-bold text-primary mt-auto">
+                                Read Case Study <span class="material-symbols-outlined ml-1 text-lg group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Article 2 -->
+                    <a href="blog.html" class="group stagger-card relative rounded-3xl overflow-hidden bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+                        <div class="h-60 w-full overflow-hidden relative bg-slate-100 dark:bg-[#1e293b]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a]/90 to-transparent z-10"></div>
+                            <div class="w-full h-full bg-gradient-to-br from-indigo-900 to-primary flex items-center justify-center transform group-hover:scale-105 transition-transform duration-700">
+                                <span class="material-symbols-outlined text-white/20 text-[100px]">hub</span>
+                            </div>
+                            <div class="absolute bottom-4 left-6 z-20">
+                                <span class="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-emerald-500 text-white rounded-full shadow-lg">AI & Machine Learning</span>
+                            </div>
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary transition-colors font-display leading-snug">Behind the Architecture of NeuroVision</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">Breaking down the deep learning models, data pipeline strategies, and low-latency optimizations used to build my computer vision platform.</p>
+                            <div class="flex items-center text-sm font-bold text-primary mt-auto">
+                                Read Technical Deep Dive <span class="material-symbols-outlined ml-1 text-lg group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="mt-8 text-center sm:hidden">
+                    <a href="blog.html" class="inline-flex items-center gap-2 text-primary font-bold">
+                        View All Articles <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Endorsements & Impact -->
+        <section id="endorsements" class="w-full relative py-24 px-6 sm:px-10 bg-slate-100/50 dark:bg-[#0a0f1c] border-t border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="max-w-6xl mx-auto relative z-10 reveal">
+                <div class="text-center mb-16">
+                    <span class="mb-2 text-sm font-black uppercase tracking-widest text-emerald-500 flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">verified_user</span> Professional Impact
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white font-display">
+                        Endorsements & <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500">Trust</span>
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all relative group">
+                        <span class="material-symbols-outlined absolute top-6 right-6 text-5xl text-slate-200 dark:text-slate-800 rotate-180">format_quote</span>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 font-black text-xl">IAF</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 dark:text-white leading-tight">InAmigos Foundation</h4>
+                                <p class="text-xs text-slate-500">Engineering Internship Board</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed relative z-10">
+                            "Yashwanth consistently delivered production-ready code. His ability to integrate complex AI models into clean, responsive React interfaces drastically accelerated our project timelines."
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all relative group transform md:-translate-y-4">
+                        <span class="material-symbols-outlined absolute top-6 right-6 text-5xl text-slate-200 dark:text-slate-800 rotate-180">format_quote</span>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 font-black text-xl">Wox</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 dark:text-white leading-tight">Woxsen University</h4>
+                                <p class="text-xs text-slate-500">Faculty of Data Science</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed relative z-10">
+                            "A highly motivated researcher and developer. His work on the IoT Design Patent showcases a rare blend of hardware understanding and software architecture."
+                        </p>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all relative group">
+                        <span class="material-symbols-outlined absolute top-6 right-6 text-5xl text-slate-200 dark:text-slate-800 rotate-180">format_quote</span>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500 font-black text-xl">GOI</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 dark:text-white leading-tight">Govt. of India</h4>
+                                <p class="text-xs text-slate-500">Patent Office</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed relative z-10 flex flex-col items-center text-center justify-center h-[100px]">
+                            <span class="material-symbols-outlined text-amber-500 text-3xl mb-2">workspace_premium</span>
+                            <span class="font-bold text-amber-600 dark:text-amber-500">Official Design Patent</span>
+                            <span class="text-xs mt-1">#470097-001 Granted</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grand Call To Action -->
+        <section id="grand-cta" class="w-full relative py-32 px-6 sm:px-10 bg-[#020617] border-t border-slate-800 overflow-hidden">
+            <!-- Massive Glowing Orbs -->
+            <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full pointer-events-none"></div>
+            <div class="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/20 blur-[150px] rounded-full pointer-events-none"></div>
+            
+            <div class="max-w-4xl mx-auto relative z-10 text-center reveal">
+                <h2 class="text-5xl sm:text-7xl font-black text-white font-display leading-[1.1] mb-6 tracking-tight">
+                    Ready to build something <br class="hidden sm:block"/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-emerald-400">extraordinary?</span>
+                </h2>
+                <p class="text-xl text-slate-400 mb-12 max-w-2xl mx-auto font-body">
+                    Whether you're looking for a dedicated software engineer, an AI consultant, or a technical partner, let's turn your vision into reality.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <a href="contact.html" class="group relative px-10 py-5 rounded-2xl bg-white text-slate-900 font-black text-lg shadow-[0_0_50px_rgba(255,255,255,0.2)] hover:shadow-[0_0_80px_rgba(255,255,255,0.4)] hover:-translate-y-2 transition-all duration-300 flex items-center justify-center gap-3 overflow-hidden w-full sm:w-auto">
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-slate-200/80 to-transparent -translate-x-[150%] group-hover:animate-[shimmerSweep_1.5s_infinite]"></div>
+                        Let's Collaborate <span class="material-symbols-outlined text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">rocket_launch</span>
+                    </a>
+                    <a href="resume.html" class="px-10 py-5 rounded-2xl bg-[#0f172a] border-2 border-slate-700 hover:border-slate-500 text-white font-bold text-lg hover:-translate-y-2 transition-all duration-300 flex items-center justify-center gap-3 w-full sm:w-auto">
+                        View Resume <span class="material-symbols-outlined">description</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="w-full px-4 sm:px-10 py-10 mt-auto">
             <div
@@ -1513,306 +1353,25 @@
         });
     </script>
     <script>
-        // --- Code IDE Sandbox Logic ---
-        document.getElementById('live-code-editor').value = `// Welcome to the Yashwanth Kernel
-const portfolioScore = 98;
-const hireStatus = "Immediate";
-
-function evaluateMatch() {
-    if (portfolioScore > 90) {
-        return "Perfect Match Found: Recommend immediate interview.";
-    }
-    return "Still reviewing...";
-}
-
-console.log("Evaluation Result: " + evaluateMatch());
-console.log("Hire Status: " + hireStatus);
-console.log("System Ready.");`;
-            
-        function runCodeSimulator() {
-            const code = document.getElementById('live-code-editor').value;
-            const out = document.getElementById('live-code-output');
-            out.innerHTML = "";
-            
-            // Override console.log
-            const originalLog = console.log;
-            console.log = function(...args) {
-                out.innerHTML += "<span class='text-blue-400'>~</span> " + args.join(" ") + "<br>";
-                originalLog.apply(console, args);
-            };
-            
-            try {
-                // Execute code safely purely on client side
-                new Function(code)();
-                out.innerHTML += "<br><span class='text-emerald-500 text-xs font-bold'>> Execution completed 0ms.</span>";
-            } catch(e) {
-                out.innerHTML += "<span class='text-red-500 bg-red-500/10 p-1 rounded inline-block w-full'>" + e + "</span>";
-            }
-            
-            // Restore console
-            console.log = originalLog;
-        }
-
-        // --- Draggable OS Window Logic ---
-        function makeDraggable(element, handle) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            if (handle) {
-                handle.onmousedown = dragMouseDown;
-            } else {
-                element.onmousedown = dragMouseDown;
-            }
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                element.style.top = (element.offsetTop - pos2) + "px";
-                element.style.left = (element.offsetLeft - pos1) + "px";
-                element.style.bottom = "auto";
-                element.style.right = "auto";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
-        }
-        
-        // Wait for elements to exist and attach dragging to chat
-        setTimeout(() => {
-            const chatWindow = document.getElementById('ai-chat');
-            const chatHeader = chatWindow ? chatWindow.querySelector('.bg-gradient-to-r') : null;
-            if (chatWindow && chatHeader) {
-                chatHeader.style.cursor = "move";
-                makeDraggable(chatWindow, chatHeader);
-            }
-            
-            const termWindow = document.getElementById('terminal-widget');
-            const termHeader = document.getElementById('terminal-header');
-            if (termWindow && termHeader) {
-                makeDraggable(termWindow, termHeader);
-            }
-        }, 1000);
-
-        // --- Gamification & Final Features ---
-        // 1. AI Loading Messages
-        const aiMessages = [
-            "Analyzing portfolio metrics...",
-            "Loading algorithmic projects...",
-            "Assembling skill matrix...",
-            "Optimizing user experience...",
-            "Launching system..."
-        ];
-        let msgIndex = 0;
-        const msgEl = document.querySelector('#preloader-message div');
-        if(msgEl) {
-            const cycle = setInterval(() => {
-                msgIndex = (msgIndex + 1) % aiMessages.length;
-                msgEl.innerText = aiMessages[msgIndex];
-            }, 800);
-            window.addEventListener('load', () => clearInterval(cycle));
-        }
-
-        // 2. RPG Level System & Achievements
-        let userLvl = 1;
-        let unlockedBadges = new Set();
-        function showToast(icon, title, desc) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = "flex items-center gap-3 bg-slate-900 border border-slate-700 p-4 rounded-xl shadow-2xl text-white transform translate-y-10 opacity-0 transition-all duration-500 scale-95";
-            toast.innerHTML = `
-                <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center border border-yellow-500/30 text-yellow-400 shrink-0">
-                    <span class="material-symbols-outlined text-xl">${icon}</span>
-                </div>
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-widest text-yellow-500 mb-0.5">${title}</h4>
-                    <p class="text-xs text-slate-300 leading-tight">${desc}</p>
-                </div>
-            `;
-            container.appendChild(toast);
-            
-            setTimeout(() => toast.classList.remove('translate-y-10', 'opacity-0', 'scale-95'), 50);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'scale-95');
-                setTimeout(() => toast.remove(), 500);
-            }, 4000);
-            
-            userLvl++;
-            const lvlEl = document.getElementById('user-level');
-            if(lvlEl) lvlEl.innerText = userLvl;
-        }
-
-        window.addEventListener('scroll', () => {
-            const scrollP = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-            if (scrollP > 0.25 && !unlockedBadges.has('explorer')) {
-                unlockedBadges.add('explorer');
-                showToast('explore', 'Explorer Badge', 'You started traversing the system.');
-            }
-            if (scrollP > 0.60 && !unlockedBadges.has('scholar')) {
-                unlockedBadges.add('scholar');
-                showToast('school', 'Scholar Badge', 'You reviewed the project architectures.');
-            }
-            if (scrollP > 0.95 && !unlockedBadges.has('master')) {
-                unlockedBadges.add('master');
-                showToast('military_tech', 'Master Badge', 'You reached the end of the journey!');
-            }
-        });
-
-        // 3. Compare Yourself Tool
-        window.compareMatch = function() {
-            const val = document.getElementById('compare-skill').value.toLowerCase();
-            const res = document.getElementById('compare-result');
-            if(!val) return;
-            res.classList.remove('hidden');
-            res.classList.add('animate-fade-in');
-            
-            if(val.includes('machine learning') || val.includes('python') || val.includes('data')) {
-                res.innerHTML = "🔥 99% Match! We both speak the language of Data and AI.";
-            } else if(val.includes('react') || val.includes('web') || val.includes('js') || val.includes('html')) {
-                res.innerHTML = "⚡ 95% Match! Frontend is where logic meets design. Perfect synergy.";
-            } else if(val.includes('backend') || val.includes('node') || val.includes('java')) {
-                res.innerHTML = "⚙️ 90% Match! I love building robust systems. Let's scale together.";
-            } else {
-                res.innerHTML = "💡 85% Match! Diverse skillsets create the strongest teams!";
-            }
-        };
-
-        // 4. Portfolio Completion Certificate
-        window.generateCertificate = function() {
-            const btn = document.getElementById('cert-btn');
-            const container = document.getElementById('cert-container');
-            const dateEl = document.getElementById('cert-date');
-            
-            btn.style.display = 'none';
-            container.classList.remove('hidden');
-            dateEl.innerText = new Date().toLocaleDateString();
-            
-            setTimeout(() => container.classList.remove('scale-0'), 50);
-        };
-
-    </script>
-    <script>
         // Preloader Logic
         window.addEventListener('load', () => {
             setTimeout(() => {
-                document.getElementById('preloader').classList.add('preloader-hidden');
-            }, 600); // Minimum time to show the loader gracefully
-        });
-
-        // Resume Download Logic
-        function triggerResumeDownload(btn) {
-            const progress = document.getElementById('resume-progress');
-            const text = btn.querySelector('.btn-text');
-            const icon = btn.querySelector('.material-symbols-outlined');
-            
-            // Start fake download animation
-            text.innerText = "Downloading...";
-            icon.innerText = "sync";
-            icon.classList.add("animate-spin");
-            progress.style.transform = "scaleX(1)";
-
-            setTimeout(() => {
-                // Done
-                text.innerText = "Downloaded!";
-                icon.classList.remove("animate-spin");
-                icon.innerText = "check_circle";
-                
-                // Actual file trigger here (fallback to opening resume.html or a PDF)
-                const link = document.createElement('a');
-                link.href = 'resume.html';
-                link.download = 'Navari_Yashwanth_Resume.pdf'; // If they actually put a PDF here
-                link.click();
-                
-                // Reset after 3 seconds
-                setTimeout(() => {
-                    progress.style.transform = "scaleX(0)";
-                    progress.style.transitionDuration = "0s";
-                    text.innerText = "Download Resume";
-                    icon.innerText = "download";
-                    setTimeout(() => progress.style.transitionDuration = "2000ms", 100);
-                }, 3000);
-            }, 2000);
-        }
-
-        // --- Topper Level Static Tricks --- 
-        // 1. LocalStorage Visitor Counter
-        let visits = localStorage.getItem("visits") || 1420;
-        visits++;
-        localStorage.setItem("visits", visits);
-        const visitors = document.querySelectorAll("#visitor-count, #profile-views, .visitor-counter-global");
-        visitors.forEach(v => v.innerText = visits.toLocaleString());
-
-        // 2. Fun Fact Generator
-        const facts = [
-            "I write code mostly while listening to lo-fi synthwave.",
-            "I successfully built a working ML model in a 24-hour hackathon.",
-            "My favorite data structure is the classic Hash Map.",
-            "I enjoy optimizing algorithms for O(1) time complexity.",
-            "I drink precisely 3 cups of coffee per 1,000 lines of code."
-        ];
-        function generateFunFact() {
-            const factEl = document.getElementById("fun-fact-text");
-            factEl.style.opacity = 0;
-            setTimeout(() => {
-                factEl.innerText = '💡 ' + facts[Math.floor(Math.random() * facts.length)];
-                factEl.style.opacity = 1;
-            }, 200);
-        }
-
-        // 3. Try My Project ML Demo Simulation
-        function runMLDemo() {
-            const output = document.getElementById("demo-output");
-            const icon = document.getElementById("demo-icon");
-            const age = parseInt(document.getElementById("demo-age").value) || 0;
-            const bp = parseInt(document.getElementById("demo-bp").value) || 0;
-            
-            if (age === 0 || bp === 0) {
-                output.innerText = "ERROR: Awaiting valid numeric constraints.";
-                output.className = "text-yellow-400 font-mono text-sm uppercase tracking-widest";
-                icon.innerText = "warning";
-                icon.className = "material-symbols-outlined text-5xl text-yellow-500 mb-4";
-                return;
-            }
-
-            output.innerText = "Analyzing neural weights & compiling logic...";
-            icon.classList.add("animate-pulse", "text-primary");
-            icon.innerText = "sync";
-            output.className = "text-primary font-mono text-sm uppercase tracking-widest";
-
-            setTimeout(() => {
-                icon.classList.remove("animate-pulse");
-                if (age > 60 && bp > 140) {
-                    output.innerText = "Prediction Return: High Risk (Prob: 87.4%)";
-                    output.className = "text-red-400 font-mono text-sm uppercase font-bold tracking-widest";
-                    icon.innerText = "ecg_heart";
-                    icon.className = "material-symbols-outlined text-5xl text-red-500 mb-4 animate-bounce";
-                } else {
-                    output.innerText = "Prediction Return: Low Risk (Prob: 12.1%)";
-                    output.className = "text-emerald-400 font-mono text-sm uppercase font-bold tracking-widest";
-                    icon.innerText = "health_and_safety";
-                    icon.className = "material-symbols-outlined text-5xl text-emerald-500 mb-4";
+                const preloader = document.getElementById('preloader');
+                if (preloader) {
+                    preloader.classList.add('preloader-hidden');
+                    setTimeout(() => { preloader.style.display = 'none'; }, 800);
                 }
-            }, 1800);
-        }
+            }, 2800); // Wait for the text animation to finish
+        });
     </script>
+    <script src="js/premium-animations.js"></script>
     <script src="js/interactions.js"></script>
     <script src="js/palette.js"></script>
     <script src="js/globe.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="js/project-modal.js"></script>
     <script src="js/3d-carousel.js"></script>
+    <script src="js/github-activity-widget.js" defer></script>
 </body>
 
 </html>

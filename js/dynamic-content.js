@@ -315,34 +315,38 @@ function loadCertifications() {
 
         certs.forEach(cert => {
             const html = `
-            <div class="group relative flex flex-col overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-surface-dark transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
-                <div class="relative h-40 w-full overflow-hidden bg-gray-100">
-                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20"></div>
-                    <img alt="${cert.title}"
-                        class="h-full w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
-                        src="${cert.image}" />
-                    <div class="absolute top-3 left-3 rounded-md bg-white/90 px-2 py-1 text-xs font-bold text-primary shadow-sm backdrop-blur-sm">
+            <div class="group relative flex flex-col overflow-hidden rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-lg transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-2">
+                <div class="relative h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-950 p-4 pb-0">
+                    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+                    <div class="relative w-full h-full rounded-t-xl overflow-hidden shadow-lg border-x border-t border-slate-200 dark:border-slate-800 z-10 group-hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-1">
+                        <img alt="${cert.title}"
+                            class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            src="${cert.image}" />
+                    </div>
+                    <div class="absolute top-6 left-6 rounded-lg bg-white/90 dark:bg-slate-900/90 px-3 py-1.5 text-[10px] font-black tracking-widest uppercase text-primary shadow-lg backdrop-blur-md z-20 border border-white/20 dark:border-slate-700">
                         ${cert.category}
                     </div>
                 </div>
-                <div class="flex flex-1 flex-col p-5">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
-                             ${new Date(cert.createdAt).toLocaleDateString()}
+                <div class="flex flex-1 flex-col p-6 sm:p-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                             ${new Date(cert.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
                         </span>
-                        <span class="material-symbols-outlined text-green-500 text-lg" title="Verified">verified</span>
+                        <div class="flex items-center justify-center size-6 rounded-full bg-emerald-500/10 text-emerald-500">
+                            <span class="material-symbols-outlined text-[14px]" title="Verified">verified</span>
+                        </div>
                     </div>
-                    <h3 class="text-lg font-bold text-[#111318] dark:text-white mb-2 group-hover:text-primary transition-colors">
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white leading-tight mb-3 group-hover:text-primary transition-colors">
                         ${cert.title}
                     </h3>
-                    <p class="text-sm text-[#616f89] dark:text-gray-400 mb-4 line-clamp-2">
+                    <p class="text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed flex-grow">
                         ${cert.description}
                     </p>
-                    <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                        <span class="text-xs font-medium text-gray-500">ID: CUSTOM-${cert.id}</span>
-                        <a class="text-sm font-semibold text-primary hover:underline flex items-center gap-1"
+                    <div class="mt-auto pt-5 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">ID: C-${cert.id.toString().padStart(3, '0')}</span>
+                        <a class="text-sm font-black text-primary hover:text-primary-dark transition-colors flex items-center gap-1 group/link"
                             href="${cert.link}" target="_blank">
-                            View Credential <span class="material-symbols-outlined text-sm">open_in_new</span>
+                            Verify <span class="material-symbols-outlined text-[16px] group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform">arrow_outward</span>
                         </a>
                     </div>
                 </div>

@@ -135,9 +135,10 @@ function initBackgroundAnimation() {
 
     const ctx = canvas.getContext('2d');
     let width, height;
-    let particles = [];
+    let nodes = [];
+    let pulses = [];
     
-    // Mouse tracking for parallax
+    // Mouse tracking for parallax and hover interaction
     let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     let targetMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
@@ -150,140 +151,173 @@ function initBackgroundAnimation() {
     function resize() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
+        initNodes(); // Re-initialize to fit new screen size
     }
 
     window.addEventListener('resize', resize);
-    resize();
 
-    // Geometric Shard Class (Wireframes)
-    class Shard {
-        constructor() {
+    function getThemeColors() {
+        const style = getComputedStyle(document.documentElement);
+        return {
+            primary: style.getPropertyValue('--main-color').trim() || '#0ea5e9',
+            secondary: style.getPropertyValue('--secondary-color').trim() || '#2563eb',
+            isDark: document.documentElement.classList.contains('dark')
+        };
+    }
+
+    class Node {
+        constructor(id) {
+            this.id = id;
             this.x = Math.random() * width;
             this.y = Math.random() * height;
-            
-            // Depth/paralax layer (1 is back, 3 is front)
-            this.z = Math.random() * 2 + 1; 
-            
-            this.vx = ((Math.random() - 0.5) * 0.3) / this.z;
-            this.vy = ((Math.random() - 0.5) * 0.3) / this.z;
-            
-            this.size = (Math.random() * 40 + 10) / this.z;
-            this.rotation = Math.random() * Math.PI * 2;
-            this.rotSpeed = (Math.random() - 0.5) * 0.01;
-            
-            this.opacity = (Math.random() * 0.2 + 0.05) / this.z; 
-            this.vertices = Math.floor(Math.random() * 4) + 3; // 3 to 6 sides
-            
-            // Generate irregular polygon points
-            this.points = [];
-            for (let i = 0; i < this.vertices; i++) {
-                const angle = (i / this.vertices) * Math.PI * 2 + (Math.random() * 0.5);
-                const r = this.size * (0.4 + Math.random() * 0.6); // Irregular radius
-                this.points.push({ x: Math.cos(angle) * r, y: Math.sin(angle) * r });
-            }
+            this.z = Math.random() * 2 + 1; // Depth for parallax
+            this.vx = (Math.random() - 0.5) * 0.4;
+            this.vy = (Math.random() - 0.5) * 0.4;
+            this.radius = Math.random() * 2 + 1;
+            this.connections = [];
         }
 
         update() {
             this.x += this.vx;
             this.y += this.vy;
-            this.rotation += this.rotSpeed;
 
-            // Subtle Parallax calculation (move slightly away from mouse center)
+            // Parallax movement
             const dx = mouse.x - (width / 2);
             const dy = mouse.y - (height / 2);
-            
-            // Apply parallax based on z-depth
-            const parallaxX = this.x - (dx * 0.01) / this.z;
-            const parallaxY = this.y - (dy * 0.01) / this.z;
+            this.renderX = this.x - (dx * 0.02) / this.z;
+            this.renderY = this.y - (dy * 0.02) / this.z;
 
-            // Wrap around screen
-            if (this.x < -100) this.x = width + 100;
-            if (this.x > width + 100) this.x = -100;
-            if (this.y < -100) this.y = height + 100;
-            if (this.y > height + 100) this.y = -100;
-            
-            return { x: parallaxX, y: parallaxY };
+            // Screen wrap
+            if (this.x < -50) this.x = width + 50;
+            if (this.x > width + 50) this.x = -50;
+            if (this.y < -50) this.y = height + 50;
+            if (this.y > height + 50) this.y = -50;
         }
 
-        draw(px, py) {
+        draw(colors) {
+            const distToMouse = Math.hypot(this.renderX - mouse.x, this.renderY - mouse.y);
+            const opacity = Math.max(0.1, 1 - (distToMouse / 500));
+            
             ctx.save();
-            ctx.translate(px, py);
-            ctx.rotate(this.rotation);
-            
-            const isDark = document.documentElement.classList.contains('dark');
-            ctx.strokeStyle = isDark 
-                ? `rgba(255, 255, 255, ${this.opacity})` 
-                : `rgba(15, 23, 42, ${this.opacity})`;
-            ctx.lineWidth = 1;
-
             ctx.beginPath();
-            ctx.moveTo(this.points[0].x, this.points[0].y);
-            for (let i = 1; i < this.vertices; i++) {
-                ctx.lineTo(this.points[i].x, this.points[i].y);
+            ctx.arc(this.renderX, this.renderY, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = colors.isDark ? `rgba(255, 255, 255, ${opacity * 0.5})` : `rgba(15, 23, 42, ${opacity * 0.3})`;
+            ctx.fill();
+
+            // Hover glow
+            if (distToMouse < 150) {
+                ctx.beginPath();
+                ctx.arc(this.renderX, this.renderY, this.radius * 3, 0, Math.PI * 2);
+                ctx.globalAlpha = (1 - distToMouse / 150) * 0.3;
+                ctx.fillStyle = colors.primary;
+                ctx.fill();
             }
-            ctx.closePath();
-            ctx.stroke();
-            
             ctx.restore();
         }
     }
 
-    // Micro Dust Particle Class
-    class Dust {
-        constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.z = Math.random() * 3 + 1;
-            this.vx = ((Math.random() - 0.5) * 0.1) / this.z;
-            this.vy = ((Math.random() - 0.5) * 0.1) / this.z;
-            this.size = Math.random() * 1.5 + 0.5;
-            this.opacity = Math.random() * 0.3 + 0.1;
+    class DataPulse {
+        constructor(startNode, endNode, color) {
+            this.start = startNode;
+            this.end = endNode;
+            this.t = 0;
+            this.speed = 0.005 + Math.random() * 0.01;
+            this.color = color;
         }
 
         update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            
-            const dx = mouse.x - (width / 2);
-            const dy = mouse.y - (height / 2);
-            const parallaxX = this.x - (dx * 0.005) / this.z;
-            const parallaxY = this.y - (dy * 0.005) / this.z;
-
-            if (this.x < -10) this.x = width + 10;
-            if (this.x > width + 10) this.x = -10;
-            if (this.y < -10) this.y = height + 10;
-            if (this.y > height + 10) this.y = -10;
-
-            return { x: parallaxX, y: parallaxY };
+            this.t += this.speed;
+            return this.t >= 1;
         }
 
-        draw(px, py) {
-            const isDark = document.documentElement.classList.contains('dark');
-            ctx.fillStyle = isDark 
-                ? `rgba(255, 255, 255, ${this.opacity})` 
-                : `rgba(15, 23, 42, ${this.opacity})`;
+        draw() {
+            const x = this.start.renderX + (this.end.renderX - this.start.renderX) * this.t;
+            const y = this.start.renderY + (this.end.renderY - this.start.renderY) * this.t;
             
+            ctx.save();
             ctx.beginPath();
-            ctx.arc(px, py, this.size, 0, Math.PI * 2);
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = this.color;
             ctx.fill();
+            ctx.restore();
         }
     }
 
-    // Initialize particles
-    for (let i = 0; i < 30; i++) particles.push(new Shard());
-    for (let i = 0; i < 70; i++) particles.push(new Dust());
+    function initNodes() {
+        nodes = [];
+        const count = Math.floor((width * height) / 15000); // Dynamic density
+        for (let i = 0; i < Math.min(count, 100); i++) {
+            nodes.push(new Node(i));
+        }
+    }
 
-    // Animation Loop
+    resize();
+
+    // Helper: Distance from point to line segment
+    function distToSegment(p, v, w) {
+        const l2 = Math.pow(v.renderX - w.renderX, 2) + Math.pow(v.renderY - w.renderY, 2);
+        if (l2 === 0) return Math.hypot(p.x - v.renderX, p.y - v.renderY);
+        let t = ((p.x - v.renderX) * (w.renderX - v.renderX) + (p.y - v.renderY) * (w.renderY - v.renderY)) / l2;
+        t = Math.max(0, Math.min(1, t));
+        return Math.hypot(p.x - (v.renderX + t * (w.renderX - v.renderX)), p.y - (v.renderY + t * (w.renderY - v.renderY)));
+    }
+
     function animate() {
         ctx.clearRect(0, 0, width, height);
+        const colors = getThemeColors();
 
-        // Smooth mouse following
-        mouse.x += (targetMouse.x - mouse.x) * 0.05;
-        mouse.y += (targetMouse.y - mouse.y) * 0.05;
+        // Smooth mouse lag
+        mouse.x += (targetMouse.x - mouse.x) * 0.08;
+        mouse.y += (targetMouse.y - mouse.y) * 0.08;
 
-        particles.forEach(p => {
-            const pos = p.update();
-            p.draw(pos.x, pos.y);
+        // Update and draw nodes
+        nodes.forEach(node => {
+            node.update();
+            node.draw(colors);
+        });
+
+        // Draw connections and spawn pulses
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const n1 = nodes[i];
+                const n2 = nodes[j];
+                const dist = Math.hypot(n1.renderX - n2.renderX, n1.renderY - n2.renderY);
+
+                if (dist < 200) {
+                    ctx.save();
+                    const opacity = (1 - (dist / 200)) * 0.2;
+                    ctx.strokeStyle = colors.isDark ? `rgba(255, 255, 255, ${opacity})` : `rgba(15, 23, 42, ${opacity})`;
+                    
+                    // Highlight connection if near mouse
+                    const mouseToLine = distToSegment(mouse, n1, n2);
+                    if (mouseToLine < 50) {
+                        ctx.strokeStyle = colors.primary;
+                        ctx.globalAlpha = 0.4;
+                        ctx.lineWidth = 1.5;
+                    } else {
+                        ctx.lineWidth = 0.5;
+                    }
+
+                    ctx.beginPath();
+                    ctx.moveTo(n1.renderX, n1.renderY);
+                    ctx.lineTo(n2.renderX, n2.renderY);
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // Randomly spawn pulses
+                    if (Math.random() < 0.001 && pulses.length < 20) {
+                        pulses.push(new DataPulse(n1, n2, colors.primary));
+                    }
+                }
+            }
+        }
+
+        // Update and draw pulses
+        pulses = pulses.filter(p => {
+            p.draw();
+            return !p.update();
         });
 
         requestAnimationFrame(animate);
@@ -667,116 +701,7 @@ window.resetTTT = function() {
 // === Premium Unique Features ===
 
 function initCustomCursor() {
-    if ('ontouchstart' in window) return;
-
-    const cursorDot = document.createElement('div');
-    const cursorOutline = document.createElement('div');
-    
-    cursorDot.className = 'custom-cursor-dot';
-    cursorOutline.className = 'custom-cursor-outline';
-    
-    document.body.appendChild(cursorDot);
-    document.body.appendChild(cursorOutline);
-
-    const style = document.createElement('style');
-    style.innerHTML = `
-        html:not(.modal-open) body { cursor: none; }
-        html:not(.modal-open) a, html:not(.modal-open) button, html:not(.modal-open) input, html:not(.modal-open) textarea, html:not(.modal-open) select, html:not(.modal-open) [role="button"], html:not(.modal-open) .cursor-pointer { cursor: none !important; }
-        
-        /* Restore system cursor in modal */
-        .modal-open #project-modal, .modal-open #project-modal * { cursor: auto !important; }
-        .modal-open .custom-cursor-dot, .modal-open .custom-cursor-outline { opacity: 0 !important; pointer-events: none; }
-
-        .custom-cursor-dot {
-            position: fixed; top: 0; left: 0; width: 6px; height: 6px; 
-            background-color: var(--primary, #2563eb); border-radius: 50%; 
-            pointer-events: none; z-index: 999999; transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
-        .custom-cursor-outline {
-            position: fixed; top: 0; left: 0; width: 36px; height: 36px;
-            border: 2px solid var(--primary, #2563eb); border-radius: 50%;
-            pointer-events: none; z-index: 999998; transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s;
-            transition-timing-function: ease-out;
-        }
-        .cursor-hover .custom-cursor-dot { width: 0; height: 0; opacity: 0; }
-        .cursor-hover .custom-cursor-outline { 
-            width: 50px; height: 50px; 
-            background-color: rgba(37,99,235,0.15); border-color: transparent; 
-            backdrop-filter: blur(2px); 
-        }
-        .cursor-trail-particle {
-            position: fixed; pointer-events: none; z-index: 999997; 
-            font-family: monospace; font-size: 14px; font-weight: bold;
-            color: var(--primary, #2563eb); text-shadow: 0 0 5px var(--primary, #2563eb);
-        }
-    `;
-    document.head.appendChild(style);
-
-    let mouseX = 0, mouseY = 0;
-    let outlineX = 0, outlineY = 0;
-
-    let lastSpawnTime = 0;
-    const matrixChars = ['0', '1', '{', '}', '<', '>', '#', 'ƒ', 'λ'];
-
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-
-        // Matrix Trail Logic
-        const now = performance.now();
-        if (now - lastSpawnTime > 40 && !document.body.classList.contains('cursor-hover')) { 
-            lastSpawnTime = now;
-            const particle = document.createElement('div');
-            particle.className = 'cursor-trail-particle';
-            // Match current theme primary color dynamically by adding class if needed, or CSS handles var(--primary)
-            particle.innerText = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-            particle.style.left = mouseX + 'px';
-            particle.style.top = mouseY + 'px';
-            document.body.appendChild(particle);
-            
-            const dx = (Math.random() - 0.5) * 30; // random drift X
-            const dy = (Math.random() - 0.2) * 40; // drift down/up
-            
-            particle.animate([
-                { transform: 'translate(-50%, -50%) scale(1)', opacity: 0.7 },
-                { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(0.3)`, opacity: 0 }
-            ], {
-                duration: 600 + Math.random() * 400,
-                easing: 'ease-out',
-                fill: 'forwards'
-            }).onfinish = () => particle.remove();
-        }
-    });
-
-    function animate() {
-        outlineX += (mouseX - outlineX) * 0.2;
-        outlineY += (mouseY - outlineY) * 0.2;
-        cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px) translate(-50%, -50%)`;
-        requestAnimationFrame(animate);
-    }
-    animate();
-
-    function attachHover(el) {
-        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    }
-
-    document.querySelectorAll('a, button, input, textarea, select, [onclick], .cursor-pointer').forEach(attachHover);
-
-    const observer = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-            mutation.addedNodes.forEach(node => {
-                if (node.nodeType === 1) {
-                    node.querySelectorAll('a, button, input, textarea, select, [onclick], .cursor-pointer').forEach(attachHover);
-                    if(node.matches('a, button, input, textarea, select, [onclick], .cursor-pointer')) attachHover(node);
-                }
-            });
-        });
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
+    // Custom cursor disabled per user request. System default cursor is used.
 }
 
 function initScrollProgress() {

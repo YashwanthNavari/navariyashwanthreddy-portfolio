@@ -1,0 +1,555 @@
+/* ============================================================
+   PREMIUM PORTFOLIO EFFECTS — Global Animation Layer
+   ============================================================ */
+
+/* ── 1. BASE TRANSITIONS & VARIABLES ── */
+:root {
+    --glow-primary: rgba(37, 99, 235, 0.4);
+    --glow-emerald: rgba(16, 185, 129, 0.4);
+    --glow-cyan: rgba(6, 182, 212, 0.4);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── 2. SCROLL-REVEAL ANIMATIONS ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s var(--ease-expo), transform 0.8s var(--ease-expo);
+    will-change: opacity, transform;
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.7s var(--ease-expo), transform 0.7s var(--ease-expo);
+}
+.reveal-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+.reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.7s var(--ease-expo), transform 0.7s var(--ease-expo);
+}
+.reveal-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.88);
+    transition: opacity 0.6s var(--ease-expo), transform 0.6s var(--ease-expo);
+}
+.reveal-scale.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ── 3. STAGGER DELAYS ── */
+.stagger-1 { transition-delay: 0ms !important; }
+.stagger-2 { transition-delay: 80ms !important; }
+.stagger-3 { transition-delay: 160ms !important; }
+.stagger-4 { transition-delay: 240ms !important; }
+.stagger-5 { transition-delay: 320ms !important; }
+.stagger-6 { transition-delay: 400ms !important; }
+
+/* ── 4. MAGNETIC BUTTON EFFECT (via JS) ── */
+.magnetic {
+    display: inline-flex;
+    transition: transform 0.3s var(--ease-spring);
+    will-change: transform;
+}
+
+/* ── 5. GLOWING CARD EFFECT ── */
+.glow-card {
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+.glow-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(37, 99, 235, 0.08) 0%,
+        transparent 60%);
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.glow-card:hover::before {
+    opacity: 1;
+}
+.glow-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── 6. NEON TEXT SHIMMER ── */
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+.text-shimmer {
+    background: linear-gradient(
+        90deg,
+        #2563eb 0%,
+        #10b981 25%,
+        #06b6d4 50%,
+        #2563eb 75%,
+        #10b981 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear infinite;
+}
+
+/* ── 7. FLOATING ANIMATION ── */
+@keyframes float-gentle {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-10px) rotate(0.5deg); }
+    66% { transform: translateY(-6px) rotate(-0.5deg); }
+}
+.float-gentle {
+    animation: float-gentle 6s ease-in-out infinite;
+}
+.float-gentle-slow {
+    animation: float-gentle 9s ease-in-out infinite;
+}
+.float-gentle-fast {
+    animation: float-gentle 4s ease-in-out infinite;
+}
+
+/* ── 8. GRADIENT BORDER ANIMATION ── */
+@keyframes border-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.gradient-border {
+    position: relative;
+    border-radius: inherit;
+}
+.gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #2563eb, #10b981, #06b6d4, #2563eb);
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: shimmer 3s linear infinite;
+}
+.gradient-border:hover::before {
+    opacity: 1;
+}
+
+/* ── 9. TYPEWRITER CURSOR ── */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+.typewriter-cursor::after {
+    content: '|';
+    color: #2563eb;
+    animation: blink 0.85s step-start infinite;
+    margin-left: 2px;
+}
+
+/* ── 10. PARTICLE TRAILS (canvas-based via JS) ── */
+#particle-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+}
+
+/* ── 11. COUNTER ANIMATION ── */
+.counter-value {
+    display: inline-block;
+    transition: transform 0.1s ease;
+}
+
+/* ── 12. SECTION TITLE UNDERLINE DRAW ── */
+@keyframes draw-underline {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+.animated-underline {
+    position: relative;
+    display: inline-block;
+}
+.animated-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #2563eb, #10b981);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease-expo);
+}
+.animated-underline.active::after {
+    transform: scaleX(1);
+}
+
+/* ── 13. GLASS MORPHISM CARDS ── */
+.glass {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.glass-light {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+/* ── 14. HOVER LIFT WITH SHADOW GLOW ── */
+.hover-lift {
+    transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -8px rgba(37, 99, 235, 0.25);
+}
+.hover-lift-green:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -8px rgba(16, 185, 129, 0.25);
+}
+
+/* ── 15. RIPPLE CLICK EFFECT ── */
+.ripple-btn {
+    position: relative;
+    overflow: hidden;
+}
+.ripple-btn .ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-anim 0.6s linear;
+    background-color: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+@keyframes ripple-anim {
+    to { transform: scale(4); opacity: 0; }
+}
+
+/* ── 16. FADE IN SLIDE UP (keyframe) ── */
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+    animation: fade-in-up 0.7s var(--ease-expo) forwards;
+}
+
+/* ── 17. SMOOTH PAGE TRANSITIONS ── */
+.page-transition-out {
+    animation: page-out 0.4s ease forwards;
+}
+@keyframes page-out {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+}
+
+/* ── 18. SECTION BLOB BREATHE ── */
+@keyframes blob-breathe {
+    0%, 100% { transform: scale(1) translate(0, 0); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    25% { transform: scale(1.05) translate(5px, -5px); border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    50% { transform: scale(0.97) translate(-5px, 5px); border-radius: 50% 60% 50% 50% / 40% 50% 60% 50%; }
+    75% { transform: scale(1.03) translate(5px, 5px); border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%; }
+}
+.blob-breathe {
+    animation: blob-breathe 12s ease-in-out infinite;
+}
+
+/* ── 19. NOISE TEXTURE OVERLAY ── */
+.noise-overlay {
+    position: relative;
+}
+.noise-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 0;
+}
+
+/* ── 20. ANIMATED GRADIENT TEXT ── */
+.gradient-text-animated {
+    background: linear-gradient(135deg, #2563eb, #10b981, #06b6d4, #8b5cf6);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 6s ease infinite;
+}
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ── 21. SCROLL PROGRESS BAR ── */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #2563eb, #10b981, #06b6d4);
+    width: 0%;
+    z-index: 99999;
+    border-radius: 0 2px 2px 0;
+    transition: width 0.1s ease;
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+}
+
+/* ── 22. TILT CARD EFFECT (via JS) ── */
+.tilt-card {
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease;
+}
+.tilt-card .tilt-inner {
+    transform: translateZ(20px);
+}
+
+/* ── 23. SKILL TAG HOVER BOUNCE ── */
+.skill-tag {
+    transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease;
+    cursor: default;
+}
+.skill-tag:hover {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 8px 20px -4px var(--glow-primary);
+}
+
+/* ── 24. SPOTLIGHT EFFECT (dynamic, via JS) ── */
+.spotlight-section {
+    position: relative;
+    overflow: hidden;
+}
+.spotlight-section .spotlight {
+    position: absolute;
+    pointer-events: none;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, transparent 60%);
+    transform: translate(-50%, -50%);
+    transition: left 0.2s ease, top 0.2s ease;
+    z-index: 0;
+}
+
+/* ── 25. GLITCH EFFECT (hover) ── */
+@keyframes glitch {
+    0% { clip-path: inset(40% 0 61% 0); transform: skew(-0.5deg); }
+    20% { clip-path: inset(92% 0 1% 0); transform: skew(0.8deg); }
+    40% { clip-path: inset(43% 0 1% 0); transform: skew(-0.3deg); }
+    60% { clip-path: inset(25% 0 58% 0); transform: skew(0.5deg); }
+    80% { clip-path: inset(54% 0 7% 0); transform: skew(-0.8deg); }
+    100% { clip-path: inset(58% 0 43% 0); transform: skew(0.2deg); }
+}
+.glitch-hover {
+    position: relative;
+}
+.glitch-hover::before, .glitch-hover::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+.glitch-hover:hover::before {
+    opacity: 0.6;
+    color: #10b981;
+    animation: glitch 0.6s infinite;
+    left: 2px;
+}
+.glitch-hover:hover::after {
+    opacity: 0.6;
+    color: #2563eb;
+    animation: glitch 0.6s infinite reverse;
+    left: -2px;
+}
+
+/* ── 26. CUSTOM SCROLLBAR ── */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #2563eb, #10b981);
+    border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #1d4ed8, #059669);
+}
+
+/* ── 27. SECTION SEPARATOR ANIMATED ── */
+.section-sep {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #2563eb, #10b981, transparent);
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
+    opacity: 0.3;
+    border: none;
+}
+
+/* ── 28. CARD ENTRANCE STAGGER ── */
+.card-stagger-group .stagger-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s var(--ease-expo);
+}
+.card-stagger-group.active .stagger-card:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+.card-stagger-group.active .stagger-card:nth-child(2) { transition-delay: 80ms; opacity: 1; transform: translateY(0); }
+.card-stagger-group.active .stagger-card:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: translateY(0); }
+.card-stagger-group.active .stagger-card:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+.card-stagger-group.active .stagger-card:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: translateY(0); }
+.card-stagger-group.active .stagger-card:nth-child(6) { transition-delay: 400ms; opacity: 1; transform: translateY(0); }
+
+/* ── 29. AURORA BACKGROUND ── */
+@keyframes aurora-1 { 0%, 100% { transform: translate(-5%, -5%) scale(1.05); opacity: 0.5; } 50% { transform: translate(5%, 5%) scale(0.95); opacity: 0.8; } }
+@keyframes aurora-2 { 0%, 100% { transform: translate(5%, 5%) scale(0.95); opacity: 0.4; } 50% { transform: translate(-5%, -5%) scale(1.05); opacity: 0.7; } }
+
+.aurora-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+.aurora-blob-1 {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
+    animation: aurora-1 15s ease-in-out infinite;
+    top: -10%;
+    left: -10%;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+.aurora-blob-2 {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+    animation: aurora-2 20s ease-in-out infinite;
+    bottom: -10%;
+    right: -10%;
+    border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%;
+}
+
+/* ── 30. NAV GLASSMORPHISM UPGRADE ── */
+header {
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+}
+header.scrolled {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) saturate(200%) !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
+}
+.dark header.scrolled {
+    background-color: rgba(15, 23, 42, 0.9) !important;
+    backdrop-filter: blur(20px) saturate(200%) !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* ── 31. HERO TEXT WORD-BY-WORD REVEAL ── */
+.word-reveal span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(60px) rotate(5deg);
+    transition: opacity 0.5s ease, transform 0.5s var(--ease-spring);
+}
+.word-reveal.active span {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+}
+
+/* ── 32. PORTFOLIO SIGNATURE NAV INDICATOR ── */
+nav a {
+    position: relative;
+}
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #2563eb, #10b981);
+    transition: width 0.3s var(--ease-expo);
+}
+nav a:hover::after,
+nav a.active::after {
+    width: 100%;
+}
+
+/* ── 33. TOOLTIP SYSTEM ── */
+[data-tooltip] {
+    position: relative;
+}
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: #1e293b;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s var(--ease-spring);
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+[data-tooltip]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* ── 34. ANIMATED DOTS GRID BACKGROUND ── */
+.dot-grid-bg {
+    background-image: radial-gradient(rgba(37, 99, 235, 0.1) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+.dark .dot-grid-bg {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
