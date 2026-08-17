@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <!-- Logo Section -->
                 <div class="flex items-center gap-3 cursor-pointer pl-1 hover:opacity-80 transition-opacity shrink-0" onclick="window.location.href='index.html'">
                     <div class="relative shrink-0">
-                        <img src="https://github.com/YashwanthNavari.png" alt="Yashwanth Navari" class="size-9 rounded-xl object-cover border border-slate-200 dark:border-slate-600 shadow-sm">
+                        <img src="images/avatar_circle.png" onerror="this.src='https://github.com/YashwanthNavari.png'" alt="Yashwanth Navari" class="size-9 rounded-xl object-cover border border-slate-200 dark:border-slate-600 shadow-sm">
                         <span class="absolute -bottom-1 -right-1 size-2.5 bg-emerald-500 border-2 border-white dark:border-[#0f172a] rounded-full"></span>
                     </div>
                     <div class="flex flex-col justify-center shrink-0">
