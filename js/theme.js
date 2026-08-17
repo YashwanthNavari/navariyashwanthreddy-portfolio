@@ -1,105 +1,37 @@
 /**
  * Theme handling for the portfolio website.
- * Manages dark/light mode preference using localStorage and system preferences.
+ * Enforces Light Theme across all pages.
  */
 
 const themeController = (() => {
-    // Constants
     const STORAGE_KEY = 'theme-preference';
     const DARK_CLASS = 'dark';
+    const LIGHT_CLASS = 'light';
 
     /**
-     * Get the initial theme based on storage or system preference
-     * @returns {string} 'dark' or 'light'
+     * Enforce light theme on document root
      */
-    const getInitialTheme = () => {
-        // Check local storage
-        const persistedPreference = localStorage.getItem(STORAGE_KEY);
-        if (persistedPreference) {
-            return persistedPreference;
-        }
-
-        // Check system preference
-        const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        return systemPreference;
-    };
-
-    /**
-     * Apply the theme to the HTML element
-     * @param {string} theme - 'dark' or 'light'
-     */
-    const applyTheme = (theme) => {
+    const enforceLightTheme = () => {
         const root = document.documentElement;
-
-        if (theme === 'dark') {
-            root.classList.add(DARK_CLASS);
-        } else {
-            root.classList.remove(DARK_CLASS);
-        }
-
-        // Save to storage
-        localStorage.setItem(STORAGE_KEY, theme);
-
-        // Update button icons if they exist
-        updateToggleButtons(theme);
-    };
-
-    /**
-     * Update all toggle buttons on the page with the correct icon
-     * @param {string} currentTheme 
-     */
-    const updateToggleButtons = (currentTheme) => {
-        const buttons = document.querySelectorAll('.theme-toggle');
-
-        buttons.forEach(btn => {
-            const iconSpan = btn.querySelector('.material-symbols-outlined');
-            if (iconSpan) {
-                // If current theme is dark, show 'light_mode' (sun) to switch to light
-                // If current theme is light, show 'dark_mode' (moon) to switch to dark
-                // OR: Show the icon representing the CURRENT mode? 
-                // Convention: Show the icon of the mode you will SWITCH TO.
-                // Light mode -> Show Moon. Dark mode -> Show Sun.
-                iconSpan.textContent = currentTheme === 'dark' ? 'light_mode' : 'dark_mode';
-            }
-        });
-    };
-
-    /**
-     * Initialize the theme
-     */
-    const init = () => {
-        const currentTheme = getInitialTheme();
-        applyTheme(currentTheme);
-
-        // Listen for system changes if no override is set? 
-        // For simplicity, we just stick to manual toggle once usage happens.
-    };
-
-    /**
-     * Toggle the theme
-     */
-    const toggle = () => {
-        const root = document.documentElement;
-        const isDark = root.classList.contains(DARK_CLASS);
-        const newTheme = isDark ? 'light' : 'dark';
-        applyTheme(newTheme);
-
-        // Play sound if controller exists
-        if (typeof soundController !== 'undefined') {
-            soundController.play('click');
+        root.classList.remove(DARK_CLASS);
+        root.classList.add(LIGHT_CLASS);
+        try {
+            localStorage.setItem(STORAGE_KEY, 'light');
+        } catch (e) {
+            // ignore localStorage disabled
         }
     };
 
     // Initialize immediately to prevent flash
-    init();
+    enforceLightTheme();
 
-    // Return public API
     return {
-        toggle
+        enforce: enforceLightTheme,
+        toggle: () => {}
     };
 })();
 
-// Expose to window for button onclick handlers
+// Expose safe no-op for any legacy onclick handlers
 window.toggleTheme = themeController.toggle;
 
 // Re-run icon update on DOMContentLoaded in case script runs before buttons exist

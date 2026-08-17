@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { title: "Skills & Tech Stack", shortcut: "S", path: "skills.html", icon: "psychology", type: "Page" },
         { title: "Certifications", shortcut: "C", path: "certifications.html", icon: "workspace_premium", type: "Page" },
         { title: "Contact Me", shortcut: "M", path: "contact.html", icon: "mail", type: "Page" },
-        { title: "Toggle Dark/Light Theme", shortcut: "T", action: window.toggleTheme || (() => {}), icon: "dark_mode", type: "Action" },
         { title: "View Resume", shortcut: "R", path: "resume.html", icon: "description", type: "Page" },
         { title: "Download Resume PDF", shortcut: "", action: () => window.open('resume.pdf', '_blank'), icon: "download", type: "Action" }
     ];
